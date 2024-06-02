@@ -1,0 +1,22 @@
+services:
+  streamer:
+    build:
+      context: ./streamer-backend
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3001
+    ports:
+      - "3001:3001"
+
+  waterfall:
+    build:
+      context: ./waterfall-backend
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3002
+    ports:
+      - "3002:3002"
+
+networks:
+  microservice_network:
+    driver: bridge
