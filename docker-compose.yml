@@ -7,6 +7,8 @@ services:
       - PORT=3001
     ports:
       - "3001:3001"
+    networks:
+      - dakar_network
 
   waterfall:
     build:
@@ -16,7 +18,25 @@ services:
       - PORT=3002
     ports:
       - "3002:3002"
+    networks:
+      - dakar_network
+
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+
+    volumes:
+      - ./db:/data/db
+
+    networks:
+      - dakar_network
 
 networks:
-  microservice_network:
+  dakar_network:
     driver: bridge
