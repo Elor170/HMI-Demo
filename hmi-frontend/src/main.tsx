@@ -1,9 +1,24 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import Router from "./Components/Router/Router";
+import TopAppBar from "./Components/TopAppBar/TopAppBar";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { RouterProvider } from "react-router-dom";
+import router from "./Helper/Router/Router";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Router />
+    <ThemeProvider theme={darkTheme}>
+      <TopAppBar />
+      <CssBaseline />
+      <Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router} />
+      </Suspense>
+    </ThemeProvider>
   </React.StrictMode>
 );
