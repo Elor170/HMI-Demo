@@ -1,60 +1,43 @@
-import fs from 'fs';
 import express from "express";
+import fs from "fs";
+import path from "path";
 import dotenv from "dotenv";
-import { Server } from "socket.io";
-import { createServer } from "http";
+import { URL } from "url";
 dotenv.config();
+
 const { PORT } = process.env;
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server);
 
-io.on("connection", (socket) => {
-  console.log("A user has connected");
+const __dirname = new URL(".", import.meta.url).pathname;
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
+const CHUNK_SIZE = 10 ** 6; // 1MB
 
-app.get("/", (_, res) => {
-  return res.send("Hello, World!");
-});
-
-app.get('/video', (req, res) => {
-  const videoPath = 'path_to_your_video/video.mp4';
-  const stat = fs.statSync(videoPath);
-  const fileSize = stat.size;
+app.get("/video", (req, res) => {
   const range = req.headers.range;
-  
-  if (range) {
-    const parts = range.replace(/bytes=/, "").split("-");
-    const start = parseInt(parts[0], 10);
-    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-
-    const chunksize = (end - start) + 1;
-    const file = fs.createReadStream(videoPath, { start, end });
-    const head = {
-      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-      'Accept-Ranges': 'bytes',
-      'Content-Length': chunksize,
-      'Content-Type': 'video/mp4',
-    };
-
-    res.writeHead(206, head);
-    file.pipe(res);
-  } else {
-    const head = {
-      'Content-Length': fileSize,
-      'Content-Type': 'video/mp4',
-    };
-
-    res.writeHead(200, head);
-    fs.createReadStream(videoPath).pipe(res);
+  if (!range) {
+    return res.status(400).send("Requires range header");
   }
+
+  const videoPath = path.resolve(__dirname, "../public/video.mp4");
+  const videoSize = fs.statSync(videoPath).size;
+
+  const start = Number(range.replace(/\D/g, ""));
+  const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+  const contentLength = end - start + 1;
+
+  const headers = {
+    "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+    "Accept-RAnges": "bytes",
+    "Content-Length": contentLength,
+    "Content-Type": "video/mp4",
+  };
+
+  res.writeHead(206, headers);
+  const videoStream = fs.createReadStream(videoPath, { start, end });
+  videoStream.pipe(res);
 });
 
 app.listen(PORT, () => {
-  console.log("Server started on port " + PORT);
+  console.log(`Listening on port ${PORT}`);
 });
