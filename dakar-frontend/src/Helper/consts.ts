@@ -1,0 +1,1 @@
+export const STREAMER_SERVER = import.meta.env.VITE_STREAMER_SERVER;
