@@ -47,6 +47,9 @@ function downscaleVideo(
     ffmpeg(inputPath)
       .videoFilters(`scale=${resolution}`)
       .output(outputPath)
+      .on('progress', function(progress) {
+        console.log('Processing ' + resolution + ': ' + progress.percent + '% done');
+      })
       .on("end", () => {
         console.log(`Video downscaled to ${resolution}`);
         resolve();
