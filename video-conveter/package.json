@@ -3,13 +3,14 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.ts",
+    "start": "tsx src/index.ts",
     "build": "bun build src/index.ts --outdir dist --target=node"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/ffprobe": "^1.1.8",
-    "@types/ffprobe-static": "^2.0.3"
+    "@types/ffprobe-static": "^2.0.3",
+    "tsx": "^4.15.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

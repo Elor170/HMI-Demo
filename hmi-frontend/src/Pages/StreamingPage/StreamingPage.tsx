@@ -1,6 +1,7 @@
 import { STREAMER_SERVER } from "@/Helper/consts";
 import { useState } from "react";
 import ReactPlayer from "react-player";
+import ResolutionSelector from "./ResolutionSelector";
 
 const resolutionsArr = [
   "140p",
@@ -12,17 +13,20 @@ const resolutionsArr = [
   "2k",
   "4k",
   "8k",
-] as const;
+];
 
 export default function StreamingPage() {
   const [resolution, setResolution] = useState<string>("8k");
   const vidUrl = `${STREAMER_SERVER}/video/${resolution}`;
 
-  console.log(vidUrl);
-
   return (
     <div>
-      <ReactPlayer url={vidUrl} controls/>
+      <ReactPlayer url={vidUrl} controls />
+
+      <ResolutionSelector
+        setResolution={setResolution}
+        allResolutions={resolutionsArr}
+      />
     </div>
   );
 }
