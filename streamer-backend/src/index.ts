@@ -10,14 +10,16 @@ const app = express();
 
 // const __dirname = new URL(".", import.meta.url).pathname;
 
-app.get("/video/:res", (req, res) => {
-  const videoPath = path.resolve('public', 'videos/8k.mp4');
+app.get("/video/:resolution", (req, res) => {
+  const { resolution } = req.params;
+
+  const videoPath = path.resolve("public", `videos/${resolution}.mp4`);
   const fileSize = fs.statSync(videoPath).size;
 
   res.writeHead(200, {
     "content-length": fileSize,
-    'Content-Length': fileSize,
-    'Content-Type': 'video/mp4',
+    "Content-Length": fileSize,
+    "Content-Type": "video/mp4",
   });
 
   fs.createReadStream(videoPath).pipe(res);

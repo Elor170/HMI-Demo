@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { RESOLUTIONS } from "@/Helper/consts";
 
 interface ResolutionsSelectorProps {
   setResolution: (newValue: string) => void;
-  allResolutions: string[];
 }
 
 export default function ResolutionSelector({
   setResolution,
-  allResolutions,
 }: ResolutionsSelectorProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
@@ -29,7 +28,7 @@ export default function ResolutionSelector({
       </IconButton>
 
       <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
-        {allResolutions.map((resolution) => (
+        {RESOLUTIONS.map((resolution) => (
           <MenuItem
             disableRipple
             onClick={() => {
