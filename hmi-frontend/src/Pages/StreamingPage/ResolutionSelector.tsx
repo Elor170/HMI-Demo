@@ -30,6 +30,7 @@ export default function ResolutionSelector({
       <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
         {RESOLUTIONS.map((resolution) => (
           <MenuItem
+            key={resolution}
             disableRipple
             onClick={() => {
               setResolution(resolution);
