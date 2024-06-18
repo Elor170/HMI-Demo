@@ -5,9 +5,27 @@
   place-items: center;
 
   .video-container {
-    width: 50vw;
-    .video-display {
+    position: relative;
+
+    .video-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .react-player {
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 100%;
+
+      &.react-player-loading {
+        filter: brightness(
+          70%
+        ); /* Adjust brightness to make the video darker */
+      }
     }
   }
 }
