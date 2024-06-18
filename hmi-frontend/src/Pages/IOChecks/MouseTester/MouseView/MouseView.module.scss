@@ -1,0 +1,98 @@
+$outline-color: #6e7681;
+$background-color: #21272a;
+$dark-green: #39594c;
+$dark-red: #7e3131;
+
+.mouse_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 3vw;
+
+    .mouse {
+        height: 15vw;
+        width: 9vw;
+        border-radius: 6vw 6vw 5vw 5vw;
+        background-color: $background-color;
+        position: relative;
+        border: 2px solid $outline-color;
+    
+        .mouseBody {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .mouseButton {
+            width: calc(50% - 3px);
+            height: 45%;
+            background-color: $background-color;
+            border: solid 3px $outline-color;
+            position: absolute;
+            top: 0;
+        }
+        
+        .mouseButton.left {
+            left: 0;
+            border-top-left-radius: 6vw;
+        }
+        
+        .mouseButton.right {
+            right: 0;
+            border-top-right-radius: 6vw;
+        }
+        
+        .mouseWheel {
+            width: 1vw;
+            height: 4vw;
+            background-color: #21272a;
+    
+            border: solid 3px $outline-color;
+            position: absolute;
+            top: 30%;
+            border-radius: 1vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .clicked {
+            background-color: $dark-green !important;
+        }
+        
+        .notClicked {
+            background-color: $dark-red !important;
+        }
+    }
+
+    .scrollArrow_container {
+        display: flex;
+        margin: 0 2vw;
+        align-items: center;
+        flex-direction: column;
+        
+        .scrollArrow {
+            height: 3.5vw;
+            width: 3.5vw;
+            color: $outline-color;
+        }
+
+        .scrollArrow_down {
+            transform: rotate(180deg);
+        }
+
+        .scrolled {
+            color: $dark-green !important;
+        }
+    
+        .notScrolled {
+            color: $dark-red !important;
+        }
+    }
+}   

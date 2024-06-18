@@ -4,6 +4,7 @@ import CubePage from "@/Pages/CubePage/CubePage";
 import Waterfall from "@/Pages/WaterfallPage/WaterfallPage";
 import MapPage from "@/Pages/MapPage/MapPage";
 import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
+import IOChecks from "@/Pages/IOChecks/IOChecks";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export default function Router() {
     {
       path: "/streaming",
       element: <StreamingPage />,
+    },
+    {
+      path: "/io-checks",
+      element: <IOChecks />,
     },
   ]);
 
