@@ -1,35 +1,26 @@
 import { Box, IconButton, MenuItem, MenuList, Paper } from "@mui/material";
 import ResolutionSelector from "./ResolutionSelector";
-import { useState } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import ReactPlayer from "react-player";
 
 interface VideoControllerProps {
   setResolution: (newResolution: string) => void;
-  videoRef: React.RefObject<HTMLVideoElement>;
+  videoRef: React.RefObject<ReactPlayer>;
+  isPlaying: boolean;
+  setIsPlaying: (newState: boolean) => void;
 }
 
 export default function VideoController({
   setResolution,
-  videoRef,
+  isPlaying,
+  setIsPlaying,
 }: VideoControllerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const onPressedPlay = () => {
-    if (isPlaying) {
-      videoRef.current?.play();
-    } else {
-      videoRef.current?.pause();
-    }
-
-    setIsPlaying(!isPlaying);
-  };
-
   return (
     <Box sx={{ width: "100%" }} component={Paper}>
       <MenuList sx={{ display: "flex", flexDirection: "row" }}>
         <MenuItem>
-          <IconButton onClick={onPressedPlay}>
+          <IconButton onClick={() => setIsPlaying(!isPlaying)}>
             {isPlaying ? <PlayArrowIcon /> : <PauseIcon />}
           </IconButton>
         </MenuItem>
