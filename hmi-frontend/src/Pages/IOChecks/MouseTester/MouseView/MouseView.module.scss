@@ -8,12 +8,12 @@ $dark-red: #7e3131;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin: 2vw;
+    margin: 3vw;
 
     .mouse {
-        height: 11vw;
-        width: 7vw;
-        border-radius: 4.5vw 4.5vw 3.5vw 3.5vw;
+        height: 15vw;
+        width: 9vw;
+        border-radius: 6vw 6vw 5vw 5vw;
         background-color: $background-color;
         position: relative;
         border: 2px solid $outline-color;
@@ -39,23 +39,23 @@ $dark-red: #7e3131;
         
         .mouseButton.left {
             left: 0;
-            border-top-left-radius: 4.5vw;
+            border-top-left-radius: 6vw;
         }
         
         .mouseButton.right {
             right: 0;
-            border-top-right-radius: 4.5vw;
+            border-top-right-radius: 6vw;
         }
         
         .mouseWheel {
-            width: 0.75vw;
-            height: 3vw;
+            width: 1vw;
+            height: 4vw;
             background-color: #21272a;
     
             border: solid 3px $outline-color;
             position: absolute;
             top: 30%;
-            border-radius: 0.75vw;
+            border-radius: 1vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -73,13 +73,13 @@ $dark-red: #7e3131;
 
     .scrollArrow_container {
         display: flex;
-        margin: 0 1.5vw;
+        margin: 0 2vw;
         align-items: center;
         flex-direction: column;
         
         .scrollArrow {
-            height: 2.5vw;
-            width: 2.5vw;
+            height: 3.5vw;
+            width: 3.5vw;
             color: $outline-color;
         }
 
