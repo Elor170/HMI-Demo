@@ -27,19 +27,27 @@ const formatKeyName = (key: string) => {
 
 export default function MouseTester() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [prevScrollPos, setPrevScrollPos] = useState<number>(0);
-  const [checkList, setChecksList] = useState<ButtonCheckList>(initialCheckList);
+  const [prevScrollPos, _setPrevScrollPos] = useState<number>(0);
+  const prevScrollPosRef = React.useRef(prevScrollPos);
+  const [checkList, _setChecksList] = useState<ButtonCheckList>(initialCheckList);
+  const checkListRef = React.useRef(checkList);
+
+  const setChecksList = (newList: ButtonCheckList) => {
+    checkListRef.current = newList;
+    _setChecksList(newList);
+  }
 
   const setChecksListElement = (buttonEvent: keyof ButtonCheckList) => {
-    const copyOfCheckList  = structuredClone(checkList);
+    const copyOfCheckList  = structuredClone(checkListRef.current);
     copyOfCheckList[buttonEvent] = true;
-    setChecksList(copyOfCheckList);
+    checkListRef.current = copyOfCheckList;
+    _setChecksList(copyOfCheckList);
   }
 
   const handleScroll = () => {
     if (containerRef.current) {
       const currentScrollPos: number = containerRef.current.scrollTop;
-      const scrollEvent: keyof ButtonCheckList = prevScrollPos > currentScrollPos ? 'scrollUp' : 'scrollDown';
+      const scrollEvent: keyof ButtonCheckList = prevScrollPosRef.current > currentScrollPos ? 'scrollUp' : 'scrollDown';
       setPrevScrollPos(currentScrollPos);
       setChecksListElement(scrollEvent)
     }
@@ -54,10 +62,12 @@ export default function MouseTester() {
         break;
       case 1:
         clickEvent = 'scrollClicked';
-        event.preventDefault();
         break;
       case 2:
         clickEvent = 'rightClicked';
+        break;
+    
+      default:
         break;
     }
 
@@ -66,8 +76,7 @@ export default function MouseTester() {
   };
 
   const handleReset = () => setChecksList(initialCheckList);
-  const handleContextMenu = (event: React.MouseEvent) => event.preventDefault();
-
+  
   useEffect(() => {
       const scrollContainer = containerRef.current;
       if (scrollContainer) { 
@@ -79,13 +88,12 @@ export default function MouseTester() {
       };
     }
 
-  }, [prevScrollPos, checkList]);
+  }, []);
   
   return (
-    <div className={styles.mouseTester_container} ref={containerRef} onContextMenu={handleContextMenu}>
-      <div className={styles.mouseTester_scrollArea}>
-        <div className={styles.mouseTester} >
-          <MouseView buttonsStatus={checkList}/>
+    <div className={styles.mouseTester_container} ref={containerRef}>
+      <div className={styles.mouseTester}>
+        <MouseView buttonsStatus={checkList}/>
 
           {Object.keys(checkList).map((key: string) => {    
             const checkStatus = checkList[key as keyof ButtonCheckList];
