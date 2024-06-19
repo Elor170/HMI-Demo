@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AspectRatioIcon from "@mui/icons-material/AspectRatio";
+import SettingsIcon from '@mui/icons-material/Settings';
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
 
@@ -24,7 +24,7 @@ export default function ResolutionSelector({
   return (
     <>
       <IconButton onClick={handleClick}>
-        <AspectRatioIcon />
+        <SettingsIcon />
       </IconButton>
 
       <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>

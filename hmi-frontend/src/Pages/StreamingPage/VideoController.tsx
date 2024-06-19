@@ -1,8 +1,18 @@
-import { Box, IconButton, MenuItem, MenuList, Paper } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  MenuItem,
+  MenuList,
+  Paper,
+  Slider,
+  Stack,
+} from "@mui/material";
 import ResolutionSelector from "./ResolutionSelector";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import ReactPlayer from "react-player";
 import { useState } from "react";
 
@@ -11,6 +21,8 @@ interface VideoControllerProps {
   videoRef: React.RefObject<ReactPlayer>;
   isPlaying: boolean;
   setIsPlaying: (newState: boolean) => void;
+  volume: number;
+  setVolume: (newValue: number) => void;
 }
 
 export default function VideoController({
@@ -18,6 +30,8 @@ export default function VideoController({
   isPlaying,
   setIsPlaying,
   videoRef,
+  volume,
+  setVolume,
 }: VideoControllerProps) {
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -53,7 +67,7 @@ export default function VideoController({
       <MenuList sx={{ display: "flex", flexDirection: "row" }}>
         <MenuItem onClick={() => setIsPlaying(!isPlaying)}>
           <IconButton>
-            {isPlaying ? <PlayArrowIcon /> : <PauseIcon />}
+            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
         </MenuItem>
 
@@ -63,6 +77,21 @@ export default function VideoController({
           <IconButton>
             <FullscreenIcon />
           </IconButton>
+        </MenuItem>
+
+        <MenuItem>
+          <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+            <VolumeDownIcon />
+            <Slider
+              value={volume}
+              onChange={(_, newValue) => setVolume((newValue as number))}
+              min={0}
+              max={100}
+              size="small"
+              step={0.01}
+            />
+            <VolumeUpIcon />
+          </Stack>
         </MenuItem>
       </MenuList>
     </Box>

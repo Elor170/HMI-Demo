@@ -11,6 +11,7 @@ export default function StreamingPage() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [duration, setDuration] = useState(0);
   const [isBuffering, setIsBuffering] = useState(true);
+  const [volume, setVolume] = useState(1);
   const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
 
   const videoRef = useRef<ReactPlayer>(null);
@@ -57,17 +58,25 @@ export default function StreamingPage() {
               onBuffer={() => setIsBuffering(true)}
               onBufferEnd={() => setIsBuffering(false)}
               loop
+              volume={volume}
             />
           </div>
         </div>
 
-        <Slider value={timeStamp} max={duration} onChange={onSliderMove} />
+        <Slider
+          value={timeStamp}
+          max={duration}
+          min={0}
+          onChange={onSliderMove}
+        />
 
         <VideoController
           videoRef={videoRef}
           setResolution={handleResolutionChange}
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
+          volume={volume}
+          setVolume={setVolume}
         />
       </div>
       <span style={{ userSelect: "none" }}>

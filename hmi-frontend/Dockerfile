@@ -13,6 +13,7 @@ RUN npm run build
 
 ENV NODE_ENV=production
 ENV PORT=5173
+ENV VITE_STREAMER_SERVER=http://localhost:3001
 
 EXPOSE $PORT
 
