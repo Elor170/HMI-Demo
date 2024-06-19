@@ -14,7 +14,7 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import ReactPlayer from "react-player";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface VideoControllerProps {
   setResolution: (newResolution: string) => void;
@@ -54,13 +54,26 @@ export default function VideoController({
         }
       }
     } else {
-      // Exit fullscreen
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
       setFullScreen(false);
     }
   };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setFullScreen(false);
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }} component={Paper}>
@@ -73,22 +86,23 @@ export default function VideoController({
 
         <ResolutionSelector setResolution={setResolution} />
 
-        <MenuItem onClick={() => handleFullScreen}>
+        <MenuItem onClick={handleFullScreen}>
           <IconButton>
             <FullscreenIcon />
           </IconButton>
         </MenuItem>
 
-        <MenuItem>
-          <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+        <MenuItem sx={{ width: "50%" }}>
+          <Stack spacing={2} direction="row" width="100%" alignItems="center">
             <VolumeDownIcon />
             <Slider
+              defaultValue={1}
               value={volume}
-              onChange={(_, newValue) => setVolume((newValue as number))}
+              onChange={(_, newValue) => setVolume(newValue as number)}
               min={0}
-              max={100}
-              size="small"
+              max={1}
               step={0.01}
+              size="small"
             />
             <VolumeUpIcon />
           </Stack>

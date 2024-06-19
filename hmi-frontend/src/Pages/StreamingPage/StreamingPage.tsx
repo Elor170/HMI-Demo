@@ -38,8 +38,7 @@ export default function StreamingPage() {
   };
 
   return (
-    <div className="streaming-page">
-      <div>
+      <div className="streamer">
         <div className="video-container">
           {isBuffering && <CircularProgress className="video-loading" />}
           <div
@@ -78,10 +77,10 @@ export default function StreamingPage() {
           volume={volume}
           setVolume={setVolume}
         />
+
+        <span style={{ userSelect: "none" }}>
+          Current resolution: {resolution}
+        </span>
       </div>
-      <span style={{ userSelect: "none" }}>
-        Current resolution: {resolution}
-      </span>
-    </div>
   );
 }
