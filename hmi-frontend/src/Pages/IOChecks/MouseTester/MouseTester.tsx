@@ -62,6 +62,7 @@ export default function MouseTester() {
         break;
       case 1:
         clickEvent = 'scrollClicked';
+        event.preventDefault();
         break;
       case 2:
         clickEvent = 'rightClicked';
@@ -76,7 +77,8 @@ export default function MouseTester() {
   };
 
   const handleReset = () => setChecksList(initialCheckList);
-  
+  const handleContextMenu = (event: React.MouseEvent) => event.preventDefault();
+
   useEffect(() => {
       const scrollContainer = containerRef.current;
       if (scrollContainer) { 
@@ -91,9 +93,10 @@ export default function MouseTester() {
   }, []);
   
   return (
-    <div className={styles.mouseTester_container} ref={containerRef}>
-      <div className={styles.mouseTester}>
-        <MouseView buttonsStatus={checkList}/>
+    <div className={styles.mouseTester_container} ref={containerRef} onContextMenu={handleContextMenu}>
+      <div className={styles.mouseTester_scrollArea}>
+        <div className={styles.mouseTester} >
+          <MouseView buttonsStatus={checkList}/>
 
           {Object.keys(checkList).map((key: string) => {    
             const checkStatus = checkList[key as keyof ButtonCheckList];
