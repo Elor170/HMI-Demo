@@ -12,17 +12,33 @@ const app = express();
 
 app.get("/video/:resolution", (req, res) => {
   const { resolution } = req.params;
-
   const videoPath = path.resolve("public", `videos/${resolution}.mp4`);
   const fileSize = fs.statSync(videoPath).size;
 
-  res.writeHead(200, {
-    "content-length": fileSize,
-    "Content-Length": fileSize,
-    "Content-Type": "video/mp4",
-  });
+  const range = req.headers.range;
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
 
-  fs.createReadStream(videoPath).pipe(res);
+    const chunksize = end - start + 1;
+    const file = fs.createReadStream(videoPath, { start, end });
+
+    res.writeHead(206, {
+      "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": chunksize,
+      "Content-Type": "video/mp4",
+    });
+
+    file.pipe(res);
+  } else {
+    res.writeHead(200, {
+      "Content-Length": fileSize,
+      "Content-Type": "video/mp4",
+    });
+    fs.createReadStream(videoPath).pipe(res);
+  }
 });
 
 app.listen(PORT, () => {

@@ -31,56 +31,59 @@ export default function StreamingPage() {
   };
 
   const onSliderMove = (_: Event, newTimeStamp: number | number[]) => {
-    setTimeStamp(newTimeStamp as number);
+    const ts =
+      typeof newTimeStamp === "number" ? newTimeStamp : newTimeStamp[0];
+    setTimeStamp(ts);
+
     if (videoRef.current) {
-      videoRef.current.seekTo(newTimeStamp as number);
+      videoRef.current.seekTo(ts);
     }
   };
 
   return (
-      <div className="streamer">
-        <div className="video-container">
-          {isBuffering && <CircularProgress className="video-loading" />}
-          <div
-            className={`react-player ${
-              isBuffering ? "react-player-loading" : ""
-            }`}
-          >
-            <ReactPlayer
-              width="100%"
-              ref={videoRef}
-              playing={isPlaying}
-              onStart={onVideoStart}
-              url={videoUrl}
-              onDuration={(newDuration) => setDuration(newDuration)}
-              onProgress={(state) => setTimeStamp(state.playedSeconds)}
-              onBuffer={() => setIsBuffering(true)}
-              onBufferEnd={() => setIsBuffering(false)}
-              loop
-              volume={volume}
-            />
-          </div>
+    <div className="streamer">
+      <div className="video-container">
+        {isBuffering && <CircularProgress className="video-loading" />}
+        <div
+          className={`react-player ${
+            isBuffering ? "react-player-loading" : ""
+          }`}
+        >
+          <ReactPlayer
+            width="100%"
+            ref={videoRef}
+            playing={isPlaying}
+            onStart={onVideoStart}
+            url={videoUrl}
+            onDuration={(newDuration) => setDuration(newDuration)}
+            onProgress={(state) => setTimeStamp(state.playedSeconds)}
+            onBuffer={() => setIsBuffering(true)}
+            onBufferEnd={() => setIsBuffering(false)}
+            loop
+            volume={volume}
+          />
         </div>
-
-        <Slider
-          value={timeStamp}
-          max={duration}
-          min={0}
-          onChange={onSliderMove}
-        />
-
-        <VideoController
-          videoRef={videoRef}
-          setResolution={handleResolutionChange}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          volume={volume}
-          setVolume={setVolume}
-        />
-
-        <span style={{ userSelect: "none" }}>
-          Current resolution: {resolution}
-        </span>
       </div>
+
+      <Slider
+        value={timeStamp}
+        max={duration}
+        min={0}
+        onChange={onSliderMove}
+      />
+
+      <VideoController
+        videoRef={videoRef}
+        setResolution={handleResolutionChange}
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        volume={volume}
+        setVolume={setVolume}
+      />
+
+      <span style={{ userSelect: "none" }}>
+        Current resolution: {resolution}
+      </span>
+    </div>
   );
 }
