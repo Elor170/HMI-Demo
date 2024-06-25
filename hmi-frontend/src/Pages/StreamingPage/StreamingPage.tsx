@@ -48,6 +48,8 @@ export default function StreamingPage() {
           className={`react-player ${
             isBuffering ? "react-player-loading" : ""
           }`}
+
+          onClick={() => setIsPlaying(!isPlaying)}
         >
           <ReactPlayer
             width="100%"
