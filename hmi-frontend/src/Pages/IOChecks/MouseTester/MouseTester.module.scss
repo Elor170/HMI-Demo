@@ -2,10 +2,9 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: 27vw;
+    width: 18vw;
     height: 100%;
-    outline: 1px solid whitesmoke;
-    padding: 2vh 2vw;
+    padding: 1vh 2vw;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
@@ -39,30 +38,31 @@
         right: 0;
                 
         .mouseTester_item {
-          height: 2.5vw;
+          height: 2.5%;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           span {
-            font-size: 2vw;
+            font-size: 1.5vw;
           }
   
           .checkBoxIcon {
-            height: 2vw;
-            width: 2vw;
+            height: 1.5vw;
+            width: 1.5vw;
           }
         }
   
         .resetButton {
           display: block;
-          height: 3vw;
-          width: 12vw;
+          height: 2vw;
+          width: 10vw;
           margin: 2vw auto;
-          line-height: 3vw;
-          font-size: 2vw;
+          line-height: 2vw;
+          font-size: 1.5vw;
+          font-weight: bold;
   
           background-color: #cccccc;
-          border-radius: 2vw;
+          border-radius: 1vw;
           border: none ;
         }
       }
