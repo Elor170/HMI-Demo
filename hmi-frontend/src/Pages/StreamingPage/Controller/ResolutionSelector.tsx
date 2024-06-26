@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
-import { videoRef } from "./streamerHelper";
+import { videoRef } from "../streamerHelper";
 import useStreamer from "@/Store/streamerStore";
 
 export default function ResolutionSelector() {
