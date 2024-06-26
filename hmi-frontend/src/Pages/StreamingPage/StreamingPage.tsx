@@ -1,87 +1,53 @@
-import { STREAMER_SERVER } from "@/Helper/consts";
-import { useRef, useState } from "react";
+import { useEffect } from "react";
 import "./StreamingPage.scss";
 import VideoController from "./VideoController";
-import ReactPlayer from "react-player";
-import { Slider, CircularProgress } from "@mui/material";
+import { Slider } from "@mui/material";
+import VideoDisplay from "./VideoDisplay";
+import useStreamer from "@/Store/streamerStore";
+import { videoRef } from "./streamerHelper";
 
 export default function StreamingPage() {
-  const [resolution, setResolution] = useState<string>("4k");
-  const [timeStamp, setTimeStamp] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [duration, setDuration] = useState(0);
-  const [isBuffering, setIsBuffering] = useState(true);
-  const [volume, setVolume] = useState(1);
-  const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
-
-  const videoRef = useRef<ReactPlayer>(null);
-
-  const handleResolutionChange = (newResolution: string) => {
-    if (videoRef.current) {
-      setTimeStamp(videoRef.current.getCurrentTime() || 0);
-    }
-
-    setResolution(newResolution);
-  };
-
-  const onVideoStart = () => {
-    if (videoRef.current) {
-      videoRef.current.seekTo(timeStamp);
-    }
-  };
+  const { setTimestamp, exitFullScreen, timestamp, duration, resolution } =
+    useStreamer();
 
   const onSliderMove = (_: Event, newTimeStamp: number | number[]) => {
     const ts =
       typeof newTimeStamp === "number" ? newTimeStamp : newTimeStamp[0];
-    setTimeStamp(ts);
+    setTimestamp(ts);
 
     if (videoRef.current) {
       videoRef.current.seekTo(ts);
     }
   };
 
+  const handleFullScreen = () => {};
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        exitFullScreen();
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, [exitFullScreen]);
+
   return (
     <div className="streamer">
-      <div className="video-container">
-        {isBuffering && <CircularProgress className="video-loading" />}
-        <div
-          className={`react-player ${
-            isBuffering ? "react-player-loading" : ""
-          }`}
-
-          onClick={() => setIsPlaying(!isPlaying)}
-        >
-          <ReactPlayer
-            width="100%"
-            ref={videoRef}
-            playing={isPlaying}
-            onStart={onVideoStart}
-            url={videoUrl}
-            onDuration={(newDuration) => setDuration(newDuration)}
-            onProgress={(state) => setTimeStamp(state.playedSeconds)}
-            onBuffer={() => setIsBuffering(true)}
-            onBufferEnd={() => setIsBuffering(false)}
-            loop
-            volume={volume}
-          />
-        </div>
-      </div>
+      <VideoDisplay handleFullScreen={handleFullScreen} />
 
       <Slider
-        value={timeStamp}
+        value={timestamp}
         max={duration}
         min={0}
         onChange={onSliderMove}
       />
 
-      <VideoController
-        videoRef={videoRef}
-        setResolution={handleResolutionChange}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        volume={volume}
-        setVolume={setVolume}
-      />
+      <VideoController />
 
       <span style={{ userSelect: "none" }}>
         Current resolution: {resolution}

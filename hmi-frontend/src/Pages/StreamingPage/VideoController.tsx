@@ -13,67 +13,11 @@ import PauseIcon from "@mui/icons-material/Pause";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import ReactPlayer from "react-player";
-import { useEffect, useState } from "react";
+import useStreamer from "@/Store/streamerStore";
+import { handleFullscreen } from "./streamerHelper";
 
-interface VideoControllerProps {
-  setResolution: (newResolution: string) => void;
-  videoRef: React.RefObject<ReactPlayer>;
-  isPlaying: boolean;
-  setIsPlaying: (newState: boolean) => void;
-  volume: number;
-  setVolume: (newValue: number) => void;
-}
-
-export default function VideoController({
-  setResolution,
-  isPlaying,
-  setIsPlaying,
-  videoRef,
-  volume,
-  setVolume,
-}: VideoControllerProps) {
-  const [fullScreen, setFullScreen] = useState(false);
-
-  const handleFullScreen = () => {
-    if (!fullScreen) {
-      // Enter fullscreen
-      if (videoRef.current) {
-        const player = videoRef.current.getInternalPlayer();
-        if (player) {
-          if (player.requestFullscreen) {
-            player.requestFullscreen();
-          } else if (player.webkitRequestFullscreen) {
-            /* Safari */
-            player.webkitRequestFullscreen();
-          } else if (player.msRequestFullscreen) {
-            /* IE11 */
-            player.msRequestFullscreen();
-          }
-          setFullScreen(true);
-        }
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-      setFullScreen(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setFullScreen(false);
-      }
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
+export default function VideoController() {
+  const { volume, setVolume, setIsPlaying, isPlaying } = useStreamer();
 
   const onVolumeBtnClick = () => {
     if (volume > 0) {
@@ -93,7 +37,7 @@ export default function VideoController({
           </IconButton>
         </MenuItem>
 
-        <ResolutionSelector setResolution={setResolution} />
+        <ResolutionSelector />
 
         <Stack
           spacing={2}
@@ -117,7 +61,10 @@ export default function VideoController({
           />
         </Stack>
 
-        <MenuItem sx={{position: 'absolute', right: 0}} onClick={handleFullScreen}>
+        <MenuItem
+          sx={{ position: "absolute", right: 0 }}
+          onClick={handleFullscreen}
+        >
           <IconButton>
             <FullscreenIcon />
           </IconButton>

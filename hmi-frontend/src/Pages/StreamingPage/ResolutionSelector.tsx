@@ -1,20 +1,25 @@
 import React, { useState } from "react";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
+import { videoRef } from "./streamerHelper";
+import useStreamer from "@/Store/streamerStore";
 
-interface ResolutionsSelectorProps {
-  setResolution: (newValue: string) => void;
-}
-
-export default function ResolutionSelector({
-  setResolution,
-}: ResolutionsSelectorProps) {
+export default function ResolutionSelector() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
+  const { setTimestamp, setResolution } = useStreamer();
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleResolutionChange = (newResolution: string) => {
+    if (videoRef.current) {
+      setTimestamp(videoRef.current.getCurrentTime() || 0);
+    }
+
+    setResolution(newResolution);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,16 +33,16 @@ export default function ResolutionSelector({
       </IconButton>
 
       <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
-        {RESOLUTIONS.map((resolution) => (
+        {RESOLUTIONS.map((res) => (
           <MenuItem
-            key={resolution}
+            key={res}
             disableRipple
             onClick={() => {
-              setResolution(resolution);
+              handleResolutionChange(res);
               handleClose();
             }}
           >
-            <Typography variant="body2">{resolution}</Typography>
+            <Typography variant="body2">{res}</Typography>
           </MenuItem>
         ))}
       </Menu>
