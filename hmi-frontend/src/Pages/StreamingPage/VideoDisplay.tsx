@@ -18,10 +18,11 @@ export default function VideoDisplay() {
     timestamp,
     setIsBuffering,
     volume,
+    fullscreen,
   } = useStreamer();
 
   const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
-  const [displayControls, setDisplayControls] = useState(false);
+  const [hoverVideo, setHoverVideo] = useState(false);
 
   const onVideoStart = () => {
     if (videoRef.current) {
@@ -32,21 +33,24 @@ export default function VideoDisplay() {
   return (
     <div
       className="video-container"
-      onMouseEnter={() => setDisplayControls(true)}
-      onMouseLeave={() => setDisplayControls(false)}
+      style={fullscreen ? { height: "100%" } : undefined}
+      onMouseEnter={() => setHoverVideo(true)}
+      onMouseLeave={() => setHoverVideo(false)}
+      onDoubleClick={handleFullscreen}
+      onClick={() => setIsPlaying(!isPlaying)}
     >
-      {displayControls && <HoverControls scale="1.5"/>}
+      <HoverControls scale="1.5" hover={hoverVideo} />
 
       {isBuffering && <CircularProgress className="video-loading" />}
       <div
+        style={fullscreen ? { height: "100%" } : undefined}
         className={`react-player ${
-          (isBuffering || displayControls) && "react-player-overlay"
+          (isBuffering || (hoverVideo && !fullscreen)) && "react-player-overlay"
         }`}
-        onDoubleClick={handleFullscreen}
-        onClick={() => setIsPlaying(!isPlaying)}
       >
         <ReactPlayer
           width="100%"
+          height="100%"
           ref={videoRef}
           playing={isPlaying}
           onStart={onVideoStart}

@@ -18,19 +18,20 @@ import { handleFullscreen } from "../streamerHelper";
 import VideoTimestampSlider from "./VideoTimestampSlider";
 
 export default function VideoController() {
-  const { volume, setVolume, setIsPlaying, isPlaying } = useStreamer();
+  const { volume, setVolume, setIsPlaying, isPlaying, fullscreen } =
+    useStreamer();
 
   const onVolumeBtnClick = () => {
     if (volume > 0) {
       setVolume(0);
       return;
     }
-    
+
     setVolume(1);
   };
-  
+
   return (
-    <>
+    <div className={fullscreen ? "controller-fullscreen" : ""}>
       <VideoTimestampSlider />
       <Box sx={{ width: "100%" }} component={Paper}>
         <MenuList sx={{ display: "flex", flexDirection: "row" }}>
@@ -74,6 +75,6 @@ export default function VideoController() {
           </MenuItem>
         </MenuList>
       </Box>
-    </>
+    </div>
   );
 }

@@ -8,11 +8,13 @@ import useStreamer from "@/Store/streamerStore";
 import { videoRef } from "../streamerHelper";
 
 interface HoverControlsProps {
+  hover: boolean;
   scale?: string;
 }
 
-export default function HoverControls({ scale }: HoverControlsProps) {
-  const { timestamp, setTimestamp, isPlaying, setIsPlaying } = useStreamer();
+export default function HoverControls({ hover, scale }: HoverControlsProps) {
+  const { timestamp, setTimestamp, isPlaying, setIsPlaying, fullscreen } =
+    useStreamer();
 
   const moveTimestamp = (amount: number) => {
     const newTimestamp = timestamp + amount;
@@ -25,6 +27,7 @@ export default function HoverControls({ scale }: HoverControlsProps) {
 
   return (
     <Box
+      visibility={hover && !fullscreen ? "visible" : "hidden"}
       position="absolute"
       zIndex={10}
       width="100%"

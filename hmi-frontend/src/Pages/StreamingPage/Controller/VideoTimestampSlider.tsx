@@ -1,6 +1,6 @@
 import useStreamer from "@/Store/streamerStore";
-import { Slider } from "@mui/material";
 import { videoRef } from "../streamerHelper";
+import { Slider } from "@mui/material";
 
 export default function VideoTimestampSlider() {
   const { timestamp, setTimestamp, duration } = useStreamer();
