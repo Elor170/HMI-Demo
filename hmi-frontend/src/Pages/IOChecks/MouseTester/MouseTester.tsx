@@ -27,27 +27,19 @@ const formatKeyName = (key: string) => {
 
 export default function MouseTester() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [prevScrollPos, _setPrevScrollPos] = useState<number>(0);
-  const prevScrollPosRef = React.useRef(prevScrollPos);
-  const [checkList, _setChecksList] = useState<ButtonCheckList>(initialCheckList);
-  const checkListRef = React.useRef(checkList);
-
-  const setChecksList = (newList: ButtonCheckList) => {
-    checkListRef.current = newList;
-    _setChecksList(newList);
-  }
+  const [prevScrollPos, setPrevScrollPos] = useState<number>(0);
+  const [checkList, setChecksList] = useState<ButtonCheckList>(initialCheckList);
 
   const setChecksListElement = (buttonEvent: keyof ButtonCheckList) => {
-    const copyOfCheckList  = structuredClone(checkListRef.current);
+    const copyOfCheckList  = structuredClone(checkList);
     copyOfCheckList[buttonEvent] = true;
-    checkListRef.current = copyOfCheckList;
-    _setChecksList(copyOfCheckList);
+    setChecksList(copyOfCheckList);
   }
 
   const handleScroll = () => {
     if (containerRef.current) {
       const currentScrollPos: number = containerRef.current.scrollTop;
-      const scrollEvent: keyof ButtonCheckList = prevScrollPosRef.current > currentScrollPos ? 'scrollUp' : 'scrollDown';
+      const scrollEvent: keyof ButtonCheckList = prevScrollPos > currentScrollPos ? 'scrollUp' : 'scrollDown';
       setPrevScrollPos(currentScrollPos);
       setChecksListElement(scrollEvent)
     }
@@ -90,7 +82,7 @@ export default function MouseTester() {
       };
     }
 
-  }, []);
+  }, [prevScrollPos, checkList]);
   
   return (
     <div className={styles.mouseTester_container} ref={containerRef} onContextMenu={handleContextMenu}>
