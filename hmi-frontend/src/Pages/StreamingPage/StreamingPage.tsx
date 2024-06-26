@@ -1,31 +1,31 @@
-import { useEffect } from "react";
 import "./StreamingPage.scss";
 import VideoController from "./Controller/VideoController";
 import VideoDisplay from "./VideoDisplay";
 import useStreamer from "@/Store/streamerStore";
+import { useMount, useUnmount } from "@/hooks/mountHooks";
 
 export default function StreamingPage() {
-  const { exitFullScreen, resolution } = useStreamer();
+  const { exitFullScreen, resolution, resetStore } = useStreamer();
 
-  const handleFullScreen = () => {};
+  const handleFullscreenChange = () => {
+    if (!document.fullscreenElement) {
+      exitFullScreen();
+    }
+  };
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        exitFullScreen();
-      }
-    };
-
+  useMount(() => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
+    resetStore();
+  });
 
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, [exitFullScreen]);
+  useUnmount(() => {
+    document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    resetStore();
+  });
 
   return (
     <div className="streamer">
-      <VideoDisplay handleFullScreen={handleFullScreen} />
+      <VideoDisplay />
 
       <VideoController />
 

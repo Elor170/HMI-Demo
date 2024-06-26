@@ -2,14 +2,10 @@ import "./StreamingPage.scss";
 import ReactPlayer from "react-player";
 import { CircularProgress } from "@mui/material";
 import useStreamer from "@/Store/streamerStore";
-import { videoRef } from "./streamerHelper";
+import { videoRef, handleFullscreen } from "./streamerHelper";
 import { STREAMER_SERVER } from "@/Helper/consts";
 
-interface VideoDisplayProps {
-  handleFullScreen: () => void;
-}
-
-export default function VideoDisplay({ handleFullScreen }: VideoDisplayProps) {
+export default function VideoDisplay() {
   const {
     resolution,
     isBuffering,
@@ -34,7 +30,7 @@ export default function VideoDisplay({ handleFullScreen }: VideoDisplayProps) {
       {isBuffering && <CircularProgress className="video-loading" />}
       <div
         className={`react-player ${isBuffering ? "react-player-loading" : ""}`}
-        onDoubleClick={handleFullScreen}
+        onDoubleClick={handleFullscreen}
       >
         <ReactPlayer
           width="100%"
