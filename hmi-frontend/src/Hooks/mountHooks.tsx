@@ -6,5 +6,7 @@ export function useMount(callback: () => void) {
 }
 
 export function useUnmount(callback: () => void) {
-  useEffect(callback, []);
+  useEffect(() => {
+    return callback;
+  }, []);
 }

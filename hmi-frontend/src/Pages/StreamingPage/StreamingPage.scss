@@ -22,9 +22,18 @@
       height: 100%;
       border-radius: 20%;
 
-      &.react-player-loading {
-        filter: brightness(70%);
+      &.react-player-overlay {
+        transition-duration: 0.2s;
+        filter: brightness(80%);
       }
     }
   }
+}
+
+.hover-controls {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+
+  justify-content: space-between;
 }

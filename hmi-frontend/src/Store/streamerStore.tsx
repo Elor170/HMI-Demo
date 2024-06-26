@@ -1,5 +1,13 @@
 import { create } from "zustand";
 
+export const getVolume = (): number => {
+  const volume = localStorage.getItem("stream_volume");
+
+  if (!volume || Number.isNaN(volume)) return 0;
+
+  return Number(volume);
+};
+
 interface StreamerStoreStates {
   resolution: string;
   timestamp: number;
@@ -20,6 +28,8 @@ interface StreamerStoreActions {
   exitFullScreen: () => void;
   setIsPlaying: (newState: boolean) => void;
   resetStore: () => void;
+  play: () => void;
+  pause: () => void;
 }
 
 const initialStreamStore: StreamerStoreStates = {
@@ -27,7 +37,7 @@ const initialStreamStore: StreamerStoreStates = {
   timestamp: 0,
   duration: 0,
   isBuffering: false,
-  volume: 1,
+  volume: getVolume(),
   fullscreen: false,
   isPlaying: false,
 };
@@ -43,7 +53,10 @@ const useStreamer = create<StreamerStoreStates & StreamerStoreActions>(
 
     setIsBuffering: (newState) => set({ isBuffering: newState }),
 
-    setVolume: (newState) => set({ volume: newState }),
+    setVolume: (newState) => {
+      localStorage.setItem("stream_volume", newState.toString());
+      set({ volume: newState });
+    },
 
     enterFullScreen: () => set({ fullscreen: true }),
     exitFullScreen: () => set({ fullscreen: false }),
@@ -51,6 +64,9 @@ const useStreamer = create<StreamerStoreStates & StreamerStoreActions>(
     setIsPlaying: (newState) => set({ isPlaying: newState }),
 
     resetStore: () => set(initialStreamStore),
+
+    play: () => set({ isPlaying: true }),
+    pause: () => set({ isPlaying: false }),
   })
 );
 

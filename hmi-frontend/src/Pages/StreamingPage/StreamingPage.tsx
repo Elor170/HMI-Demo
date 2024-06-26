@@ -2,7 +2,7 @@ import "./StreamingPage.scss";
 import VideoController from "./Controller/VideoController";
 import VideoDisplay from "./VideoDisplay";
 import useStreamer from "@/Store/streamerStore";
-import { useMount, useUnmount } from "@/hooks/mountHooks";
+import { useMount, useUnmount } from "@/Hooks/mountHooks";
 
 export default function StreamingPage() {
   const { exitFullScreen, resolution, resetStore } = useStreamer();
@@ -12,7 +12,6 @@ export default function StreamingPage() {
       exitFullScreen();
     }
   };
-
   useMount(() => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     resetStore();

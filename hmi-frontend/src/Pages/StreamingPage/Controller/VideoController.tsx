@@ -25,10 +25,10 @@ export default function VideoController() {
       setVolume(0);
       return;
     }
-
+    
     setVolume(1);
   };
-
+  
   return (
     <>
       <VideoTimestampSlider />
