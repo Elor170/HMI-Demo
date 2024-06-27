@@ -1,9 +1,9 @@
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import { videoRef } from "../streamerHelper";
 import { Slider } from "@mui/material";
 
 export default function VideoTimestampSlider() {
-  const { timestamp, setTimestamp, duration } = useStreamer();
+  const { timestamp, setTimestamp, duration, play } = useStreamer();
 
   const onSliderMove = (_: Event, newTimeStamp: number | number[]) => {
     const ts =
@@ -12,6 +12,7 @@ export default function VideoTimestampSlider() {
 
     if (videoRef.current) {
       videoRef.current.seekTo(ts);
+      play();
     }
   };
 

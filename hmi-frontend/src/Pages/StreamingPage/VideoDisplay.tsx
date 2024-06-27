@@ -1,7 +1,7 @@
 import "./StreamingPage.scss";
 import ReactPlayer from "react-player";
 import { CircularProgress } from "@mui/material";
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import { videoRef, handleFullscreen } from "./streamerHelper";
 import { STREAMER_SERVER } from "@/Helper/consts";
 import { useState } from "react";
@@ -15,7 +15,6 @@ export default function VideoDisplay() {
     setIsPlaying,
     setDuration,
     setTimestamp,
-    timestamp,
     setIsBuffering,
     volume,
     fullscreen,
@@ -23,12 +22,6 @@ export default function VideoDisplay() {
 
   const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
   const [hoverVideo, setHoverVideo] = useState(false);
-
-  const onVideoStart = () => {
-    if (videoRef.current) {
-      videoRef.current.seekTo(timestamp);
-    }
-  };
 
   return (
     <div
@@ -53,7 +46,6 @@ export default function VideoDisplay() {
           height="100%"
           ref={videoRef}
           playing={isPlaying}
-          onStart={onVideoStart}
           url={videoUrl}
           onDuration={(newDuration) => setDuration(newDuration)}
           onProgress={(state) => setTimestamp(state.playedSeconds)}

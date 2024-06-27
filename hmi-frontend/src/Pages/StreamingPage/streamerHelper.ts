@@ -1,4 +1,4 @@
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import React from "react";
 import ReactPlayer from "react-player";
 

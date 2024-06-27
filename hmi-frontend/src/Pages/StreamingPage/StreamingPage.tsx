@@ -1,9 +1,10 @@
 import "./StreamingPage.scss";
 import VideoController from "./Controller/VideoController";
 import VideoDisplay from "./VideoDisplay";
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import { useMount, useUnmount } from "@/Hooks/mountHooks";
 import { videoContainerRef } from "./streamerHelper";
+import StreamPerformanceLogger from "./Logger/StreamPerformanceLogger";
 
 export default function StreamingPage() {
   const { fullscreen, exitFullScreen, resolution, resetStore } = useStreamer();
@@ -25,16 +26,19 @@ export default function StreamingPage() {
   });
 
   return (
-    <div ref={videoContainerRef} className="streamer">
-      <VideoDisplay />
+    <>
+      <div ref={videoContainerRef} className="streamer">
+        <VideoDisplay />
 
-      <VideoController />
+        <VideoController />
 
-      {!fullscreen && (
-        <span style={{ userSelect: "none" }}>
-          Current resolution: {resolution}
-        </span>
-      )}
-    </div>
+        {!fullscreen && (
+          <span style={{ userSelect: "none" }}>
+            Current resolution: {resolution}
+          </span>
+        )}
+      </div>
+      <StreamPerformanceLogger />
+    </>
   );
 }

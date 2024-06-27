@@ -13,7 +13,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import { handleFullscreen } from "../streamerHelper";
 import VideoTimestampSlider from "./VideoTimestampSlider";
 

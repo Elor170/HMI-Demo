@@ -3,7 +3,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
 import { videoRef } from "../streamerHelper";
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 
 export default function ResolutionSelector() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

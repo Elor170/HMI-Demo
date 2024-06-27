@@ -4,7 +4,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Box, IconButton, Typography } from "@mui/material";
 import "../StreamingPage.scss";
-import useStreamer from "@/Store/streamerStore";
+import useStreamer from "@/Store/StreamerStore";
 import { videoRef } from "../streamerHelper";
 
 interface HoverControlsProps {
