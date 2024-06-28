@@ -29,6 +29,10 @@ export type KeyboardState = {
     [key: string]: boolean;
 }
 
+// Codes of keys that have differece between them in the heberew and english layouts(and there codes aren't KeyA, KeyB...) 
+export const specialKeysCodes: string[] = 
+['BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Comma', 'Period', 'Slash'];
+
 export const englishLowerCase: KeyboardLayout = {
     leftSection: [
         [{code: 'Escape', view: 'Esc'}, {code: 'F1'}, {code: 'F2'}, {code: 'F3'}, {code: 'F4'}, {code: 'F5'}, {code: 'F6'}, {code: 'F7'}, {code: 'F8'}, {code: 'F9'}, {code: 'F10'}, {code: 'F11'}, {code: 'F12'}],

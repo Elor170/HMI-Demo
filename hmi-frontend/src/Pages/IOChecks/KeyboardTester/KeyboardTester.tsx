@@ -6,9 +6,9 @@ export default function KeyboardTester() {
 
     return (
         <div className={styles.keyboardTester}>
-            <Keyboard layout={englishLowerCase} keyboardRegex={/^[a-z]+$/}/>
-            <Keyboard layout={englishUpperCase} keyboardRegex={/^[A-Z]+$/}/>
-            <Keyboard layout={hebrewLayout} keyboardRegex={/^[\u0590-\u05FF]+$/}/>
+            <Keyboard layout={englishLowerCase} />
+            <Keyboard layout={englishUpperCase} />
+            <Keyboard layout={hebrewLayout} />
         </div>
     )
 }
