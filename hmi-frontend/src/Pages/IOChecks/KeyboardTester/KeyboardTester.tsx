@@ -6,19 +6,9 @@ export default function KeyboardTester() {
 
     return (
         <div className={styles.keyboardTester}>
-            <Keyboard layout={englishLowerCase} />
-            <Keyboard layout={englishUpperCase} />
-            <Keyboard layout={hebrewLayout} />
+            <Keyboard layout={englishLowerCase} keyboardName='En-Lower' />
+            <Keyboard layout={englishUpperCase} keyboardName='En-Upper' />
+            <Keyboard layout={hebrewLayout} keyboardName='Hebrew' />
         </div>
     )
 }
-
-// ת ,
-// ץ .
-// . /
-// ף ;
-// , '
-// ] [
-// [ ]
-// / q
-// ' w

@@ -85,5 +85,3 @@ export const layoutToInitState = (layout: KeyboardLayout): KeyboardState => {
     const codesSatusesArr: Array<[string, boolean]> = flatLayout.map((key: KeyboardKey) => [key.code, false]);
     return Object.fromEntries(codesSatusesArr);
 }
-
-// export const initialEnLowState: KeyboardState = layoutToInitState(englishLowerCase);

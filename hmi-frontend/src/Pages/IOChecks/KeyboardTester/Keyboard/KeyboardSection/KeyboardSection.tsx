@@ -15,10 +15,10 @@ export default function KeyboardSection ({ layout, section, keyboardStatus }: Ke
             {keyboardLine.map(({code, view}: KeyboardKey, index2: number) => {
               const keyView = view ?? code;
               return (
-              <div className={styles.keyboard_key} key={index2} 
+              <div key={index2} 
+              className={`${styles.keyboard_key} ${keyboardStatus[code] ? styles.keyboard_key_clicked : styles.keyboard_key_notClicked}`}
               style={{ maxWidth: (keyView.length <= 3 && section != 'middleSection') ? '2.5vw': '',
-                backgroundColor: keyboardStatus[code] ? 'rgb(65, 133, 110)' : 'red'
-              }}>
+                      fontSize: (keyView.length <= 3) ? '1vw': '0.75vw'}}>
                 {keyView}
               </div>)
             })}

@@ -1,10 +1,11 @@
+@import '../../../variables';
+
 .keyboard_section {
     height: 20vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 0.5vw;
-    
     
     .keyboard_line {
         display: flex;
@@ -16,13 +17,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgb(65, 133, 110);
+            background-color: #21272a;
             margin: 0.2vw;
             border-radius: 0.5vw;
             color: black;
             flex-grow: 1;
             font-size: 0.75vw;
             font-weight: bold;
+        }
+        
+        .keyboard_key_clicked {
+            background-color: $dark-green;
+        }
+
+        .keyboard_key_notClicked {
+            background-color: $dark-red;
         }
     }
 }

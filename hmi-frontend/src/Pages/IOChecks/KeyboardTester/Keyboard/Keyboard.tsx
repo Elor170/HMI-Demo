@@ -5,9 +5,10 @@ import KeyboardSection from './KeyboardSection';
 
 interface KeyboardProps {
   layout: KeyboardLayout;
+  keyboardName: string;
 }
 
-export default function Keyboard ({layout}: KeyboardProps) {
+export default function Keyboard ({layout, keyboardName}: KeyboardProps) {
   const [keyboardStatus, setkeyboardStatus] = useState(layoutToInitState(layout));
   const flatLayout = [...layout.leftSection.flat(), ...layout.middleSection.flat(), ...layout.rightSection.flat()];
   
