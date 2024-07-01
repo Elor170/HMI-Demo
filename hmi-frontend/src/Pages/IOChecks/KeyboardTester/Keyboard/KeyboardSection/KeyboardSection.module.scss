@@ -1,4 +1,3 @@
-@import '../../../variables';
 
 .keyboard_section {
     height: 20vw;
@@ -27,11 +26,11 @@
         }
         
         .keyboard_key_clicked {
-            background-color: $dark-green;
+            background-color: var(--dark-green);
         }
 
         .keyboard_key_notClicked {
-            background-color: $dark-red;
+            background-color: var(--dark-red);
         }
     }
 }

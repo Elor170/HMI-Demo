@@ -1,7 +1,28 @@
-.keyboard {
+.keyboard_container {
+  position: relative;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  outline: 1px solid whitesmoke;
+  
+  .keyboard {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .resetButton {
+      position: absolute;
+      bottom: 5.7vw;
+      right: 16.2vw;
+      display: block;
+      height: 1.5vw;
+      width: 8vw;
+      margin: 2vw auto;
+      line-height: 1.5vw;
+      font-size: 1vw;
+      font-weight: bold;
+
+      background-color: #9c9c9c;
+      border-radius: 1vw;
+      border: none ;
+    }
+  }
 }
   
