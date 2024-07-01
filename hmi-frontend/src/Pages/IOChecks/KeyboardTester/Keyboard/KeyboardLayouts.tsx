@@ -13,6 +13,8 @@ export type KeyCode =
     'Numpad4'|'Numpad5'|'Numpad6'|
     'Numpad1'|'Numpad2'|'Numpad3'|
     'Numpad0'|'NumpadDecimal'|'NumpadEnter';
+export const keyboardNames = ['En-Lower', 'En-Upper', 'Hebrew'] as const; 
+export type KeyboardName = typeof keyboardNames[number]; 
 
 export interface KeyboardKey {
     code: KeyCode;

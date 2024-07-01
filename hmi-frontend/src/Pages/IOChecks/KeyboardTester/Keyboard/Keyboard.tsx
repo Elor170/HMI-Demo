@@ -5,10 +5,10 @@ import KeyboardSection from './KeyboardSection';
 
 interface KeyboardProps {
   layout: KeyboardLayout;
-  keyboardName: string;
+  isVisible: boolean;
 }
 
-export default function Keyboard ({layout, keyboardName}: KeyboardProps) {
+export default function Keyboard ({layout, isVisible}: KeyboardProps) {
   const [keyboardStatus, setkeyboardStatus] = useState(layoutToInitState(layout));
   const flatLayout = [...layout.leftSection.flat(), ...layout.middleSection.flat(), ...layout.rightSection.flat()];
   
@@ -44,7 +44,7 @@ export default function Keyboard ({layout, keyboardName}: KeyboardProps) {
 
 
   return (
-    <div className={styles.keyboard}>
+    <div className={styles.keyboard} style={{display: isVisible ? 'flex' : 'none'}}>
       <KeyboardSection layout={layout} keyboardStatus={keyboardStatus} section='leftSection'/>
       <KeyboardSection layout={layout} keyboardStatus={keyboardStatus} section='middleSection'/>
       <KeyboardSection layout={layout} keyboardStatus={keyboardStatus} section='rightSection'/>
