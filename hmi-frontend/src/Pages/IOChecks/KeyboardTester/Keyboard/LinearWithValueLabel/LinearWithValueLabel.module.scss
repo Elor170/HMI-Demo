@@ -1,0 +1,23 @@
+.linearWithValue_container {
+    position: absolute;
+    right: 2vw;
+    top: 1vw;
+ 
+    .linearWithValue {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 11vw;
+
+        .linearProgress {
+            border-radius: 1vw;
+            width: 5vw;
+            height: 0.7vw;
+        }
+
+        .textValue {
+            width: 5vw;
+            font-size: 1.5vw;
+        }
+    }
+}
