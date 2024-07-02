@@ -29,9 +29,9 @@ services:
     container_name: mongodb
     # restart: always
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - ./db:/data/db
+      - ~/db:/data/db
 
     networks:
       - dakar_network

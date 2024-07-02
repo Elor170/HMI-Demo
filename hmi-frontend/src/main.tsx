@@ -6,6 +6,9 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Helper/Router/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const darkTheme = createTheme({
   palette: {
@@ -15,14 +18,16 @@ const darkTheme = createTheme({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <TopAppBar />
-      <CssBaseline />
-      <Suspense fallback={<div>Loading...</div>}>
-        <RouterProvider router={router} />
-      </Suspense>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={darkTheme}>
+        <TopAppBar />
+        <CssBaseline />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </ThemeProvider>
 
-    <ToastContainer />
+      <ToastContainer />
+    </QueryClientProvider>
   </React.StrictMode>
 );

@@ -4,7 +4,6 @@ import path from "path";
 import dotenv from "dotenv";
 import { addLog, getLogs } from "./logger";
 dotenv.config();
-27017;
 
 const { PORT } = process.env;
 
@@ -46,6 +45,8 @@ app.get("/video/:resolution", (req, res) => {
 });
 
 app.get("/logs", async (_, res) => {
+  console.log("Sending logs to frontend");
+
   try {
     const logs = await getLogs();
     return res.status(200).send(logs);
