@@ -1,18 +1,17 @@
 {
-    "compilerOptions": {
-      "rootDir": "src",
-      "outDir": "dist",
-      "target": "es2020",
-      "lib": [
-        "es2020", "DOM"
-      ],
-      "module": "ESNext", 
-      "moduleResolution": "Node",
-      "strict": true,
-      "sourceMap": true,
-      // Needed for CommonJS modules
-      "allowSyntheticDefaultImports": true,
-      
-      "declaration": true,
-    }
-  }
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "es2020",
+    "lib": ["es2020", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "sourceMap": true,
+    // Needed for CommonJS modules
+    "allowSyntheticDefaultImports": true,
+
+    "declaration": true
+  },
+  "include": ["src", "../global-types/*.d.ts"]
+}

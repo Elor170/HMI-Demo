@@ -4,6 +4,8 @@ import TopAppBar from "./Components/TopAppBar/TopAppBar";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
 import router from "./Helper/Router/Router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const darkTheme = createTheme({
   palette: {
@@ -17,8 +19,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <TopAppBar />
       <CssBaseline />
       <Suspense fallback={<div>Loading...</div>}>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </Suspense>
     </ThemeProvider>
+
+    <ToastContainer />
   </React.StrictMode>
 );

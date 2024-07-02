@@ -2,59 +2,45 @@ import useStreamer from "@/Store/StreamerStore";
 import { useEffect, useState } from "react";
 import ky from "ky";
 import { STREAMER_SERVER } from "@/Helper/consts";
-
-interface LoggerData {
-  bufferTimeMS: number;
-  resolution: string;
-  bufferStartStamp: number;
-  bufferEndStamp: number;
-  bufferStartDate: Date;
-  bufferEndDate: Date;
-}
+import { toast } from "react-toastify";
 
 export default function StreamPerformanceLogger() {
-  const { isBuffering, resolution, timestamp } = useStreamer();
-
-  const [bufferingTimeInMs, setBufferingTime] = useState(0);
-  const [bufferStartDate, setBufferStartDate] = useState(new Date());
-  const [bufferStartStamp, setBufferStartStamp] = useState(0);
-
-  const logBufferData = async () => {
-    const bufferLogs: LoggerData = {
-      bufferTimeMS: bufferingTimeInMs,
-      resolution,
-      bufferStartStamp,
-      bufferEndStamp: timestamp,
-      bufferStartDate,
-      bufferEndDate: new Date(),
-    };
-
-    const response = await ky.post(`${STREAMER_SERVER}/logs/add`, {
-      json: bufferLogs,
-    });
-
-    if (response.status !== 200) {
-      console.error("Something went wrong while logging buffer...");
-    }
-
-    setBufferingTime(0);
-    setBufferStartDate(new Date());
-    setBufferStartStamp(0);
-  };
+  const { isBuffering, timestamp, resolution } = useStreamer();
+  const [checkingBuffer, setCheckingBuffer] = useState(false);
+  const [bufferStartDate, setStartTime] = useState(new Date());
+  const [bufferTimestamp, setBufferTimestamp] = useState(0);
 
   useEffect(() => {
-    if (isBuffering) {
-      setBufferStartDate(new Date());
-      setBufferStartStamp(timestamp);
+    if (!isBuffering && !checkingBuffer) return;
+    else if (isBuffering && !checkingBuffer) {
+      setCheckingBuffer(true);
+      setStartTime(new Date());
+      setBufferTimestamp(timestamp);
+      return;
+    } else if (!isBuffering && checkingBuffer) {
+      const logs: StreamLogData = {
+        bufferStartDate: bufferStartDate,
+        bufferEndDate: new Date(),
+        bufferTimestamp,
+        resolution,
+      };
 
-      const interval = setInterval(() => {
-        if (!isBuffering) {
-          logBufferData();
-          clearInterval(interval);
+      const postData = async () => {
+        const response = await ky.post(`${STREAMER_SERVER}/logs/add`, {
+          headers: {
+            "content-type": "application/json",
+          },
+          json: logs,
+        });
+
+        if (!response.ok) {
+          toast.error(`Error while logging buffer: ${response.statusText}`);
         }
 
-        setBufferingTime(bufferingTimeInMs + 1);
-      }, 100);
+        setCheckingBuffer(false);
+      };
+
+      postData();
     }
   }, [isBuffering]);
 

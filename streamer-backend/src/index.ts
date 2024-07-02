@@ -2,11 +2,15 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
+import { addLog, getLogs } from "./logger";
 dotenv.config();
+27017;
 
 const { PORT } = process.env;
 
 const app = express();
+
+app.use(express.json());
 
 // const __dirname = new URL(".", import.meta.url).pathname;
 
@@ -39,6 +43,25 @@ app.get("/video/:resolution", (req, res) => {
     });
     fs.createReadStream(videoPath).pipe(res);
   }
+});
+
+app.get("/logs", async (_, res) => {
+  try {
+    const logs = await getLogs();
+    return res.status(200).send(logs);
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+});
+
+app.post("/logs/add", async (req, res) => {
+  console.time("added new logs to the database");
+  const data: StreamLogData = req.body;
+
+  await addLog(data);
+  console.timeEnd("added new logs to the database");
+
+  return res.status(200).send("Logs added to database");
 });
 
 app.listen(PORT, () => {
