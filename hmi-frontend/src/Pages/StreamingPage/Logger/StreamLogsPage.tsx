@@ -1,6 +1,8 @@
 import { STREAMER_SERVER } from "@/Helper/consts";
 import {
+  Card,
   CircularProgress,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -32,7 +34,7 @@ export default function StreamLogsPage() {
   }
 
   return (
-    <div>
+    <Card component={Paper} sx={{ boxShadow: 3 }}>
       <TableContainer>
         <Table>
           <TableHead>
@@ -52,8 +54,9 @@ export default function StreamLogsPage() {
                 bufferEndDate,
                 bufferTimestamp,
                 resolution,
+                _id,
               }) => (
-                <TableRow>
+                <TableRow key={_id?.toString()}>
                   <TableCell>{format(bufferStartDate, "ss:ms")}</TableCell>
                   <TableCell>{format(bufferEndDate, "ss:ms")}</TableCell>
                   <TableCell>
@@ -69,6 +72,6 @@ export default function StreamLogsPage() {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Card>
   );
 }
