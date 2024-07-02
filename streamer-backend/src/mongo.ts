@@ -28,3 +28,14 @@ export async function getLogs(): Promise<StreamLogData[]> {
 
   return logs;
 }
+
+export async function deleteLog(id: string): Promise<void> {
+  const client = await new MongoClient(MONGO_URI).connect();
+
+  await client
+    .db("streamer")
+    .collection("logs")
+    .deleteOne({ _id: new ObjectId(id) });
+
+  client.close();
+}
