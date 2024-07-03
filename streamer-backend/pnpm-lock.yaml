@@ -34,8 +34,8 @@ importers:
         specifier: ^20.12.12
         version: 20.12.12
       global-types:
-        specifier: link:../global-types
-        version: link:../global-types
+        specifier: file:../global-types
+        version: file:../global-types
       tsx:
         specifier: ^4.11.0
         version: 4.11.0
@@ -382,6 +382,9 @@ packages:
 
   get-tsconfig@4.7.5:
     resolution: {integrity: sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==}
+
+  global-types@file:../global-types:
+    resolution: {directory: ../global-types, type: directory}
 
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
@@ -964,6 +967,8 @@ snapshots:
   get-tsconfig@4.7.5:
     dependencies:
       resolve-pkg-maps: 1.0.0
+
+  global-types@file:../global-types: {}
 
   gopd@1.0.1:
     dependencies:

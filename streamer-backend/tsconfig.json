@@ -3,15 +3,14 @@
     "rootDir": "src",
     "outDir": "dist",
     "target": "es2020",
-    "lib": ["es2020", "DOM"],
+    "lib": ["es2020"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
-    "sourceMap": true,
     // Needed for CommonJS modules
     "allowSyntheticDefaultImports": true,
 
-    "declaration": true
+    "declaration": false
   },
   "include": ["src", "../global-types/*.d.ts"]
 }

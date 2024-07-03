@@ -1,8 +1,8 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import dotenv from "dotenv";
 import logsRouter from "./routes/logger";
+import dotenv from "dotenv";
 dotenv.config();
 
 const { PORT } = process.env;

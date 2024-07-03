@@ -1,25 +1,25 @@
 services:
   streamer:
     build:
-      context: ./streamer-backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .docker/Dockerfile.streamer
     environment:
       - PORT=3001
     ports:
       - "3001:3001"
     networks:
-      - dakar_network
+      - hmi_network
 
   waterfall:
     build:
-      context: ./waterfall-backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .docker/Dockerfile.waterfall
     environment:
       - PORT=3002
     ports:
       - "3002:3002"
     networks:
-      - dakar_network
+      - hmi_network
 
     depends_on:
       - mongodb
@@ -34,8 +34,8 @@ services:
       - ~/db:/data/db
 
     networks:
-      - dakar_network
+      - hmi_network
 
 networks:
-  dakar_network:
+  hmi_network:
     driver: bridge
