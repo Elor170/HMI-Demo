@@ -3,6 +3,7 @@ import Keyboard from './Keyboard';
 import { englishLowerCase, englishUpperCase, hebrewLayout, KeyboardName, keyboardNames } from './Keyboard/KeyboardLayouts';
 import styles from './KeyboardTester.module.scss';
 import { NavigateNext } from '@mui/icons-material';
+import KeyboardShortcuts from './Keyboard/KeyboardShortcuts';
 
 export default function KeyboardTester() {
     const [selectedKeyboard, setSelectedKeyboard] = useState<KeyboardName>('En-Lower');
@@ -22,6 +23,7 @@ export default function KeyboardTester() {
                 {selectedKeyboard}
                 <NavigateNext className={styles.nextButton} onClick={switchKeyboard}/>
             </div>
+            <KeyboardShortcuts />
         </div>
     )
 }
