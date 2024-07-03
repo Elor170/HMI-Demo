@@ -5,10 +5,13 @@ services:
       dockerfile: .docker/Dockerfile.streamer
     environment:
       - PORT=3001
+      - MONGO_URI=mongodb://hmi-mongo-db:27017
     ports:
       - "3001:3001"
     networks:
       - hmi_network
+    depends_on:
+      - hmi-mongo-db
 
   waterfall:
     build:
@@ -22,12 +25,11 @@ services:
       - hmi_network
 
     depends_on:
-      - mongodb
+      - hmi-mongo-db
 
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    # restart: always
+  hmi-mongo-db:
+    image: mongo:latest
+    container_name: hmi-mongo-db
     ports:
       - "27017:27017"
     volumes:

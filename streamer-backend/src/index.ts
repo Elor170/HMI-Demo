@@ -5,7 +5,8 @@ import logsRouter from "./routes/logger";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { PORT } = process.env;
+const { PORT, MONGO_URI } = process.env;
+console.log({ PORT, MONGO_URI });
 
 const app = express();
 

@@ -18,6 +18,7 @@ COPY streamer-backend ./
 RUN npm run build
 
 ENV PORT=3000
+ENV MONGO_URI=mongodb://localhost:27017
 
 EXPOSE $PORT
 
