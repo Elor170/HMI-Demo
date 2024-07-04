@@ -1,8 +1,7 @@
-import {  Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
-
 
 export default function TopAppBar() {
   return (
@@ -13,6 +12,7 @@ export default function TopAppBar() {
         <MenuButton nav="/waterfall">Waterfall</MenuButton>
         <MenuButton nav="/cube">Cube</MenuButton>
         <MenuButton nav="/map">Map</MenuButton>
+        <MenuButton nav="/io-checks">IO Checks</MenuButton>
       </AppBar>
     </Box>
   );
