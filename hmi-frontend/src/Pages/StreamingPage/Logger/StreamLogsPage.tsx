@@ -9,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import ky from "ky";
 import { useQuery } from "react-query";
@@ -42,27 +43,42 @@ export default function StreamLogsPage() {
         textAlign: "center",
         borderRadius: "5px",
         border: "2px solid white",
+        overflow: "auto",
+        height: "50vh",
       }}
     >
-      <TableContainer>
-        <Table>
+      <TableContainer sx={{ overflowX: "initial" }}>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell>Buffer Time (in ms)</TableCell>
-              <TableCell>Buffer Timestamp</TableCell>
-              <TableCell>Resolution</TableCell>
+              <TableCell>
+                <Typography fontWeight="bold">Log Date</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography fontWeight="bold">Buffer Time (in ms)</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography fontWeight="bold">Buffer Timestamp</Typography>
+              </TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {data.sort().map((log) => (
-              <LogsTableCell
-                key={log._id?.toString()}
-                log={log}
-                refetch={refetch}
-              />
-            ))}
+            {data
+              .sort(
+                (a, b) =>
+                  Date.parse(b.bufferStartDate.toString()) -
+                  Date.parse(a.bufferStartDate.toString())
+              )
+              .map((log) => (
+                <LogsTableCell
+                  key={log._id?.toString()}
+                  log={log}
+                  refetch={refetch}
+                />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
