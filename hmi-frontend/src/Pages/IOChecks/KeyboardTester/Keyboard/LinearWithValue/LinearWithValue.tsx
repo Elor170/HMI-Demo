@@ -1,11 +1,11 @@
 import LinearProgress from '@mui/material/LinearProgress';
-import styles from './LinearWithValueLabel.module.scss';
+import styles from './LinearWithValue.module.scss';
 
-interface Props {
+interface LinearWithValueProps {
     value: number;
 }
 
-export default function LinearWithValueLabel({value}: Props) {
+export default function LinearWithValue({value}: LinearWithValueProps) {
   return (
     <div className={styles.linearWithValue_container}>
         <div className={styles.linearWithValue}>

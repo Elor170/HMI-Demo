@@ -20,6 +20,11 @@ const initialCheckList: ButtonCheckList = {
   scrollDown: false,
 };
 
+const formatKeyName = (key: string) => {
+  const viewName = key[0].toUpperCase() + key.substring(1);
+  return viewName.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+
 export default function MouseTester() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [prevScrollPos, setPrevScrollPos] = useState<number>(0);
@@ -30,7 +35,6 @@ export default function MouseTester() {
     copyOfCheckList[buttonEvent] = true;
     setChecksList(copyOfCheckList);
   }
-
 
   const handleScroll = () => {
     if (containerRef.current) {
@@ -54,9 +58,6 @@ export default function MouseTester() {
         break;
       case 2:
         clickEvent = 'rightClicked';
-        break;
-    
-      default:
         break;
     }
 
@@ -87,13 +88,10 @@ export default function MouseTester() {
           <MouseView buttonsStatus={checkList}/>
 
           {Object.keys(checkList).map((key: string) => {    
-            let checkTest = key[0].toUpperCase() + key.substring(1);
-            checkTest = checkTest.replace(/([a-z])([A-Z])/g, '$1 $2');
-
             const checkStatus = checkList[key as keyof ButtonCheckList];
 
             return <div className={styles.mouseTester_item} key={key}>
-              <span>{checkTest}</span>
+              <span>{formatKeyName(key)}</span>
               {(checkStatus ? <CheckBox className={styles.checkBoxIcon}/> : <CheckBoxOutlineBlank className={styles.checkBoxIcon}/>)}
             </div>
             })

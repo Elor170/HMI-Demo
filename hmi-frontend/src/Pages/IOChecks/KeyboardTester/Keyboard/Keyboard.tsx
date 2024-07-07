@@ -1,17 +1,25 @@
 import { useEffect, useState } from 'react';
 import styles from './Keyboard.module.scss';
-import { KeyboardLayout, layoutToInitState, KeyboardKey, specialKeysCodes } from './KeyboardLayouts';
+import { KeyboardLayout, layoutToInitState, KeyboardKey, specialKeysCodes, KeyboardState } from './KeyboardLayouts';
 import KeyboardSection from './KeyboardSection';
-import LinearWithValueLabel from './LinearWithValueLabel';
+import LinearWithValue from './LinearWithValue';
 
 interface KeyboardProps {
   layout: KeyboardLayout;
   isVisible: boolean;
 }
 
+let keyboardPercentage: number = 0;
+const calcPercentage = (keyboardStatus: KeyboardState) : number => {
+  const keyboardStatusVals = Object.values(keyboardStatus);
+  const countTrue = keyboardStatusVals.filter(keyStatus => keyStatus).length;
+  const truePercentage = countTrue / keyboardStatusVals.length;
+  return Number.parseFloat((truePercentage * 100).toFixed(2));
+} 
+
 export default function Keyboard ({layout, isVisible}: KeyboardProps) {
   const [keyboardStatus, setkeyboardStatus] = useState(layoutToInitState(layout));
-  const [keyboardPercentage, setKeyboardPercentage] = useState<number>(0);
+  keyboardPercentage = calcPercentage(keyboardStatus);
   const flatLayout = [...layout.leftSection.flat(), ...layout.middleSection.flat(), ...layout.rightSection.flat()];
   
   const setKeyStatus = (key: string) => {
@@ -47,20 +55,10 @@ export default function Keyboard ({layout, isVisible}: KeyboardProps) {
     }
   }, [keyboardStatus, isVisible]);
 
-  useEffect(()=> {
-    const keyboardStatusVals = Object.values(keyboardStatus);
-    const countTrue = keyboardStatusVals.filter(keyStatus => keyStatus).length;
-    const truePercentage = countTrue / keyboardStatusVals.length;
-    const formatedPercentage = Number.parseFloat((truePercentage * 100).toFixed(2));
-
-    setKeyboardPercentage(formatedPercentage);
-  }, [keyboardStatus]);
-
-
   return (
     <div className={styles.keyboard_container}>
       <div className={styles.keyboard} style={{display: isVisible ? 'flex' : 'none'}}>
-        <LinearWithValueLabel value={keyboardPercentage}/>
+        <LinearWithValue value={keyboardPercentage}/>
         <button className={styles.resetButton} onClick={resetTest}>Reset Test</button>
 
         <KeyboardSection layout={layout} keyboardStatus={keyboardStatus} section='leftSection'/>
