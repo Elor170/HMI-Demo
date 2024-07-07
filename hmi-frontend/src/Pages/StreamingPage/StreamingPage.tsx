@@ -8,6 +8,8 @@ import StreamLogsPage from "./Logger/StreamLogsPage";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ReactPlayer from "react-player";
 import { darkTheme } from "@/Helper/consts";
+import { useUnmount } from "@/Hooks/mountHooks";
+import useStreamer from "@/Store/StreamerStore";
 
 export const VideoRefContext = createContext<React.RefObject<ReactPlayer>>({
   current: null,
@@ -23,6 +25,9 @@ export default function StreamingPage() {
   const [openLogger, setOpenLogger] = useState(false);
   const videoRef = useRef<ReactPlayer>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const { resetStore } = useStreamer();
+
+  useUnmount(() => resetStore());
 
   return (
     <div>
