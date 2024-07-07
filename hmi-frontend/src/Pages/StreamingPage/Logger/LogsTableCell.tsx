@@ -1,9 +1,8 @@
 import { TableCell, TableRow, IconButton } from "@mui/material";
-import { darkTheme } from "@/main";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { STREAMER_SERVER } from "@/Helper/consts";
+import { STREAMER_SERVER, darkTheme } from "@/Helper/consts";
 import ky from "ky";
 import { toast } from "react-toastify";
 import { useState } from "react";

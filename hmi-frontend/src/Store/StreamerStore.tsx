@@ -14,7 +14,6 @@ interface StreamerStoreStates {
   duration: number;
   isBuffering: boolean;
   volume: number;
-  fullscreen: boolean;
   isPlaying: boolean;
 }
 
@@ -24,8 +23,6 @@ interface StreamerStoreActions {
   setDuration: (newState: number) => void;
   setIsBuffering: (newState: boolean) => void;
   setVolume: (newState: number) => void;
-  enterFullScreen: () => void;
-  exitFullScreen: () => void;
   setIsPlaying: (newState: boolean) => void;
   resetStore: () => void;
   play: () => void;
@@ -38,7 +35,6 @@ const initialStreamStore: StreamerStoreStates = {
   duration: 0,
   isBuffering: false,
   volume: getVolume(),
-  fullscreen: false,
   isPlaying: false,
 };
 
@@ -57,9 +53,6 @@ const useStreamer = create<StreamerStoreStates & StreamerStoreActions>(
       localStorage.setItem("stream_volume", newState.toString());
       set({ volume: newState });
     },
-
-    enterFullScreen: () => set({ fullscreen: true }),
-    exitFullScreen: () => set({ fullscreen: false }),
 
     setIsPlaying: (newState) => set({ isPlaying: newState }),
 

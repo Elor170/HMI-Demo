@@ -1,9 +1,11 @@
 import useStreamer from "@/Store/StreamerStore";
-import { videoRef } from "../streamerHelper";
 import { Slider } from "@mui/material";
+import { useContext } from "react";
+import { VideoRefContext } from "../StreamingPage";
 
 export default function VideoTimestampSlider() {
   const { timestamp, setTimestamp, duration, play } = useStreamer();
+  const videoRef = useContext(VideoRefContext);
 
   const onSliderMove = (_: Event, newTimeStamp: number | number[]) => {
     const ts =

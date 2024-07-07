@@ -3,13 +3,26 @@ import VideoController from "./Controller/VideoController";
 import VideoDisplay from "./VideoDisplay";
 import StreamPerformanceLogger from "./Logger/StreamPerformanceLogger";
 import { Backdrop, IconButton } from "@mui/material";
-import { useState } from "react";
+import React, { createContext, useRef, useState } from "react";
 import StreamLogsPage from "./Logger/StreamLogsPage";
 import DescriptionIcon from "@mui/icons-material/Description";
-import { darkTheme } from "@/main";
+import ReactPlayer from "react-player";
+import { darkTheme } from "@/Helper/consts";
+
+export const VideoRefContext = createContext<React.RefObject<ReactPlayer>>({
+  current: null,
+});
+
+export const VideoContainerRefContext = createContext<
+  React.RefObject<HTMLDivElement>
+>({
+  current: null,
+});
 
 export default function StreamingPage() {
   const [openLogger, setOpenLogger] = useState(false);
+  const videoRef = useRef<ReactPlayer>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -32,11 +45,15 @@ export default function StreamingPage() {
       >
         <DescriptionIcon />
       </IconButton>
-      <div className="streamer">
-        <VideoDisplay />
-        <VideoController />
-        <StreamPerformanceLogger />
-      </div>
+      <VideoContainerRefContext.Provider value={videoContainerRef}>
+        <div className="streamer" ref={videoContainerRef}>
+          <VideoRefContext.Provider value={videoRef}>
+            <VideoDisplay />
+            <VideoController />
+            <StreamPerformanceLogger />
+          </VideoRefContext.Provider>
+        </div>
+      </VideoContainerRefContext.Provider>
     </div>
   );
 }

@@ -5,7 +5,8 @@ import PauseIcon from "@mui/icons-material/Pause";
 import { Box, IconButton, Typography } from "@mui/material";
 import "../StreamingPage.scss";
 import useStreamer from "@/Store/StreamerStore";
-import { videoRef } from "../streamerHelper";
+import { useContext } from "react";
+import { VideoRefContext } from "../StreamingPage";
 
 interface HoverControlsProps {
   hover: boolean;
@@ -15,6 +16,8 @@ interface HoverControlsProps {
 export default function HoverControls({ hover, scale }: HoverControlsProps) {
   const { timestamp, setTimestamp, isPlaying, setIsPlaying, fullscreen } =
     useStreamer();
+
+  const videoRef = useContext(VideoRefContext);
 
   const moveTimestamp = (amount: number) => {
     const newTimestamp = timestamp + amount;

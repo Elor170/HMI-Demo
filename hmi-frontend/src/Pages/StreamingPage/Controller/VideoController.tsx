@@ -14,13 +14,15 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import useStreamer from "@/Store/StreamerStore";
-import { handleFullscreen } from "../streamerHelper";
 import VideoTimestampSlider from "./VideoTimestampSlider";
+import { useContext, useMemo } from "react";
+import { VideoContainerRefContext } from "../StreamingPage";
+import useFullscreen from "@/Hooks/useFullscreen";
 
 export default function VideoController() {
-  const { volume, setVolume, setIsPlaying, isPlaying, fullscreen } =
-    useStreamer();
+  const { volume, setVolume, setIsPlaying, isPlaying } = useStreamer();
 
+  const videoContainerRef = useContext(VideoContainerRefContext);
   const onVolumeBtnClick = () => {
     if (volume > 0) {
       setVolume(0);
@@ -30,8 +32,17 @@ export default function VideoController() {
     setVolume(1);
   };
 
+  const { isFullscreen, changeFullscreenState } =
+    useFullscreen(videoContainerRef);
+
+  const containerClass = useMemo(() => {
+    if (isFullscreen) return "controller-fullscreen";
+
+    return "";
+  }, [isFullscreen]);
+
   return (
-    <div className={fullscreen ? "controller-fullscreen" : ""}>
+    <div className={containerClass}>
       <VideoTimestampSlider />
       <Box sx={{ width: "100%" }} component={Paper}>
         <MenuList sx={{ display: "flex", flexDirection: "row" }}>
@@ -67,7 +78,7 @@ export default function VideoController() {
 
           <MenuItem
             sx={{ position: "absolute", right: 0 }}
-            onClick={handleFullscreen}
+            onClick={changeFullscreenState}
           >
             <IconButton>
               <FullscreenIcon />

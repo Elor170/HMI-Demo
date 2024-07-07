@@ -17,7 +17,6 @@ import ky from "ky";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import LogsTableCell from "./LogsTableCell";
-import { Link } from "react-router-dom";
 
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
