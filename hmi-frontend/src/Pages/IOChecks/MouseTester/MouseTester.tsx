@@ -59,9 +59,6 @@ export default function MouseTester() {
       case 2:
         clickEvent = 'rightClicked';
         break;
-    
-      default:
-        break;
     }
 
     if (clickEvent)
