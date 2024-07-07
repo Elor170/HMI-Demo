@@ -4,7 +4,7 @@ import { CircularProgress } from "@mui/material";
 import useStreamer from "@/Store/StreamerStore";
 import { videoRef, handleFullscreen } from "./streamerHelper";
 import { STREAMER_SERVER } from "@/Helper/consts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HoverControls from "./Controller/HoverControls";
 
 export default function VideoDisplay() {
@@ -18,10 +18,17 @@ export default function VideoDisplay() {
     setIsBuffering,
     volume,
     fullscreen,
+    timestamp,
   } = useStreamer();
 
   const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
   const [hoverVideo, setHoverVideo] = useState(false);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.seekTo(timestamp);
+    }
+  }, [resolution]);
 
   return (
     <div
@@ -47,12 +54,14 @@ export default function VideoDisplay() {
           ref={videoRef}
           playing={isPlaying}
           url={videoUrl}
+          progressInterval={1}
           onDuration={(newDuration) => setDuration(newDuration)}
           onProgress={(state) => setTimestamp(state.playedSeconds)}
           onBuffer={() => setIsBuffering(true)}
           onBufferEnd={() => setIsBuffering(false)}
           loop
           volume={volume}
+          onSeek={(newTimestamp) => setTimestamp(newTimestamp)}
         />
       </div>
     </div>
