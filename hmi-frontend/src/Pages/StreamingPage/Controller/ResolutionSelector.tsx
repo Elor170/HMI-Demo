@@ -3,7 +3,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
 import useStreamer from "@/Store/StreamerStore";
-import { VideoRefContext } from "../StreamingPage";
+import { VideoContainerRefContext, VideoRefContext } from "../StreamingPage";
 import useFullscreen from "@/Hooks/useFullscreen";
 
 interface ResolutionSelectorProps {
@@ -14,9 +14,10 @@ export default function ResolutionSelector({
   controllerRef,
 }: ResolutionSelectorProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const videoContainerRef = useContext(VideoContainerRefContext);
   const menuOpen = Boolean(anchorEl);
   const { setTimestamp, setResolution } = useStreamer();
-  const { isFullscreen } = useFullscreen();
+  const { isFullscreen } = useFullscreen(videoContainerRef);
   const videoRef = useContext(VideoRefContext);
 
   const handleClose = () => {
