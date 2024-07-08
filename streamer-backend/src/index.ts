@@ -15,8 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/logs", logsRouter);
 
-// const __dirname = new URL(".", import.meta.url).pathname;
-
 app.get("/video/:resolution", (req, res) => {
   const { resolution } = req.params;
   const videoPath = path.resolve("public", `videos/${resolution}.mp4`);

@@ -6,7 +6,8 @@ import { Box, IconButton, Typography } from "@mui/material";
 import "../StreamingPage.scss";
 import useStreamer from "@/Store/StreamerStore";
 import { useContext } from "react";
-import { VideoRefContext } from "../StreamingPage";
+import { VideoContainerRefContext, VideoRefContext } from "../StreamingPage";
+import useFullscreen from "@/Hooks/useFullscreen";
 
 interface HoverControlsProps {
   hover: boolean;
@@ -14,8 +15,10 @@ interface HoverControlsProps {
 }
 
 export default function HoverControls({ hover, scale }: HoverControlsProps) {
-  const { timestamp, setTimestamp, isPlaying, setIsPlaying, fullscreen } =
-    useStreamer();
+  const videoContainerRef = useContext(VideoContainerRefContext);
+
+  const { timestamp, setTimestamp, isPlaying, setIsPlaying } = useStreamer();
+  const { isFullscreen } = useFullscreen(videoContainerRef);
 
   const videoRef = useContext(VideoRefContext);
 
@@ -30,7 +33,7 @@ export default function HoverControls({ hover, scale }: HoverControlsProps) {
 
   return (
     <Box
-      visibility={hover && !fullscreen ? "visible" : "hidden"}
+      visibility={hover && !isFullscreen ? "visible" : "hidden"}
       position="absolute"
       zIndex={10}
       width="100%"

@@ -4,11 +4,19 @@ import { IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { RESOLUTIONS } from "@/Helper/consts";
 import useStreamer from "@/Store/StreamerStore";
 import { VideoRefContext } from "../StreamingPage";
+import useFullscreen from "@/Hooks/useFullscreen";
 
-export default function ResolutionSelector() {
+interface ResolutionSelectorProps {
+  controllerRef: React.RefObject<HTMLDivElement>;
+}
+
+export default function ResolutionSelector({
+  controllerRef,
+}: ResolutionSelectorProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
   const { setTimestamp, setResolution } = useStreamer();
+  const { isFullscreen } = useFullscreen();
   const videoRef = useContext(VideoRefContext);
 
   const handleClose = () => {
@@ -33,7 +41,13 @@ export default function ResolutionSelector() {
         <SettingsIcon />
       </IconButton>
 
-      <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
+      <Menu
+        container={isFullscreen ? controllerRef.current : null}
+        sx={{ zIndex: 5 }}
+        open={menuOpen}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+      >
         {RESOLUTIONS.map((res) => (
           <MenuItem
             key={res}

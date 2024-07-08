@@ -15,12 +15,14 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import useStreamer from "@/Store/StreamerStore";
 import VideoTimestampSlider from "./VideoTimestampSlider";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { VideoContainerRefContext } from "../StreamingPage";
 import useFullscreen from "@/Hooks/useFullscreen";
 
 export default function VideoController() {
   const { volume, setVolume, setIsPlaying, isPlaying } = useStreamer();
+  const [opacity, setOpacity] = useState(1);
+  const controllerRef = useRef<HTMLDivElement>(null);
 
   const videoContainerRef = useContext(VideoContainerRefContext);
   const onVolumeBtnClick = () => {
@@ -41,8 +43,22 @@ export default function VideoController() {
     return "";
   }, [isFullscreen]);
 
+  const changeVisibility = (isVisible: boolean) => {
+    if (!isFullscreen || isVisible) return setOpacity(1);
+
+    setOpacity(0);
+  };
+
+  useEffect(() => changeVisibility(true), [isFullscreen]);
+
   return (
-    <div className={containerClass}>
+    <div
+      ref={controllerRef}
+      className={containerClass}
+      style={{ opacity }}
+      onMouseEnter={() => changeVisibility(true)}
+      onMouseLeave={() => changeVisibility(false)}
+    >
       <VideoTimestampSlider />
       <Box sx={{ width: "100%" }} component={Paper}>
         <MenuList sx={{ display: "flex", flexDirection: "row" }}>
@@ -52,7 +68,7 @@ export default function VideoController() {
             </IconButton>
           </MenuItem>
 
-          <ResolutionSelector />
+          <ResolutionSelector controllerRef={controllerRef} />
 
           <Stack
             spacing={2}

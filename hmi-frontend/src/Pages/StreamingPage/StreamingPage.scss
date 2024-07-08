@@ -4,6 +4,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  height: 90hw;
 
   .video-container {
     display: grid;
@@ -43,4 +44,5 @@
   width: 100%;
   display: grid;
   place-items: center;
+  transition-duration: 0.4s;
 }
