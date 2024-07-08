@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbkssmgd86yuh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_66b7k"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dugwn"]
+lightmap_size_hint = Vector2i(14, 21)
+
+[node name="3dCube" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="CSGBox3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/Area3D"]
+shape = SubResource("BoxShape3D_66b7k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dugwn")
