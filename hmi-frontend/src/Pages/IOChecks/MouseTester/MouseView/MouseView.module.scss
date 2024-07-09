@@ -1,7 +1,5 @@
 $outline-color: #6e7681;
 $background-color: #21272a;
-$dark-green: #39594c;
-$dark-red: #7e3131;
 
 .mouse_container{
     display: flex;
@@ -63,11 +61,11 @@ $dark-red: #7e3131;
         }
 
         .clicked {
-            background-color: $dark-green !important;
+            background-color: var(--dark-green) !important;
         }
         
         .notClicked {
-            background-color: $dark-red !important;
+            background-color: var(--dark-red) !important;
         }
     }
 
@@ -88,11 +86,11 @@ $dark-red: #7e3131;
         }
 
         .scrolled {
-            color: $dark-green !important;
+            color: var(--dark-green) !important;
         }
     
         .notScrolled {
-            color: $dark-red !important;
+            color: var(--dark-red) !important;
         }
     }
 }   

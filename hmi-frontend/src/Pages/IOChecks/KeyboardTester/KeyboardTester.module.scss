@@ -1,0 +1,26 @@
+.keyboardTester {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70vw;
+    height: 100%;
+    padding: 1vh 1vw;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .selectedKeyboard {
+        display: flex;
+        line-height: 3vw;
+        padding-bottom: 2vw;
+        font-size: 2vw;
+        
+        .nextButton {
+            height: 3vw;
+            width: 3vw;
+            padding: 0 0 0 1vw;
+        }
+    }
+}
