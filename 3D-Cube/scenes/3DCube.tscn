@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbkssmgd86yuh"]
+[gd_scene load_steps=5 format=3 uid="uid://dbkssmgd86yuh"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_66b7k"]
+[ext_resource type="Script" path="res://scripts/CSGBox3D.gd" id="1_x3vg1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xdlf8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b2lfg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dugwn"]
 lightmap_size_hint = Vector2i(14, 21)
@@ -8,11 +12,13 @@ lightmap_size_hint = Vector2i(14, 21)
 [node name="3dCube" type="Node3D"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
+script = ExtResource("1_x3vg1")
 
-[node name="Area3D" type="Area3D" parent="CSGBox3D"]
+[node name="RigidBody3D" type="RigidBody3D" parent="CSGBox3D"]
+physics_material_override = SubResource("PhysicsMaterial_xdlf8")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/Area3D"]
-shape = SubResource("BoxShape3D_66b7k")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/RigidBody3D"]
+shape = SubResource("BoxShape3D_b2lfg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_dugwn")
