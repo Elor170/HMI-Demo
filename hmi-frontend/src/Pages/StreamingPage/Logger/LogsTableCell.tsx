@@ -25,7 +25,7 @@ export default function LogsTableCell({ log, refetch }: LogsTableCellProps) {
   ) => {
     e.stopPropagation();
 
-    const response = await ky.post(`${STREAMER_SERVER}/logs/delete/${id}`);
+    const response = await ky.delete(`${STREAMER_SERVER}/logs/delete/${id}`);
 
     if (!response.ok) {
       toast.error(response.statusText);
