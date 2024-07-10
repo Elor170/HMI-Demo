@@ -5,15 +5,11 @@ dotenv.config();
 const { MONGO_URI } = process.env;
 
 export async function addLog(newLog: StreamLogData): Promise<void> {
-  try {
-    const client = await new MongoClient(MONGO_URI).connect();
+  const client = await new MongoClient(MONGO_URI).connect();
 
-    await client.db("streamer").collection("logs").insertOne(newLog);
+  await client.db("streamer").collection("logs").insertOne(newLog);
 
-    client.close();
-  } catch (e) {
-    console.error(e);
-  }
+  client.close();
 }
 
 export async function getLogs(): Promise<StreamLogData[]> {
