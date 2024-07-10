@@ -22,7 +22,7 @@ logsRouter.post("/add", async (req, res) => {
   return res.status(200).send("Logs added to database");
 });
 
-logsRouter.post("/delete/:id", async (req, res) => {
+logsRouter.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
 
   console.time("Deleting logs");
