@@ -12,7 +12,7 @@ export default function TopAppBar() {
         <MenuButton nav="/waterfall">Waterfall</MenuButton>
         <MenuButton nav="/cube">Cube</MenuButton>
         <MenuButton nav="/map">Map</MenuButton>
-        <MenuButton nav="/io-checks">IO Checks</MenuButton>
+        <MenuButton nav="/io-checks">IO-Checks</MenuButton>
       </AppBar>
     </Box>
   );
