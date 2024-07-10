@@ -1,26 +1,50 @@
 import express from "express";
+import fs from "fs";
+import path from "path";
+import logsRouter from "./routes/logger";
+import cors from "cors";
 import dotenv from "dotenv";
-import { Server } from "socket.io";
-import { createServer } from "http";
 dotenv.config();
+
 const { PORT } = process.env;
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server);
 
-io.on("connection", (socket) => {
-  console.log("A user has connected");
+app.use(cors());
+app.use(express.json());
+app.use("/logs", logsRouter);
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
+app.get("/video/:resolution", (req, res) => {
+  const { resolution } = req.params;
+  const videoPath = path.resolve("public", `videos/${resolution}.mp4`);
+  const fileSize = fs.statSync(videoPath).size;
 
-app.get("/", (_, res) => {
-  return res.send("Hello, World!");
+  const range = req.headers.range;
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+    const chunksize = end - start + 1;
+    const file = fs.createReadStream(videoPath, { start, end });
+
+    res.writeHead(206, {
+      "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": chunksize,
+      "Content-Type": "video/mp4",
+    });
+
+    file.pipe(res);
+  } else {
+    res.writeHead(200, {
+      "Content-Length": fileSize,
+      "Content-Type": "video/mp4",
+    });
+    fs.createReadStream(videoPath).pipe(res);
+  }
 });
 
 app.listen(PORT, () => {
-  console.log("Server started on port " + PORT);
+  console.log(`Listening on port ${PORT}`);
 });

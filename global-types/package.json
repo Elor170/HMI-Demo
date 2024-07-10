@@ -1,0 +1,15 @@
+{
+  "name": "global-types",
+  "version": "1.0.0",
+  "description": "",
+  "types": "global.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mongodb": "^6.8.0"
+  }
+}

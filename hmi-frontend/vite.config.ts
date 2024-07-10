@@ -11,4 +11,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src/"),
     },
   },
+
+  build: {
+    chunkSizeWarningLimit: Math.min(), // In JS, Math.min() = infinity, while Math.max() = -infinity... I sure do love JS!
+  },
 });

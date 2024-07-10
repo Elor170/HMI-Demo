@@ -1,0 +1,48 @@
+.streamer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 60%;
+
+  .video-container {
+    display: grid;
+    place-items: center;
+
+    .video-loading {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .react-player {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      &.react-player-overlay {
+        transition-duration: 0.2s;
+        filter: brightness(80%);
+      }
+    }
+  }
+}
+
+.hover-controls {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+
+  justify-content: space-between;
+}
+
+.controller-fullscreen {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  transition-duration: 0.4s;
+}
