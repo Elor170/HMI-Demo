@@ -43,9 +43,10 @@ export default function StreamingPage() {
         onClick={() => setOpenLogger(!openLogger)}
         sx={{
           backgroundColor: darkTheme.palette.primary.dark,
-          position: "absolute",
+          position: "fixed",
           right: 0,
           bottom: 0,
+          margin: '1rem'
         }}
       >
         <DescriptionIcon />
