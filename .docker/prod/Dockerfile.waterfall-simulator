@@ -9,16 +9,15 @@ COPY global-types ./
 
 WORKDIR /app/service
 
-COPY packages/streamer-backend/package*.json ./
+COPY packages/waterfall-backend/package*.json ./
 
 RUN npm install
 
-COPY streamer-backend ./
+COPY waterfall-simulator ./
 
 RUN npm run build
 
-ENV PORT=3000
-ENV MONGO_URI=mongodb://localhost:27017
+ENV PORT=3002
 
 EXPOSE $PORT
 

@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  streamer:
+    build:
+      context: .
+      dockerfile: .docker/prod/Dockerfile.streamer
+    environment:
+      - PORT=3001
+      - MONGO_URI=mongodb://hmi-mongo-db:27017
+    ports:
+      - "3001:3001"
+    networks:
+      - hmi_network
+    depends_on:
+      - hmi-mongo-db
+
+  waterfall-simulator:
+    build:
+      context: .
+      dockerfile: .docker/prod/Dockerfile.waterfall-simulator
+    environment:
+      - PORT=3002
+    ports:
+      - "3002:3002"
+    networks:
+      - hmi_network
+
+  hmi-mongo-db:
+    image: mongo:latest
+    container_name: hmi-mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/db:/data/db
+
+    networks:
+      - hmi_network
+
+  mongoexpress:
+    image: mongo-express
+    container_name: mongo-express
+    environment: 
+      ME_CONFIG_MONGODB_SERVER: hmi-mongo-db 
+      ME_CONFIG_MONGODB_URL: hmi-mongo-db:27017/
+    restart: always
+    ports:
+      - '8081:8081'
+    depends_on:
+      - hmi-mongo-db
+    networks:
+      - hmi_network
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+    restart: always
+    ports:
+      - '15671:15671'
+      - '15672:15672'
+      - '15691:15691'
+      - '15692:15692'
+      - '25672:25672'
+      - '4369:4369'
+      - '5671:5671'
+      - '5672:5672'
+    networks:
+      - hmi_network
+
+
+networks:
+  hmi_network:
+    driver: bridge
