@@ -1,9 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://y0rsox5qdoci"]
+[gd_scene load_steps=6 format=3 uid="uid://y0rsox5qdoci"]
 
 [ext_resource type="MeshLibrary" uid="uid://dxc3y3vtd7ins" path="res://cubelib.tres" id="1"]
-[ext_resource type="PackedScene" uid="uid://bonauusmt0ss" path="res://models/mushroom.glb" id="5"]
 [ext_resource type="Script" path="res://level.gd" id="6"]
-[ext_resource type="PackedScene" uid="uid://bftavngs5kq7e" path="res://cube_rigidbody.tscn" id="7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fiix7"]
 sky_top_color = Color(0.36, 0.20772, 0.1908, 1)
@@ -27,8 +25,6 @@ glow_levels/7 = 1.0
 glow_strength = 0.79
 glow_bloom = 1.0
 glow_blend_mode = 0
-
-[sub_resource type="BoxShape3D" id="4"]
 
 [node name="World3D" type="Node3D"]
 script = ExtResource("6")
@@ -55,18 +51,6 @@ directional_shadow_split_3 = 0.2
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 24.0
 
-[node name="Princess" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.25, 3)
-
-[node name="Mushroom" parent="Princess" instance=ExtResource("5")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Princess"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("4")
-
-[node name="cube_rigidbody" parent="." instance=ExtResource("7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.416964, 3.3565, 2.6332)
-
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.988292, 0.152572, -8.74228e-08, 0.152572, 0.988292, 0, 8.63993e-08, -1.33383e-08, -1, 2.04646, 3.21365, -15.1971)
-fov = 37.8493
+transform = Transform3D(-1, -2.26267e-08, 8.44439e-08, 2.73704e-08, 0.836334, 0.54822, -8.30277e-08, 0.54822, -0.836334, 2.04646, 16.46, -14.319)
+fov = 66.7

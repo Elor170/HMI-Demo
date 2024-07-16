@@ -1,3 +1,5 @@
 res://level.tscn
 res://cubelib.tres
+res://cube_rigidbody.tscn
 res://level.gd
+res://cube_rigidbody.gd

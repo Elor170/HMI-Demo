@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bftavngs5kq7e"]
+[gd_scene load_steps=6 format=3 uid="uid://bftavngs5kq7e"]
 
 [ext_resource type="Texture2D" uid="uid://5wiey7d4yffc" path="res://models/white_wood.png" id="1"]
+[ext_resource type="Script" path="res://cube_rigidbody.gd" id="1_dftjp"]
 [ext_resource type="ArrayMesh" uid="uid://h65pkfq5sgmy" path="res://models/cube.mesh" id="1_nx6dl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gh4dm"]
@@ -13,6 +14,7 @@ roughness = 0.75
 texture_filter = 5
 
 [node name="cube_rigidbody" type="RigidBody3D"]
+script = ExtResource("1_dftjp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_gh4dm")
