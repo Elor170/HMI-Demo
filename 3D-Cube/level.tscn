@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://y0rsox5qdoci"]
+[gd_scene load_steps=7 format=3 uid="uid://y0rsox5qdoci"]
 
 [ext_resource type="MeshLibrary" uid="uid://dxc3y3vtd7ins" path="res://cubelib.tres" id="1"]
+[ext_resource type="PackedScene" uid="uid://ctgt6ki8ksr0x" path="res://character.tscn" id="3_65x1i"]
 [ext_resource type="Script" path="res://level.gd" id="6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fiix7"]
@@ -51,6 +52,5 @@ directional_shadow_split_3 = 0.2
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 24.0
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, -2.26267e-08, 8.44439e-08, 2.73704e-08, 0.836334, 0.54822, -8.30277e-08, 0.54822, -0.836334, 2.04646, 16.46, -14.319)
-fov = 66.7
+[node name="Player" parent="." instance=ExtResource("3_65x1i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 6)
