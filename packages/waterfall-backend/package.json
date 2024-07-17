@@ -16,11 +16,14 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.9",
     "tsx": "^4.16.1",
-    "typescript": "^5.5.3"
+    "typescript": "catalog:"
   },
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "socket.io": "^4.7.5"
+    "body-parser": "catalog:",
+    "cors": "catalog:",
+    "dotenv": "catalog:",
+    "express": "catalog:",
+    "mongodb": "catalog:",
+    "socket.io": "catalog:"
   }
 }
