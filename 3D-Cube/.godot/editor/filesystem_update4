@@ -4,3 +4,5 @@ res://character.tscn
 res://level.tscn
 res://player.gd
 res://cube_rigidbody.gd
+res://player.tscn
+res://cube_rigidbody.tscn

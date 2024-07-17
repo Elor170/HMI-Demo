@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://y0rsox5qdoci"]
 
 [ext_resource type="MeshLibrary" uid="uid://dxc3y3vtd7ins" path="res://cubelib.tres" id="1"]
-[ext_resource type="PackedScene" uid="uid://ctgt6ki8ksr0x" path="res://character.tscn" id="3_65x1i"]
+[ext_resource type="PackedScene" uid="uid://ctgt6ki8ksr0x" path="res://player.tscn" id="3_65x1i"]
 [ext_resource type="Script" path="res://level.gd" id="6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fiix7"]
