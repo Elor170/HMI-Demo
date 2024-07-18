@@ -1,11 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://bx5dvhdyrdeah"]
 
-[ext_resource type="Script" path="res://scenes/fps_counter.gd" id="1_cvgrc"]
+[ext_resource type="Script" path="res://scenes/hud.gd" id="1_4ur7q"]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_4ur7q")
 
 [node name="fps" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
 text = "FPS Counter"
-script = ExtResource("1_cvgrc")
+
+[node name="pointer" type="Label" parent="."]
+offset_right = 14.0
+offset_bottom = 23.0
+text = "+"

@@ -1,8 +1,6 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1721288036
-cubelib.tres::MeshLibrary::8779478649076592316::1721286905::0::1::::<><>::uid://h65pkfq5sgmy::::res://models/cube.mesh
-cube_rigidbody.gd::GDScript::-1::1721218323::0::1::::<>RigidBody3D<>::
-cube_rigidbody.tscn::PackedScene::2776626273813120244::1721287365::0::1::::<><>::uid://5wiey7d4yffc::::res://models/white_wood.png<>res://cube_rigidbody.gd<>uid://h65pkfq5sgmy::::res://models/cube.mesh
+::res://::1721288617
+cubelib.tres::MeshLibrary::8779478649076592316::1721288157::0::1::::<><>::uid://h65pkfq5sgmy::::res://models/cube.mesh
 export_presets.cfg::TextFile::-1::1721216578::0::1::::<><>::
 icon.webp::CompressedTexture2D::3626017087650301524::1721216578::1721216578::1::::<><>::
 README.md::TextFile::-1::1721216578::0::1::::<><>::
@@ -13,9 +11,11 @@ cube_material.tres::StandardMaterial3D::2061434827638146033::1721216578::0::1:::
 mushroom.glb::PackedScene::99880535298574450::1721216578::1721216578::1::::<><>::
 white_cube_material.tres::StandardMaterial3D::2202440980477530522::1721216578::0::1::::<><>::uid://5wiey7d4yffc::::res://models/white_wood.png
 white_wood.png::CompressedTexture2D::2151575809018191920::1721216578::1721216578::1::::<><>::
-::res://scenes/::1721288036
-hud.tscn::PackedScene::4062915446051096063::1721288030::0::1::::<><>::
-level.gd::GDScript::-1::1721287363::0::1::::<>Node3D<>::
-level.tscn::PackedScene::1737206796573571484::1721288036::0::1::::<><>::uid://dxc3y3vtd7ins::::res://cubelib.tres<>uid://ctgt6ki8ksr0x::::res://scenes/player.tscn<>res://scenes/level.gd
+::res://scenes/::1721288576
+cube_rigidbody.gd::GDScript::-1::1721218323::0::1::::<>RigidBody3D<>::
+cube_rigidbody.tscn::PackedScene::2776626273813120244::1721288040::0::1::::<><>::uid://5wiey7d4yffc::::res://models/white_wood.png<>res://scenes/cube_rigidbody.gd<>uid://h65pkfq5sgmy::::res://models/cube.mesh
+hud.tscn::PackedScene::4062915446051096063::1721288574::0::1::::<><>::res://scenes/fps_counter.gd
+level.gd::GDScript::-1::1721288066::0::1::::<>Node3D<>::
+level.tscn::PackedScene::1737206796573571484::1721288180::0::1::::<><>::uid://dxc3y3vtd7ins::::res://cubelib.tres<>uid://ctgt6ki8ksr0x::::res://scenes/player.tscn<>res://scenes/level.gd
 player.gd::GDScript::-1::1721287841::0::1::::<>CharacterBody3D<>::
-player.tscn::PackedScene::6120025184612187773::1721288036::0::1::::<><>::res://scenes/player.gd
+player.tscn::PackedScene::6120025184612187773::1721288291::0::1::::<><>::res://scenes/player.gd<>uid://bx5dvhdyrdeah::::res://scenes/hud.tscn

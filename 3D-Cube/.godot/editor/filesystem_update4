@@ -1,11 +1,4 @@
-res://player.tscn
-res://level.gd
-res://cubelib.tres
-res://level.tscn
-res://cube_rigidbody.tscn
-res://player.gd
 res://scenes/hud.tscn
 res://scenes/level.gd
-res://scenes/level.tscn
+res://scenes/hud.gd
 res://scenes/player.tscn
-res://scenes/fps_counter.gd
