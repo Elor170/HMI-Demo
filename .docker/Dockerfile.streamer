@@ -2,14 +2,14 @@ FROM node:20-slim
 
 WORKDIR /app/global-types
 
-COPY global-types/package*.json ./
+COPY packages/global-types/package*.json ./
 RUN npm install
 
 COPY global-types ./
 
 WORKDIR /app/service
 
-COPY streamer-backend/package*.json ./
+COPY packages/streamer-backend/package*.json ./
 
 RUN npm install
 
