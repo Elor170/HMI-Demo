@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctgt6ki8ksr0x"]
+[gd_scene load_steps=5 format=3 uid="uid://ctgt6ki8ksr0x"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_j2s6g"]
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_j2s6g"]
+[ext_resource type="PackedScene" uid="uid://bx5dvhdyrdeah" path="res://scenes/hud.tscn" id="2_so041"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5qayd"]
 
@@ -23,3 +24,5 @@ shape = SubResource("ConvexPolygonShape3D_ckpmv")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.590521, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Neck"]
+
+[node name="HUD" parent="." instance=ExtResource("2_so041")]
