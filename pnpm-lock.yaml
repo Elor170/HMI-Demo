@@ -24,6 +24,9 @@ catalogs:
     socket.io:
       specifier: 4.7.5
       version: 4.7.5
+    tsx:
+      specifier: ^4.16.2
+      version: 4.16.2
     typescript:
       specifier: 5.5.3
       version: 5.5.3
@@ -157,7 +160,7 @@ importers:
         specifier: file:../global-types
         version: link:../global-types
       tsx:
-        specifier: ^4.11.0
+        specifier: 'catalog:'
         version: 4.16.2
 
   packages/waterfall-backend:
@@ -188,10 +191,19 @@ importers:
         specifier: ^20.14.9
         version: 20.14.11
       tsx:
-        specifier: ^4.16.1
+        specifier: 'catalog:'
         version: 4.16.2
       typescript:
         specifier: 'catalog:'
+        version: 5.5.3
+
+  packages/waterfall-streamer:
+    devDependencies:
+      tsx:
+        specifier: ^4.16.2
+        version: 4.16.2
+      typescript:
+        specifier: ^5.5.3
         version: 5.5.3
 
 packages:

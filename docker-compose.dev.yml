@@ -72,6 +72,26 @@ services:
     ports:
       - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
 
+  waterfall-streamer:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    build:
+      args:
+        ServiceName: waterfall-streamer
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/waterfall-streamer/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/waterfall-streamer/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/waterfall-streamer/package.json
+          target: /app/packages/service/package.json
+
+
   hmi-mongo-db:
     image: mongo:latest
     container_name: hmi-mongo-db
