@@ -1,4 +1,7 @@
-res://scenes/hud.tscn
-res://scenes/level.gd
-res://scenes/hud.gd
 res://scenes/player.tscn
+res://scenes/level.gd
+res://cubelib.tres
+res://scenes/player.gd
+res://scenes/cube_rigidbody.gd
+res://scenes/cube_rigidbody.tscn
+res://scenes/hud.tscn

@@ -13,12 +13,15 @@ albedo_texture = ExtResource("1")
 roughness = 0.75
 texture_filter = 5
 
-[node name="cube_rigidbody" type="RigidBody3D"]
+[node name="cube_rigidbody" type="RigidBody3D" groups=["Dragable"]]
 script = ExtResource("1_dftjp")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["Dragable"]]
 shape = SubResource("BoxShape3D_gh4dm")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Dragable"]]
 mesh = ExtResource("1_nx6dl")
 surface_material_override/0 = SubResource("StandardMaterial3D_y4xt8")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
