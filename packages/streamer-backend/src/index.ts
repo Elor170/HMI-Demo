@@ -13,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/logs", logsRouter);
+app.use("/", express.static("public"));
 
 app.get("/video/:resolution", (req, res) => {
   const { resolution } = req.params;
