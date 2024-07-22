@@ -13,7 +13,13 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/amqplib": "catalog:",
+    "global-types": "file:../global-types",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "amqplib": "catalog:",
+    "dotenv": "catalog:"
   }
 }

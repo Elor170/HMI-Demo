@@ -14,5 +14,6 @@
     "allowSyntheticDefaultImports": true,
     
     "declaration": true,
-  }
+  },
+  "include": ["src", "../global-types/*.d.ts"]
 }

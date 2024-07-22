@@ -1,0 +1,1 @@
+export let sendingInterval: SendingInterval = 1_000;
