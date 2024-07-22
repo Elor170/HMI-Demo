@@ -9,6 +9,7 @@ const RAY_LENGTH = 1000
 
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
+@onready var player := $Player
 @onready var map := "res://scenes/Map.tscn"
 
 func _ready():
@@ -74,4 +75,5 @@ func select_cube_event():
 	if result.size() > 0:
 		var collider = result["collider"]
 		if collider.is_in_group("Dragable"):
-			pass
+			if collider is RigidBody3D:
+				print(player)

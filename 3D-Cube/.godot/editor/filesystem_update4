@@ -1,7 +1,8 @@
-res://scenes/player.tscn
+res://scenes/level.tscn
 res://scenes/level.gd
 res://cubelib.tres
 res://scenes/player.gd
-res://scenes/cube_rigidbody.gd
+res://scenes/player.tscn
 res://scenes/cube_rigidbody.tscn
-res://scenes/hud.tscn
+res://scenes/Ball.tscn
+res://scripts/level.gd
