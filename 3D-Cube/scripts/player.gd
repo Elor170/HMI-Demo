@@ -74,6 +74,5 @@ func select_cube_event():
 	
 	if result.size() > 0:
 		var collider = result["collider"]
-		if collider.is_in_group("Dragable"):
-			if collider is RigidBody3D:
-				print(player)
+		if collider is Cube or collider is Ball:
+			pass
