@@ -1,12 +1,8 @@
 import { sendingInterval } from "./serviceVars";
+import generateData from "./Utilities/dataGenerator";
 import { sendData } from "./Utilities/rabbitmq";
 
-const msgObject = {
-  name: 'John Doe',
-  age: 30,
-  occupation: 'Software Developer'
-};
-
 setInterval(() => {
-  sendData(msgObject)
+  const newData = generateData();
+  sendData(newData);
 }, sendingInterval);
