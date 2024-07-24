@@ -4,13 +4,17 @@ extends CharacterBody3D
 const SPEED = 4
 const JUMP_VELOCITY = 5
 const PUSH_FORCE = 10 * SPEED
+const MOVE_POWER = 4
 const SENSITIVITY = .03
 const RAY_LENGTH = 1000
 
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
+@onready var hand := $Neck/Camera3D/hand
 @onready var player := $Player
 @onready var map := "res://scenes/Map.tscn"
+
+var picked_object
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -27,6 +31,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _input(event):
 	if Input.is_action_just_pressed("action"):
 		select_cube_event()
+		
+	if Input.is_action_just_released("action"):
+		picked_object = null
 
 
 func _physics_process(delta):
@@ -59,6 +66,12 @@ func _physics_process(delta):
 	else:
 		velocity.x = 0
 		velocity.z = 0
+		
+	if picked_object != null and picked_object:
+		var a = picked_object.global_transform.origin
+		var b = hand.global_transform.origin
+		
+		picked_object.set_linear_velocity((b - a) * MOVE_POWER)
 
 	move_and_slide()
 	 
@@ -76,4 +89,4 @@ func select_cube_event():
 	if result.size() > 0:
 		var collider = result["collider"]
 		if collider != null and collider is RigidBody3D and collider.is_in_group('Dragable'):
-			print("Coliding")
+			picked_object = collider
