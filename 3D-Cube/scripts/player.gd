@@ -24,10 +24,12 @@ func _unhandled_input(event):
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func _input(event):
+	if Input.is_action_just_pressed("action"):
+		select_cube_event()
+
 
 func _physics_process(delta):
-	select_cube_event()
-	
 	if move_and_slide():
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)
@@ -59,7 +61,7 @@ func _physics_process(delta):
 		velocity.z = 0
 
 	move_and_slide()
-	
+	 
 func select_cube_event():
 	var space_state = get_world_3d().direct_space_state
 	var mousepos = get_viewport().get_mouse_position()
@@ -71,8 +73,7 @@ func select_cube_event():
 	query.collide_with_areas = true
 	
 	var result = space_state.intersect_ray(query)
-	
 	if result.size() > 0:
 		var collider = result["collider"]
-		if collider is Cube or collider is Ball:
-			pass
+		if collider != null and collider is RigidBody3D and collider.is_in_group('Dragable'):
+			print("Coliding")
