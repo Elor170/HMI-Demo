@@ -41,13 +41,13 @@ func _input(event):
 		if hand.position.z > -2:
 			return
 		
-		hand.position.z += 1
+		hand.position.z += .4
 		
 	elif  Input.is_action_just_pressed("move_object_away"):
 		if hand.position.z < -10:
 			return
 		
-		hand.position.z -= 1
+		hand.position.z -= .4
 		
 func _physics_process(delta):
 	if move_and_slide():
