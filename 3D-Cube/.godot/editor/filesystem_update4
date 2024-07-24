@@ -1,5 +1,5 @@
-res://scenes/Ball.tscn
-res://scenes/cube_rigidbody.tscn
+res://scenes/level.tscn
+res://cubelib.tres
 res://scenes/player.tscn
 res://scripts/player.gd
-res://scenes/level.tscn
+res://scripts/level.gd

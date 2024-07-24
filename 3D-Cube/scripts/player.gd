@@ -15,7 +15,7 @@ const DEFAULT_HAND_POSITION = -4
 @onready var player := $Player
 @onready var map := "res://scenes/Map.tscn"
 
-var picked_object
+var picked_object: RigidBody3D
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -48,6 +48,16 @@ func _input(event):
 			return
 		
 		hand.position.z -= .4
+		
+	if Input.is_action_just_pressed("rotate_left"):
+		picked_object.rotate_x(.4)
+		
+	elif Input.is_action_just_pressed("rotate_right"):
+		picked_object.rotate_x(.4)
+		
+	elif Input.is_action_just_pressed("kill_specific"):
+		picked_object.queue_free()
+		picked_object = null
 		
 func _physics_process(delta):
 	if move_and_slide():
