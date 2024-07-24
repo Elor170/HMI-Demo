@@ -30,12 +30,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _input(event):
 	if Input.is_action_just_pressed("action"):
-		select_cube_event()
-		
+		pick_up_object()
+	
 	if Input.is_action_just_released("action"):
-		picked_object = null
-
-
+		remove_object()
+		
 func _physics_process(delta):
 	if move_and_slide():
 		for i in get_slide_collision_count():
@@ -44,7 +43,7 @@ func _physics_process(delta):
 				col.get_collider().apply_force(col.get_normal() * -PUSH_FORCE)
 	
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor(): 
 		velocity.y -= gravity * delta
 
 	# Handle jump.
@@ -75,7 +74,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 	 
-func select_cube_event():
+func pick_up_object():
 	var space_state = get_world_3d().direct_space_state
 	var mousepos = get_viewport().get_mouse_position()
 	
@@ -90,3 +89,7 @@ func select_cube_event():
 		var collider = result["collider"]
 		if collider != null and collider is RigidBody3D and collider.is_in_group('Dragable'):
 			picked_object = collider
+
+func remove_object():
+	if picked_object != null:
+		picked_object = null
