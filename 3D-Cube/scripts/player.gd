@@ -7,6 +7,7 @@ const PUSH_FORCE = 10 * SPEED
 const MOVE_POWER = 4
 const SENSITIVITY = .03
 const RAY_LENGTH = 1000
+const DEFAULT_HAND_POSITION = -4
 
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
@@ -18,6 +19,7 @@ var picked_object
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	hand.position.z = DEFAULT_HAND_POSITION
 
 func _unhandled_input(event):		
 	if event is InputEventMouseMotion:
@@ -34,6 +36,18 @@ func _input(event):
 	
 	if Input.is_action_just_released("action"):
 		remove_object()
+		
+	if Input.is_action_just_pressed("move_object_closer"):
+		if hand.position.z > -2:
+			return
+		
+		hand.position.z += 1
+		
+	elif  Input.is_action_just_pressed("move_object_away"):
+		if hand.position.z < -10:
+			return
+		
+		hand.position.z -= 1
 		
 func _physics_process(delta):
 	if move_and_slide():
@@ -91,5 +105,6 @@ func pick_up_object():
 			picked_object = collider
 
 func remove_object():
+	hand.position.z = DEFAULT_HAND_POSITION
 	if picked_object != null:
 		picked_object = null
