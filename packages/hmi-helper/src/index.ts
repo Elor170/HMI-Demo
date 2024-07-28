@@ -1,6 +1,7 @@
 import express from "express";
 import "./types";
 import {sendingIntervalValues} from "./vars";
+import MessageQueue from "./messageQueue";
 
 const isSendingInterval = (value: unknown): value is SendingInterval =>
   typeof value === "number" && sendingIntervalValues.includes(value as SendingInterval);
@@ -22,4 +23,4 @@ const validateChangeInterval = (
     );
 };
 
-export { sendingIntervalValues, validateChangeInterval };
+export { sendingIntervalValues, validateChangeInterval, MessageQueue };

@@ -1,21 +1,32 @@
 import { sendingInterval, setSendingInterval } from "./serviceVars";
 import generateData from "./Utilities/dataGenerator";
-import { connectToMQ, sendData } from "./Utilities/rabbitmq";
 import express, { Request, Response, Express } from 'express';
 import cors from 'cors';
-import { validateChangeInterval } from 'hmi-helper';
+import { validateChangeInterval, MessageQueue } from 'hmi-helper';
 import dotenv from "dotenv";
 dotenv.config();
 const { PORT } = process.env;
+const envVars: EnvVars = process.env as unknown as EnvVars;
+const { RABBITMQ_HOST, RABBITMQ_USER, RABBITMQ_PASS, WATERFALL_QUEUE: queueName } = envVars;
+
+const mqUrl: string = `amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_HOST}`;
+const MQ: MessageQueue = new MessageQueue(mqUrl);
 
 
 let intervalID: NodeJS.Timeout;
 const intervalFunc = () => {
   const newData = generateData();
-  sendData(newData);
+  try {
+    MQ.sendToQueue(queueName, newData.toString());
+  } catch (error) {
+    console.error('Error:', error);
+  }
 };
 
-connectToMQ()
+MQ.connect()
+.then(() => {
+  MQ.createQueue(queueName)
+})
 .then(() => {
   console.log(`Start to send data each ${sendingInterval / 1000} sec.`);
   intervalID = setInterval(intervalFunc, sendingInterval);

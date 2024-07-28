@@ -17,6 +17,7 @@ declare global {
     HMI_FRONTEND_PORT: number;
     STREAMER_BACKEND_PORT: number;
     WATERFALL_BACKEND_PORT: number;
+    WATERFALL_QUEUE: string;
     MONGO_URI: string;
   }
 

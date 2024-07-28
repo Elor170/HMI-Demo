@@ -135,6 +135,9 @@ importers:
 
   packages/hmi-helper:
     dependencies:
+      amqplib:
+        specifier: ^0.10.4
+        version: 0.10.4
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -145,6 +148,9 @@ importers:
         specifier: ^8.2.2
         version: 8.2.3(postcss@8.4.39)(tsx@4.16.2)(typescript@5.5.4)
     devDependencies:
+      '@types/amqplib':
+        specifier: ^0.10.5
+        version: 0.10.5
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -4184,6 +4190,7 @@ snapshots:
 
   hmi-helper@file:packages/hmi-helper(postcss@8.4.39)(tsx@4.16.2)(typescript@5.5.3):
     dependencies:
+      amqplib: 0.10.4
       express: 4.19.2
       mongodb: 6.8.0
       tsup: 8.2.3(postcss@8.4.39)(tsx@4.16.2)(typescript@5.5.3)

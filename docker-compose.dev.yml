@@ -78,6 +78,7 @@ services:
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
       PORT: $WATERFALL_STREAMER_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
     extends:
       file: .docker/docker-compose.service.dev.yml
       service: dev-service
