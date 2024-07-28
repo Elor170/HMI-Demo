@@ -1,0 +1,120 @@
+services:
+  hmi-frontend:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    environment:
+      - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
+      - PORT=$HMI_FRONTEND_PORT
+    build:
+      args:
+        ServiceName: hmi-frontend
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/hmi-frontend/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/hmi-frontend/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/hmi-frontend/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
+
+  streamer-backend:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    environment:
+      - PORT=$STREAMER_BACKEND_PORT
+      - MONGO_URI=$MONGO_URI
+    build:
+      args:
+        ServiceName: streamer-backend
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/streamer-backend/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/streamer-backend/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/streamer-backend/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
+    depends_on:
+      - hmi-mongo-db
+
+  waterfall-backend:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    environment:
+      - PORT=$WATERFALL_BACKEND_PORT
+    build:
+      args:
+        ServiceName: waterfall-backend
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/waterfall-backend/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/waterfall-backend/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/waterfall-backend/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
+
+  hmi-mongo-db:
+    image: mongo:latest
+    container_name: hmi-mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/db:/data/db
+
+    networks:
+      - hmi_network
+
+  mongoexpress:
+    image: mongo-express
+    environment: 
+      ME_CONFIG_MONGODB_SERVER: hmi-mongo-db 
+      ME_CONFIG_MONGODB_URL: hmi-mongo-db:27017/
+    restart: always
+    ports:
+      - '8081:8081'
+    depends_on:
+      - hmi-mongo-db
+    networks:
+      - hmi_network
+
+  rabbitmq:
+    image: rabbitmq:management
+    environment:
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+    restart: always
+    ports:
+      - '15671:15671'
+      - '15672:15672'
+      - '15691:15691'
+      - '15692:15692'
+      - '25672:25672'
+      - '4369:4369'
+      - '5671:5671'
+      - '5672:5672'
+    networks:
+      - hmi_network
+
+
+networks:
+  hmi_network:
+    driver: bridge
