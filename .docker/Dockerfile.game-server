@@ -1,0 +1,19 @@
+FROM ubuntu:latest
+
+WORKDIR /os
+
+RUN apt update
+
+RUN apt install python3 python3-pip git godot
+
+WORKDIR /os/app
+
+RUN git clone 
+
+COPY packages/game-server .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 8000:8000
+
+CMD [ "python", "server.py" ]

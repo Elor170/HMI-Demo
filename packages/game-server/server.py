@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from http import server # Python 3
+from http import server 
 
 class MyHTTPRequestHandler(server.SimpleHTTPRequestHandler):
         def end_headers(self):
