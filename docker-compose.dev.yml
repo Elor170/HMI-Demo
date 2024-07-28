@@ -5,6 +5,7 @@ services:
       service: dev-service
     environment:
       - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
+      - PORT=$HMI_FRONTEND_PORT
     build:
       args:
         ServiceName: hmi-frontend
