@@ -24,6 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "../global-types/*.d.ts"],
+  "include": ["src", "../hmi-helper/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

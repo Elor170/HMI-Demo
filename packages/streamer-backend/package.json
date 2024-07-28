@@ -15,8 +15,8 @@
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
-    "@types/node": "^20.12.12",
-    "global-types": "file:../global-types",
+    "@types/node": "^20.14.12",
+    "hmi-helper": "file:../hmi-helper",
     "tsx": "catalog:"
   },
   "dependencies": {

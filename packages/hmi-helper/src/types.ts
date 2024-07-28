@@ -1,4 +1,6 @@
-import type { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
+import { sendingIntervalValues } from './vars';
+
 
 declare global {
   interface StreamLogData {
@@ -8,7 +10,6 @@ declare global {
     bufferTimestamp: number;
     resolution: string;
   }
-
   interface EnvVars {
     RABBITMQ_HOST: string;
     RABBITMQ_USER: string;
@@ -19,13 +20,11 @@ declare global {
     MONGO_URI: string;
   }
 
-  // Waterfall 
-  type SendingInterval = 500 | 1_000 | 5_000 | 10_000;
+  // Waterfall
+  type SendingInterval = typeof sendingIntervalValues[number];
   type RGBObject = {
     readonly R: readonly number[];
     readonly G: readonly number[];
     readonly B: readonly number[];
   };
 }
-
-export {};

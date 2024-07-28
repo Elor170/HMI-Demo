@@ -9,8 +9,8 @@
     "strict": true,
     // Needed for CommonJS modules
     "allowSyntheticDefaultImports": true,
-
+    
     "declaration": false
   },
-  "include": ["src", "../global-types/*.d.ts"]
+  "include": ["src", "../hmi-helper/*.d.ts"]
 }

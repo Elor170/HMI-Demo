@@ -15,5 +15,5 @@
     
     "declaration": true,
   },
-  "include": ["src", "../global-types/*.d.ts"]
+  "include": ["src", "node_modules/hmi-helper/**/*.d.ts"]
 }

@@ -14,12 +14,16 @@
   "description": "",
   "devDependencies": {
     "@types/amqplib": "catalog:",
-    "global-types": "file:../global-types",
+    "@types/cors": "catalog:",
+    "@types/express": "catalog:",
+    "cors": "^2.8.5",
+    "hmi-helper": "file:../hmi-helper",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3"
   },
   "dependencies": {
     "amqplib": "catalog:",
-    "dotenv": "catalog:"
+    "dotenv": "catalog:",
+    "express": "catalog:"
   }
 }
