@@ -2681,30 +2681,6 @@ packages:
       react:
         optional: true
 
-catalogs:
-  default:
-    body-parser:
-      specifier: ^1.20.2
-      version: 1.20.2
-    cors:
-      specifier: ^2.8.5
-      version: 2.8.5
-    dotenv:
-      specifier: 16.4.5
-      version: 16.4.5
-    express:
-      specifier: ^4.19.2
-      version: 4.19.2
-    mongodb:
-      specifier: ^6.8.0
-      version: 6.8.0
-    socket.io:
-      specifier: 4.7.5
-      version: 4.7.5
-    typescript:
-      specifier: 5.5.3
-      version: 5.5.3
-
 snapshots:
 
   '@acuminous/bitsyntax@0.1.2':

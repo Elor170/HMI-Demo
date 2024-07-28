@@ -37,27 +37,37 @@ func _input(event):
 	if Input.is_action_just_released("action"):
 		remove_object()
 		
+	if picked_object == null:
+		return
+		
 	if Input.is_action_just_pressed("move_object_closer"):
-		if hand.position.z > -2:
-			return
+		if hand.position.z < -2:
+			hand.position.z += .4
 		
-		hand.position.z += .4
+	elif Input.is_action_just_pressed("move_object_away"):
+		if hand.position.z > -10:
+			hand.position.z -= .4
+			
 		
-	elif  Input.is_action_just_pressed("move_object_away"):
-		if hand.position.z < -10:
-			return
-		
-		hand.position.z -= .4
-		
+	
 	if Input.is_action_just_pressed("rotate_left"):
 		picked_object.rotate_x(.4)
 		
 	elif Input.is_action_just_pressed("rotate_right"):
 		picked_object.rotate_x(.4)
 		
-	elif Input.is_action_just_pressed("kill_specific"):
+	if Input.is_action_just_pressed("kill_specific"):
 		picked_object.queue_free()
 		picked_object = null
+	
+	if Input.is_action_pressed("inlarge"):
+		var x = picked_object.scale.x * 1.1
+		var y = picked_object.scale.y * 1.1
+		var z = picked_object.scale.z * 1.1
+		
+		var new_scale = Vector3(x, y, z)
+		print(new_scale)
+		picked_object.transform.scaled(new_scale)
 		
 func _physics_process(delta):
 	if move_and_slide():

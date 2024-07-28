@@ -1,5 +1,7 @@
 export default function CubePage() {
   return (
-    <div>CubePage</div>
-  )
+    <div>
+      <iframe />
+    </div>
+  );
 }
