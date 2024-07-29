@@ -1,26 +1,25 @@
-import express from "express";
 import dotenv from "dotenv";
-import { Server } from "socket.io";
-import { createServer } from "http";
+import { startServer } from "@/Utilities/server";
+import { initDataReceiver, receiveMsg } from "@/Utilities/dataReceiver";
 dotenv.config();
 const { PORT } = process.env;
+const EnvVars = process.env as unknown as EnvVars;
+const { WATERFALL_QUEUE: queueName } = EnvVars;
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
+// TODO: replace it with suitable function
+const dataHandler = (msg: ConsumeMessage | null) => {
+    if(msg) {
+        const data: RGBObject = JSON.parse(msg.content.toString());
+        const {R: red, G: green, B: blue} = data
+        data.G.forEach((_ , index) => {
+            const g = Math.min(green[index] * 4, 255)
+            process.stdout.write(`\x1b[38;2;${red[index]};${g};${blue[index]}m!\x1b[0m`);
+        }); 
+        console.log()
+    }
+}
 
-io.on("connection", (socket) => {
-  console.log("A user has connected");
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
-
-app.get("/", (_, res) => {
-  return res.send("Hello, World!");
-});
-
-app.listen(PORT, () => {
-  console.log("Server started on port " + PORT);
-});
+initDataReceiver()
+.then(async () => receiveMsg(queueName, dataHandler))
+.then(async () => startServer(Number(PORT)));

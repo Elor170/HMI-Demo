@@ -54,7 +54,11 @@ services:
       file: .docker/docker-compose.service.dev.yml
       service: dev-service
     environment:
-      - PORT=$WATERFALL_BACKEND_PORT
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      PORT: $WATERFALL_BACKEND_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
     build:
       args:
         ServiceName: waterfall-backend
@@ -71,6 +75,8 @@ services:
           target: /app/packages/service/package.json
     ports:
       - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
+    depends_on:
+      - rabbitmq
 
   waterfall-streamer:
     environment:

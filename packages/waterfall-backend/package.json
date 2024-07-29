@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "catalog:",
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.9",
     "tsx": "catalog:",
@@ -23,6 +24,7 @@
     "cors": "catalog:",
     "dotenv": "catalog:",
     "express": "catalog:",
+    "hmi-helper": "link:../hmi-helper",
     "mongodb": "catalog:",
     "socket.io": "catalog:"
   }

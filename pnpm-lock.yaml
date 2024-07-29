@@ -209,6 +209,9 @@ importers:
       express:
         specifier: 'catalog:'
         version: 4.19.2
+      hmi-helper:
+        specifier: link:../hmi-helper
+        version: link:../hmi-helper
       mongodb:
         specifier: 'catalog:'
         version: 6.8.0
@@ -216,6 +219,9 @@ importers:
         specifier: 'catalog:'
         version: 4.7.5
     devDependencies:
+      '@types/cors':
+        specifier: 'catalog:'
+        version: 2.8.17
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21

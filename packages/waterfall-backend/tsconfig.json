@@ -12,7 +12,11 @@
       "sourceMap": true,
       // Needed for CommonJS modules
       "allowSyntheticDefaultImports": true,
-      
       "declaration": true,
-    }
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+    },
+    "include": ["src", "node_modules/hmi-helper/**/*.d.ts"]
   }
