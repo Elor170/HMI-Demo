@@ -36,7 +36,7 @@ export default function generateData(): RGBObject {
         
         if (counter === randomLength){
             counter = 0;
-            dataType = 'random';
+            dataType = 'constant';
         }
     }
     
