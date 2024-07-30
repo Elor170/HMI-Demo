@@ -24,6 +24,17 @@ services:
     networks:
       - hmi_network
 
+  game:
+    build:
+      context: .
+      dockerfile: .docker/prod/Dockerfile.game-server
+    environment:
+      - PORT=3003
+    ports:
+      - "3003:3003"
+    networks:
+      - hmi_network
+
   hmi-mongo-db:
     image: mongo:latest
     container_name: hmi-mongo-db

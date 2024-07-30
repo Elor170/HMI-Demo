@@ -197,6 +197,9 @@ importers:
       tsx:
         specifier: 'catalog:'
         version: 4.16.2
+      typescript:
+        specifier: 'catalog:'
+        version: 5.5.3
 
   packages/waterfall-backend:
     dependencies:

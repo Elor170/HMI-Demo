@@ -1,25 +1,21 @@
 FROM node:20-slim
 
-WORKDIR /app/hmi-helper
+RUN corepack enable pnpm && corepack use pnpm
 
-COPY packages/hmi-helper/package*.json ./
-RUN npm install
+WORKDIR /app
+COPY pnpm-workspace.yaml .
 
-COPY hmi-helper ./
+WORKDIR /app/packages/global-types
+COPY packages/global-types .
+RUN pnpm install
 
-WORKDIR /app/service
-
-COPY packages/streamer-backend/package*.json ./
-
-RUN npm install
-
-COPY streamer-backend ./
-
-RUN npm run build
+WORKDIR /app/packages/service
+COPY packages/streamer-backend .
+RUN pnpm install
+RUN pnpm build
 
 ENV PORT=3001
-ENV MONGO_URI=mongodb://localhost:27017
 
 EXPOSE $PORT
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
