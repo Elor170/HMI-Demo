@@ -47,7 +47,7 @@ RUN mkdir ~/.cache \
 RUN godot -v -e --quit --headless ${GODOT_TEST_ARGS}
 
 WORKDIR /app/game
-COPY ./packages/3D-Game/ .
+COPY . .
 RUN rm -rf server.py
 
 RUN mkdir dist
@@ -55,8 +55,8 @@ RUN godot --export-release --headless "Web" dist/index.html
 
 WORKDIR /app/game/dist
 
-COPY ./packages/3D-Game/server.py .
+COPY server.py .
 
-EXPOSE 3003:8000
+EXPOSE 8000:8000
 
 CMD [ "python3", "server.py" ]

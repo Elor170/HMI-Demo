@@ -26,12 +26,12 @@ services:
 
   game:
     build:
-      context: .
-      dockerfile: .docker/prod/Dockerfile.game-server
+      context: ./3D-Game
+      dockerfile: ../.docker/prod/Dockerfile.game-server
     environment:
       - PORT=3003
     ports:
-      - "3003:3003"
+      - "8000:8000"
     networks:
       - hmi_network
 
