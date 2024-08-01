@@ -1,7 +1,7 @@
 FROM bitnami/minideb:bookworm
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PORT=3003
+ENV PORT=8000
 
 ARG GODOT_VERSION="4.2.2"
 ARG RELEASE_NAME="stable"
@@ -48,15 +48,13 @@ RUN godot -v -e --quit --headless ${GODOT_TEST_ARGS}
 
 WORKDIR /app/game
 COPY . .
+
+RUN godot --export-release --headless "Web" dist/index.html
 RUN rm -rf server.py
 
-RUN mkdir dist
-RUN godot --export-release --headless "Web" dist/index.html
-
 WORKDIR /app/game/dist
-
 COPY server.py .
 
 EXPOSE 8000:8000
 
-CMD [ "python3", "server.py" ]
+CMD ["python3", "server.py"]

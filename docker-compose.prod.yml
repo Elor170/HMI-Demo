@@ -1,5 +1,6 @@
 services:
   streamer:
+    container_name: streamer
     build:
       context: .
       dockerfile: .docker/prod/Dockerfile.streamer
@@ -14,6 +15,7 @@ services:
       - hmi-mongo-db
 
   waterfall-simulator:
+    container_name: waterfall
     build:
       context: .
       dockerfile: .docker/prod/Dockerfile.waterfall-simulator
@@ -25,11 +27,13 @@ services:
       - hmi_network
 
   game:
+    container_name: game
+    image: 3d-game
     build:
       context: ./3D-Game
       dockerfile: ../.docker/prod/Dockerfile.game-server
     environment:
-      - PORT=3003
+      - PORT=8000
     ports:
       - "8000:8000"
     networks:
