@@ -31,7 +31,7 @@ services:
     image: 3d-game
     build:
       context: ./3D-Game
-      dockerfile: ../.docker/prod/Dockerfile.game-server
+      dockerfile: .docker/prod/Dockerfile.game-server
     environment:
       - PORT=8000
     ports:
