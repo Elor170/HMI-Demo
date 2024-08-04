@@ -57,7 +57,7 @@ RUN rm -rf server.py
 WORKDIR /app/game/dist
 COPY server.py .
 
-EXPOSE 8000:8000
+EXPOSE 8000:${PORT}
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt \
     -subj "/C=US/ST=Narnia/L=Engalnd/O=Me/CN=localhost"

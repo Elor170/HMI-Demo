@@ -5,6 +5,7 @@ services:
       service: dev-service
     environment:
       - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
+      - VITE_3D_GAME_SERVER=http://localhost:$GAME_PORT
       - PORT=$HMI_FRONTEND_PORT
     build:
       args:
@@ -22,6 +23,17 @@ services:
           target: /app/packages/service/package.json
     ports:
       - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
+
+  game:
+    container_name: game
+    image: 3d-game
+    build:
+      context: ./3D-Game
+      dockerfile: .docker/prod/Dockerfile.game-server
+    ports:
+      - "3003:8000"
+    networks:
+      - hmi_network
 
   streamer-backend:
     extends:
