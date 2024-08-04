@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material";
 
 export const STREAMER_SERVER = import.meta.env.VITE_STREAMER_SERVER;
+export const GAME_SERVER = import.meta.env.VITE_3D_GAME_SERVER;
 
 export const RESOLUTIONS = [
   "240p",

@@ -32,10 +32,8 @@ services:
     build:
       context: ./3D-Game
       dockerfile: .docker/prod/Dockerfile.game-server
-    environment:
-      - PORT=8000
     ports:
-      - "8000:8000"
+      - "3003:8000"
     networks:
       - hmi_network
 

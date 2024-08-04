@@ -25,6 +25,8 @@ RUN apt-get update && \
     libxrandr-dev \
     libxinerama-dev \
     libxcursor-dev \
+    openssl \
+    libssl-dev \
     rsync && \
     rm -rf /var/lib/apt/lists/*
 
@@ -56,5 +58,8 @@ WORKDIR /app/game/dist
 COPY server.py .
 
 EXPOSE 8000:8000
+
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt \
+    -subj "/C=US/ST=Narnia/L=Engalnd/O=Me/CN=localhost"
 
 CMD ["python3", "server.py"]
