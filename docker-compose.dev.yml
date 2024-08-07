@@ -31,7 +31,7 @@ services:
       context: ./3D-Game
       dockerfile: .docker/prod/Dockerfile.game-server
     ports:
-      - "3003:8000"
+      - "${GAME_PORT}:8000"
     networks:
       - hmi_network
 
