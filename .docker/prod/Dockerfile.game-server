@@ -27,6 +27,7 @@ RUN apt-get update && \
     libxcursor-dev \
     openssl \
     libssl-dev \
+    blender \
     rsync && \
     rm -rf /var/lib/apt/lists/*
 
