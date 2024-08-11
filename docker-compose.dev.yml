@@ -70,6 +70,8 @@ services:
       RABBITMQ_PASS: $RABBITMQ_PASS
       PORT: $WATERFALL_BACKEND_PORT
       WATERFALL_QUEUE: $WATERFALL_QUEUE
+      WATERFALL_DB: $WATERFALL_DB
+      MONGO_URI: $MONGO_URI
     build:
       args:
         ServiceName: waterfall-backend

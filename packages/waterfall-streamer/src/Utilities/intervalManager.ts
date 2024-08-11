@@ -14,7 +14,8 @@ const handleSendingFailed = async (): Promise<void> => {
 };
 
 const intervalFunc = async (): Promise<void> => {
-  const newData = generateData();
+  const newData: WaterfallObject = generateData();
+
   await sendMsg(JSON.stringify(newData))
     .then(() => (sendingFailsCounter = 0))
     .catch(handleSendingFailed);

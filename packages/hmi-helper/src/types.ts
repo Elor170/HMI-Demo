@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import * as amqp from "amqplib";
-import { sendingIntervalValues } from './vars';
-
+import { sendingIntervalValues } from "./vars";
 
 declare global {
   interface StreamLogData {
@@ -13,12 +12,17 @@ declare global {
   }
 
   // Waterfall
-  type SendingInterval = typeof sendingIntervalValues[number];
+  type SendingInterval = (typeof sendingIntervalValues)[number];
+  type WaterfallObject = {
+    data: RGBObject;
+    sendingTime: Date;
+    backendTime: Date | null;
+  };
   type RGBObject = {
     readonly R: readonly number[];
     readonly G: readonly number[];
     readonly B: readonly number[];
-  }
+  };
   interface ConsumeMessage extends amqp.ConsumeMessage {}
 
   namespace NodeJS {
