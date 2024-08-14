@@ -28,7 +28,6 @@ services:
 
   game:
     container_name: game
-    image: 3d-game
     build:
       context: ./3D-Game
       dockerfile: .docker/prod/Dockerfile.game-server
