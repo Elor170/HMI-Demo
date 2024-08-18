@@ -1,38 +1,69 @@
 services:
-  streamer:
-    container_name: streamer
+  # hmi-frontend:
+  #   build:
+  #     context: ./
+  #     dockerfile: .docker/Dockerfile.prod.service
+  #     args:
+  #       ServiceName: hmi-frontend
+  #   environment:
+  #     - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
+  #     - PORT=$HMI_FRONTEND_PORT
+  #   ports:
+  #     - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
+  #   networks:
+  #     - hmi_network
+
+  streamer-backend:
     build:
-      context: .
-      dockerfile: .docker/prod/Dockerfile.streamer
+      context: ./
+      dockerfile: .docker/Dockerfile.prod.service
+      args:
+        ServiceName: streamer-backend
     environment:
       - PORT=$STREAMER_BACKEND_PORT
       - MONGO_URI=$MONGO_URI
     ports:
-      - "3001:3001"
-    networks:
-      - hmi_network
+      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
     depends_on:
       - hmi-mongo-db
-
-  waterfall-simulator:
-    container_name: waterfall
-    build:
-      context: .
-      dockerfile: .docker/prod/Dockerfile.waterfall-simulator
-    environment:
-      - PORT=3002
-    ports:
-      - "3002:3002"
     networks:
       - hmi_network
 
-  game:
-    container_name: game
+  waterfall-backend:
     build:
-      context: ./3D-Game
-      dockerfile: ../.docker/prod/Dockerfile.game-server
+      context: ./
+      dockerfile: .docker/Dockerfile.prod.service
+      args:
+        ServiceName: waterfall-backend
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      PORT: $WATERFALL_BACKEND_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
     ports:
-      - "${GAME_PORT}:8000"
+      - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
+    depends_on:
+      - rabbitmq
+    networks:
+      - hmi_network
+
+  waterfall-streamer:
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      PORT: $WATERFALL_STREAMER_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile.prod.service
+      args:
+        ServiceName: waterfall-streamer
+    ports:
+      - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
+    depends_on:
+      - rabbitmq
     networks:
       - hmi_network
 
@@ -43,7 +74,6 @@ services:
       - "27017:27017"
     volumes:
       - ~/db:/data/db
-
     networks:
       - hmi_network
 

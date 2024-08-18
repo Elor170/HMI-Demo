@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node dist/index.js"
   },
   "keywords": [],
@@ -16,10 +16,12 @@
     "@types/amqplib": "catalog:",
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
+    "@types/node": "^22.4.0",
     "cors": "^2.8.5",
     "hmi-helper": "file:../hmi-helper",
-    "tsx": "^4.16.2",
-    "typescript": "^5.5.3"
+    "tsc-alias": "^1.8.10",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "amqplib": "catalog:",

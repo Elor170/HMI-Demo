@@ -3,8 +3,8 @@ import { startServer } from "@/Utilities/server";
 import { initDataReceiver, receiveMsg } from "@/Utilities/dataReceiver";
 dotenv.config();
 const { PORT } = process.env;
-const EnvVars = process.env as unknown as EnvVars;
-const { WATERFALL_QUEUE: queueName } = EnvVars;
+const envVars = process.env;
+const { WATERFALL_QUEUE: queueName } = envVars;
 
 // TODO: replace it with suitable function
 const dataHandler = (msg: ConsumeMessage | null) => {

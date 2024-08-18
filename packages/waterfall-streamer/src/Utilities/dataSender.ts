@@ -1,6 +1,6 @@
 import { MessageQueue } from "hmi-helper";
 
-const envVars: EnvVars = process.env as unknown as EnvVars;
+const envVars = process.env;
 const {
   RABBITMQ_HOST,
   RABBITMQ_USER,
