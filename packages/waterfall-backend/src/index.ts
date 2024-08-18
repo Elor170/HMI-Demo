@@ -1,7 +1,9 @@
 import { initDataReceiver, receiveMsg } from "@/Utilities/dataReceiver";
 import { startServer } from "@/Utilities/server";
-import dotenv from "dotenv";
-import dataHandler from "./Utilities/dataHandler";
+import dataHandler from "@/Utilities/dataHandler";
+import initDB from "@/Utilities/dataBase";
+
+import dotenv from "dotenv"; 
 dotenv.config();
 const { PORT } = process.env;
 const envVars = process.env;
@@ -9,6 +11,7 @@ const { WATERFALL_QUEUE: queueName } = envVars;
 
 
 initDataReceiver()
-.then(async () => receiveMsg(queueName, dataHandler))
-.then(async () => startServer(Number(PORT)));
+.then(async () => await initDB())
+.then(async () => await receiveMsg(queueName, dataHandler))
+.then(async () => await startServer(Number(PORT)));
 

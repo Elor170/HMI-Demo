@@ -1,6 +1,6 @@
 import { receiveMsg, reconnectDataReceiver } from "@/Utilities/dataReceiver";
-const EnvVars = process.env as unknown as EnvVars;
-const { WATERFALL_QUEUE: queueName } = EnvVars;
+const envVars = process.env;
+const { WATERFALL_QUEUE: queueName } = envVars;
 
 
 const onLostConnection = async(): Promise<void> => {

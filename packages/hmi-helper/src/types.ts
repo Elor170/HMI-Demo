@@ -34,6 +34,7 @@ declare global {
       STREAMER_BACKEND_PORT: string;
       WATERFALL_BACKEND_PORT: string;
       WATERFALL_QUEUE: string;
+      WATERFALL_DB: string;
       MONGO_URI: string;
     }
   }
