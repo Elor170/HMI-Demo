@@ -3,6 +3,7 @@ import { MongoClient, Db, Document, InsertOneResult, UpdateResult, DeleteResult,
 export default class MongoDB {
     private client: MongoClient | null = null;
     private db: Db | null = null;
+    private isWhileConnecting: boolean = false;
     private readonly dbName: string;
     private readonly uri: string;
     private readonly reconnectInterval: number;
@@ -14,6 +15,7 @@ export default class MongoDB {
     }
 
     async connect(): Promise<void> {
+        this.isWhileConnecting = true;
         while (!this.client) {
           try {
             const newClient = new MongoClient(this.uri, {serverSelectionTimeoutMS: this.reconnectInterval});
@@ -23,6 +25,7 @@ export default class MongoDB {
             this.client = newClient;
             this.db = newDb;
             console.log('Connected to MongoDB');
+            this.isWhileConnecting = false;
           } catch (error) {
             console.error(
               "Connection to DB failed, retrying in",
@@ -32,10 +35,6 @@ export default class MongoDB {
           }
         }
       }
-
-    isConnected(): boolean {
-        return Boolean(this.client);
-    }
     
     async reconnect(): Promise<void> {
         console.log("Attempting to reconnect to MongoDB...");
@@ -51,6 +50,10 @@ export default class MongoDB {
         } else {
             console.error('There no open connection to MongoDB')
         }
+    }
+
+    getIsWhileConnecting(): boolean {
+        return this.isWhileConnecting;
     }
 
     async insertOne(collectionName: string, document: Document): Promise<InsertOneResult> {
