@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://y0rsox5qdoci"]
+
+[ext_resource type="PackedScene" uid="uid://b3m1yk40uyhrr" path="res://scenes/Map.tscn" id="3_4a2wi"]
+[ext_resource type="PackedScene" uid="uid://ctgt6ki8ksr0x" path="res://scenes/player.tscn" id="3_65x1i"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fiix7"]
+sky_top_color = Color(0.36, 0.20772, 0.1908, 1)
+sky_horizon_color = Color(0.56, 0.16688, 0.1232, 1)
+ground_bottom_color = Color(0.0352941, 0.0352941, 0.0313726, 1)
+ground_horizon_color = Color(0.42, 0.042, 0, 1)
+ground_curve = 0.25
+
+[sub_resource type="Sky" id="1"]
+sky_material = SubResource("ProceduralSkyMaterial_fiix7")
+radiance_size = 0
+
+[sub_resource type="Environment" id="Environment_jpjfl"]
+background_mode = 2
+sky = SubResource("1")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.5
+tonemap_mode = 3
+tonemap_white = 6.0
+glow_levels/7 = 1.0
+glow_strength = 0.79
+glow_bloom = 1.0
+glow_blend_mode = 0
+
+[node name="World3D" type="Node3D"]
+script = ExtResource("6")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jpjfl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.766044, 0.45452, -0.454519, 0, 0.707107, 0.707107, 0.642788, 0.541675, -0.541675, 0, 5, 1)
+light_energy = 1.3
+shadow_enabled = true
+shadow_bias = 0.032
+directional_shadow_mode = 0
+directional_shadow_split_1 = 0.05
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.2
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 24.0
+
+[node name="Player" parent="." instance=ExtResource("3_65x1i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 6)
+
+[node name="GridMap" parent="." instance=ExtResource("3_4a2wi")]
+transform = Transform3D(0.999383, 0, 0.0351263, 0, 1, 0, -0.0351263, 0, 0.999383, -0.166872, 0.36388, -0.187379)
