@@ -30,7 +30,7 @@ services:
     container_name: game
     build:
       context: ./3D-Game
-      dockerfile: .docker/prod/Dockerfile.game-server
+      dockerfile: ../.docker/prod/Dockerfile.game-server
     ports:
       - "3003:8000"
     networks:
@@ -50,12 +50,12 @@ services:
   mongoexpress:
     image: mongo-express
     container_name: mongo-express
-    environment: 
-      ME_CONFIG_MONGODB_SERVER: hmi-mongo-db 
+    environment:
+      ME_CONFIG_MONGODB_SERVER: hmi-mongo-db
       ME_CONFIG_MONGODB_URL: hmi-mongo-db:27017/
     restart: always
     ports:
-      - '8081:8081'
+      - "8081:8081"
     depends_on:
       - hmi-mongo-db
     networks:
@@ -69,17 +69,16 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
     restart: always
     ports:
-      - '15671:15671'
-      - '15672:15672'
-      - '15691:15691'
-      - '15692:15692'
-      - '25672:25672'
-      - '4369:4369'
-      - '5671:5671'
-      - '5672:5672'
+      - "15671:15671"
+      - "15672:15672"
+      - "15691:15691"
+      - "15692:15692"
+      - "25672:25672"
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
     networks:
       - hmi_network
-
 
 networks:
   hmi_network:
