@@ -1,4 +1,4 @@
-name: Publish Frontend
+name: Publish All Services
 
 on:
   schedule:
@@ -30,3 +30,6 @@ jobs:
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-streamer
+
+  build-game:
+    uses: ./.github/workflows/publish-game.yml
