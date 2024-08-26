@@ -1,11 +1,11 @@
 FROM node:20-slim
 
-WORKDIR /app/global-types
+WORKDIR /app/hmi-helper
 
-COPY packages/global-types/package*.json ./
+COPY packages/hmi-helper/package*.json ./
 RUN npm install
 
-COPY global-types ./
+COPY hmi-helper ./
 
 WORKDIR /app/service
 

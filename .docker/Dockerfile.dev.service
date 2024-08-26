@@ -6,9 +6,9 @@ COPY pnpm-workspace.yaml ./
 RUN corepack enable
 RUN corepack use pnpm 
 
-WORKDIR /app/packages/global-types
-COPY packages/global-types/package*.json ./
-COPY packages/global-types ./
+WORKDIR /app/packages/hmi-helper
+COPY packages/hmi-helper/package*.json ./
+COPY packages/hmi-helper ./
 
 WORKDIR /app/packages/service
 COPY packages/$ServiceName/package*.json ./

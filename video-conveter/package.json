@@ -10,7 +10,7 @@
     "@types/bun": "latest",
     "@types/ffprobe": "^1.1.8",
     "@types/ffprobe-static": "^2.0.3",
-    "tsx": "^4.15.5"
+    "tsx": "catalog:"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

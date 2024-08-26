@@ -54,7 +54,11 @@ services:
       file: .docker/docker-compose.service.dev.yml
       service: dev-service
     environment:
-      - PORT=$WATERFALL_BACKEND_PORT
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      PORT: $WATERFALL_BACKEND_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
     build:
       args:
         ServiceName: waterfall-backend
@@ -71,6 +75,38 @@ services:
           target: /app/packages/service/package.json
     ports:
       - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
+    depends_on:
+      - rabbitmq
+
+  waterfall-streamer:
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_USER: $RABBITMQ_USER
+      RABBITMQ_PASS: $RABBITMQ_PASS
+      PORT: $WATERFALL_STREAMER_PORT
+      WATERFALL_QUEUE: $WATERFALL_QUEUE
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    build:
+      args:
+        ServiceName: waterfall-streamer
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/waterfall-streamer/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/waterfall-streamer/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/waterfall-streamer/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
+    depends_on:
+      - rabbitmq
+
 
   hmi-mongo-db:
     image: mongo:latest
@@ -98,9 +134,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:management
+    container_name: $RABBITMQ_HOST
     environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASS
     restart: always
     ports:
       - '15671:15671'
