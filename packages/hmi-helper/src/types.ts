@@ -17,6 +17,7 @@ declare global {
     data: RGBObject;
     sendingTime: Date;
     backendTime: Date | null;
+    frontendTime: Date | null;
   };
   type RGBObject = {
     readonly R: readonly number[];
@@ -36,6 +37,8 @@ declare global {
       WATERFALL_QUEUE: string;
       WATERFALL_DB: string;
       MONGO_URI: string;
+      SERVER_IP : string;
+      FRONTEND_IP : string;
     }
   }
 }

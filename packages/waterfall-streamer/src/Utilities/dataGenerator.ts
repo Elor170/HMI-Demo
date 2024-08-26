@@ -45,7 +45,8 @@ export default function generateData(): WaterfallObject {
     const generateData: WaterfallObject = { 
         data: {R, G, B}, 
         sendingTime: new Date(),
-        backendTime: null
+        backendTime: null,
+        frontendTime: null
     };
     return generateData;
 }

@@ -22,5 +22,18 @@ export const saveMsg = async (newData: WaterfallObject): Promise<void> => {
     }
 }
 
+export const updateMsg = async (newData: WaterfallObject): Promise<void> => {
+    if (DB){
+        try {
+            await DB.updateOne("waterfall", { sendingTime: newData.sendingTime }, newData);
+        } catch (error) {
+            console.error('Failed to insert update data');
+            
+            if (!DB.getIsWhileConnecting())
+                DB.reconnect();
+        }
+    }
+}
+
 
 export default initDB;

@@ -1,5 +1,6 @@
 import { receiveMsg, reconnectDataReceiver } from "@/Utilities/dataReceiver";
 import { saveMsg } from "@/Utilities/dataBase";
+import { sendWaterfallData } from "@/Utilities/socket";
 const envVars = process.env;
 const { WATERFALL_QUEUE: queueName } = envVars;
 
@@ -20,6 +21,7 @@ const dataHandler = (msg: ConsumeMessage | null) => {
         waterfallObject.sendingTime = new Date(waterfallObject.sendingTime);
         waterfallObject.backendTime = new Date();
     
+        sendWaterfallData(waterfallObject);
         saveMsg(waterfallObject);
     }
 }
