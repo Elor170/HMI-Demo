@@ -47,6 +47,7 @@ RUN mkdir ~/.cache \
     && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.${RELEASE_NAME} \
     && rm -f Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip
 
+RUN godot .
 RUN godot -v -e --quit --headless ${GODOT_TEST_ARGS}
 
 WORKDIR /app/game
