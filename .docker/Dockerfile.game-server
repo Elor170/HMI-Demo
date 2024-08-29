@@ -4,6 +4,8 @@ WORKDIR /app/game
 
 COPY . .
 
+RUN rm -rf dist
+RUN mkdir dist
 RUN godot --export-release --headless "Web" dist/index.html
 RUN rm -f server.py
 
