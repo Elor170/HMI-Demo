@@ -118,6 +118,14 @@ services:
     depends_on:
       - rabbitmq
 
+  3d-game:
+    build:
+      args:
+        ServiceName: 3d-game
+    ports:
+      - 8000:${GAME_PORT} 
+    networks:
+      - hmi_network
 
   hmi-mongo-db:
     image: mongo:latest

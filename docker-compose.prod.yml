@@ -67,6 +67,17 @@ services:
     networks:
       - hmi_network
 
+  3d-game:
+    build:
+      context: ./3D-Game
+      dockerfile: ../.docker/Dockerfile.game-server
+      args:
+        ServiceName: 3d-game
+    ports:
+      - 8000:${GAME_PORT} 
+    networks:
+      - hmi_network
+
   hmi-mongo-db:
     image: mongo:latest
     container_name: hmi-mongo-db
@@ -95,8 +106,8 @@ services:
     image: rabbitmq:management
     container_name: rabbitmq
     environment:
-      RABBITMQ_DEFAULT_USER: $RABBITMQ_DEFAULT_USER
-      RABBITMQ_DEFAULT_PASS: $RABBITMQ_DEFAULT_PASS
+      RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
+      RABBITMQ_DEFAULT_PASS: $:RABBITMQ_PASS
     restart: always
     ports:
       - "15671:15671"
