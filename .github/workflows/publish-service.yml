@@ -53,8 +53,13 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{github.repository_owner}}
-        
 
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}
+  
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
@@ -63,5 +68,6 @@ jobs:
           file: .docker/Dockerfile.prod.service
           build-args: ServiceName=${{inputs.service_name}}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}:latest
+          tags: ${{steps.meta.outputs.tags}}
+          labels: ${{steps.meta.outputs.labels}}
           load: true
