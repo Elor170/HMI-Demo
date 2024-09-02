@@ -1,24 +1,24 @@
 FROM node:20-slim
 
-WORKDIR /app/hmi-helper
+RUN corepack enable pnpm && corepack use pnpm
 
-COPY packages/hmi-helper/package*.json ./
-RUN npm install
+WORKDIR /app
+COPY pnpm-workspace.yaml .
 
-COPY hmi-helper ./
+WORKDIR /app/packages/global-types
 
-WORKDIR /app/service
+COPY packages/global-types ./
+RUN pnpm install
 
-COPY packages/waterfall-backend/package*.json ./
+WORKDIR /app/packages/service
 
-RUN npm install
+COPY packages/waterfall-backend ./
 
-COPY waterfall-simulator ./
-
-RUN npm run build
+RUN pnpm install
+RUN pnpm run build
 
 ENV PORT=3002
 
 EXPOSE $PORT
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

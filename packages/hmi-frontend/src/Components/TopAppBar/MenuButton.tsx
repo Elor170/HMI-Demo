@@ -2,15 +2,20 @@ import router from "@/Helper/Router/Router";
 import { TypographyOwnProps, Typography } from "@mui/material";
 
 interface MenuButtonProps extends TypographyOwnProps {
-  children: string;
-  nav: string;
+  children: string | JSX.Element;
+  nav?: string;
 }
 
-export default function MenuButton({children, nav, ...props}: MenuButtonProps) {
+export default function MenuButton({ children, nav, ...props }: MenuButtonProps) {
+  const onClickEvent = () => {
+    if (nav) {
+      router.navigate(nav)
+    }
+  }
 
   return (
     <Typography
-      onClick={() => router.navigate(nav)}
+      onClick={onClickEvent}
       variant="h6"
       noWrap
       component="a"

@@ -131,4 +131,7 @@ dist
 .pnp.*
 
 db
+venv
 *.mp4
+
+.fake
