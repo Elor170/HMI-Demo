@@ -14,6 +14,7 @@ services:
   #     - hmi_network
 
   streamer-backend:
+    image: ghcr.io/elor170/streamer-backend:latest
     build:
       context: ./
       dockerfile: .docker/Dockerfile.prod.service
@@ -30,6 +31,7 @@ services:
       - hmi_network
 
   waterfall-backend:
+    image: ghcr.io/elor170/waterfall-backend:latest
     build:
       context: ./
       dockerfile: .docker/Dockerfile.prod.service
@@ -55,6 +57,7 @@ services:
       RABBITMQ_PASS: $RABBITMQ_PASS
       PORT: $WATERFALL_STREAMER_PORT
       WATERFALL_QUEUE: $WATERFALL_QUEUE
+    image: ghcr.io/elor170/waterfall-streamer:latest
     build:
       context: ./
       dockerfile: .docker/Dockerfile.prod.service
@@ -68,6 +71,7 @@ services:
       - hmi_network
 
   3d-game:
+    image: ghcr.io/elor170/game:latest
     build:
       context: ./3D-Game
       dockerfile: ../.docker/Dockerfile.game-server
