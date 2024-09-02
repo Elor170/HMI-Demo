@@ -18,9 +18,9 @@
     "@types/express": "catalog:",
     "@types/node": "^20.14.12",
     "hmi-helper": "link:../hmi-helper",
-    "tsx": "catalog:"
-    "typescript": "catalog:"
-    "tsc-alias": "^1.8.10",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "tsc-alias": "^1.8.10"
   },
   "dependencies": {
     "body-parser": "catalog:",

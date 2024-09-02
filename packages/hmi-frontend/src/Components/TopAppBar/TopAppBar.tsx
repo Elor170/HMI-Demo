@@ -14,10 +14,11 @@ export default function TopAppBar() {
         <MenuButton nav="/waterfall">Waterfall</MenuButton>
         <MenuButton nav="/map">Map</MenuButton>
         <MenuButton nav="/io-checks">IO-Checks</MenuButton>
-
-        <a style={{ color: 'inherit', textDecoration: 'inherit' }} href={GAME_SERVER}>
-          <MenuButton>Cube</MenuButton>
-        </a>
+        <MenuButton>
+          <a style={{ color: 'inherit', textDecoration: 'inherit' }} href={GAME_SERVER}>
+            Cube
+          </a>
+        </MenuButton>
       </AppBar>
     </Box>
   );
