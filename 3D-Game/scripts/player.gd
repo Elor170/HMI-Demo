@@ -14,12 +14,13 @@ const DEFAULT_HAND_POSITION = -4
 @onready var hand := $Neck/Camera3D/hand
 @onready var player := $Player
 @onready var map := "res://scenes/Map.tscn"
+@onready var capture_mouse = false
 
 var picked_object: RigidBody3D
 
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	hand.position.z = DEFAULT_HAND_POSITION
+#func _ready():
+	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	#hand.position.z = DEFAULT_HAND_POSITION
 
 func _unhandled_input(event):		
 	if event is InputEventMouseMotion:
@@ -31,6 +32,11 @@ func _unhandled_input(event):
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _input(event):
+	if event is InputEventMouseButton:
+		if not capture_mouse:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			capture_mouse = true
+	
 	if Input.is_action_just_pressed("action"):
 		pick_up_object()
 	

@@ -1,4 +1,4 @@
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
@@ -15,8 +15,8 @@ export default function TopAppBar() {
         <MenuButton nav="/map">Map</MenuButton>
         <MenuButton nav="/io-checks">IO-Checks</MenuButton>
 
-        <a href={GAME_SERVER}>
-          <Button>Cube</Button>
+        <a style={{ color: 'inherit', textDecoration: 'inherit' }} href={GAME_SERVER}>
+          <MenuButton>Cube</MenuButton>
         </a>
       </AppBar>
     </Box>

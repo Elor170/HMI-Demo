@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: .docker/prod/Dockerfile.streamer
     environment:
-      - PORT=3001
-      - MONGO_URI=mongodb://hmi-mongo-db:27017
+      - PORT=$STREAMER_BACKEND_PORT
+      - MONGO_URI=$MONGO_URI
     ports:
       - "3001:3001"
     networks:
@@ -32,7 +32,7 @@ services:
       context: ./3D-Game
       dockerfile: ../.docker/prod/Dockerfile.game-server
     ports:
-      - "3003:8000"
+      - "${GAME_PORT}:8000"
     networks:
       - hmi_network
 
