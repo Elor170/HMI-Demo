@@ -3,14 +3,19 @@
     "rootDir": "src",
     "outDir": "dist",
     "target": "es2020",
-    "lib": ["es2020"],
-    "module": "ESNext",
+    "lib": [
+      "es2020", "DOM"
+    ],
+    "module": "ESNext", 
     "moduleResolution": "Node",
     "strict": true,
     // Needed for CommonJS modules
     "allowSyntheticDefaultImports": true,
-    
-    "declaration": false
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
   },
-  "include": ["src", "../hmi-helper/*.d.ts"]
+  "include": ["src", "node_modules/hmi-helper/**/*.d.ts"]
 }

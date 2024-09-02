@@ -9,14 +9,16 @@
     "module": "ESNext", 
     "moduleResolution": "Node",
     "strict": true,
-    "sourceMap": true,
     // Needed for CommonJS modules
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "declaration": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
   },
-  "include": ["src", "node_modules/hmi-helper/**/*.d.ts"]
+  "tsc-alias": {
+    "resolveFullPaths": true,
+  },
+  "include": ["src"]
 }

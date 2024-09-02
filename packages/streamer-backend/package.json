@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "tsx dist/index.js"
   },
   "keywords": [],
@@ -15,15 +15,18 @@
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
-    "@types/node": "^20.14.12",
-    "hmi-helper": "file:../hmi-helper",
-    "tsx": "catalog:"
+    "@types/express": "catalog:",
+    "@types/node": "^20.14.9",
+    "tsc-alias": "^1.8.10",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   },
   "dependencies": {
     "body-parser": "catalog:",
     "cors": "catalog:",
     "dotenv": "catalog:",
     "express": "catalog:",
+    "hmi-helper": "link:../hmi-helper",
     "mongodb": "catalog:",
     "socket.io": "catalog:"
   }

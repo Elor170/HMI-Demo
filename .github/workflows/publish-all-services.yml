@@ -1,0 +1,35 @@
+name: Publish All Services
+
+on:
+  schedule:
+    - cron: "25 5 * * *"
+  push:
+    branches: ["main"]
+    # Publish semver tags as releases.
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-frontend:
+    uses: ./.github/workflows/publish-service.yml
+    with:
+      service_name: hmi-frontend
+
+  build-streamer-server:
+    uses: ./.github/workflows/publish-service.yml
+    with:
+      service_name: streamer-backend
+
+  build-waterfall-backend:
+    uses: ./.github/workflows/publish-service.yml
+    with:
+      service_name: waterfall-backend
+
+  build-waterfall-streamer:
+    uses: ./.github/workflows/publish-service.yml
+    with:
+      service_name: waterfall-streamer
+
+  build-game:
+    uses: ./.github/workflows/publish-game.yml

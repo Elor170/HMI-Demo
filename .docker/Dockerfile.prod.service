@@ -1,0 +1,20 @@
+FROM node:20-slim
+ARG ServiceName
+
+WORKDIR /app/packages/hmi-helper
+COPY packages/hmi-helper .
+
+WORKDIR /app/packages/service
+COPY packages/$ServiceName ./
+
+WORKDIR /app
+RUN corepack enable
+RUN corepack use pnpm
+COPY pnpm-workspace.yaml .
+RUN pnpm i
+
+WORKDIR /app/packages/service
+RUN pnpm i typescript
+RUN pnpm build
+
+CMD ["pnpm", "start"]
