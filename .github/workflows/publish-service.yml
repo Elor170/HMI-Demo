@@ -64,6 +64,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
+          tag: ghcr.io/${{github.actor}}/${{inputs.service_name}}:latest
           context: .
           file: .docker/Dockerfile.prod.service
           build-args: ServiceName=${{inputs.service_name}}
