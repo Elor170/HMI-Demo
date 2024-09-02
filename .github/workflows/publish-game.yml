@@ -11,11 +11,18 @@ on:
       service_name:
         required: false
         type: string
+      
+      registry:
+        required: true
+        type: string
+        default: ghcr.io
+        
 
 env:
-  # Use docker.io for Docker Hub if empty
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ inputs.service_name }}
+  REGISTRY: ${{inputs.registry}}
+  NAMESPACE: mpz
 
 jobs:
   build:
@@ -37,10 +44,16 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{github.actor}}
+          push: true
+          registry: ${{inputs.registry}}
+          username: ${{github.repository_owner}}
           password: ${{secrets.GITHUB_TOKEN}}
 
+      - name: Get registry owner name
+        id: toLowerCase
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{github.repository_owner}}
 
       - name: Build and push Docker image
         id: build-and-push
@@ -50,6 +63,5 @@ jobs:
           file: .docker/Dockerfile.game-server 
           build-args: ServiceName=${{inputs.service_name}}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.TEST_TAG }}
-          labels: ${{ steps.meta.outputs.labels }}
           load: true
+          tags: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}:latest

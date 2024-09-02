@@ -15,21 +15,28 @@ jobs:
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: hmi-frontend
+      registry: ghcr.io
 
   build-streamer-server:
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: streamer-backend
+      registry: ghcr.io
 
   build-waterfall-backend:
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-backend
+      registry: ghcr.io
 
   build-waterfall-streamer:
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-streamer
+      registry: ghcr.io
 
   build-game:
     uses: ./.github/workflows/publish-game.yml
+    with:
+      service_name: game
+      registry: ghcr.io
