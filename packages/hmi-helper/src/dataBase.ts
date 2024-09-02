@@ -68,6 +68,12 @@ export default class MongoDB {
         throw new Error('There no open connection to MongoDB');
     }
 
+    async aggregate(collectionName: string, pipeline: Object[] = []): Promise<Document[]> {
+        if (this.db)
+            return await this.db.collection(collectionName).aggregate(pipeline).toArray();
+        throw new Error('There no open connection to MongoDB');
+    }
+
     async updateOne(collectionName: string, filter: Filter<Document>, update: Partial<Document>): Promise<UpdateResult> {
         if (this.db)
             return await this.db.collection(collectionName).updateOne(filter, { $set: update });

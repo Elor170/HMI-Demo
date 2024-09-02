@@ -1,4 +1,5 @@
 import { MongoDB } from "hmi-helper";
+import { screenHeight } from "@/consts";
 const envVars = process.env;
 const { MONGO_URI: uri, WATERFALL_DB: dbName } = envVars;
 
@@ -35,5 +36,38 @@ export const updateMsg = async (newData: WaterfallObject): Promise<void> => {
     }
 }
 
+export const getOlderData = async (date: Date): Promise<WaterfallObject[]> => {
+    try {
+        const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
+            { $match: { sendingTime: { $lte: date } } },
+            { $sort: { sendingTime: 1 } },
+            { $limit: screenHeight * 3 }
+        ]) as WaterfallObject[];
+
+        return dataArr;
+    } catch (error) {
+        if (!DB.getIsWhileConnecting())
+            DB.reconnect();
+
+        throw new Error('Failed to get older data');
+    }
+}
+
+export const getNewerData = async (date: Date): Promise<WaterfallObject[]> => {
+    try {
+        const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
+            { $match: { sendingTime: { $gte: date } } },
+            { $sort: { sendingTime: 1 } },
+            { $limit: screenHeight * 3 }
+        ]) as WaterfallObject[];
+
+        return dataArr;
+    } catch (error) {
+        if (!DB.getIsWhileConnecting())
+            DB.reconnect();
+
+        throw new Error('Failed to get newer data');
+    }
+}
 
 export default initDB;
