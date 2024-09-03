@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var world_objects = []
 @onready var _menu := $Menu
+@onready var _http := $HTTPRequest
 
 func spawn_new_cube():
 	var new_rb = preload("res://scenes/cube_rigidbody.tscn").instantiate()
@@ -35,3 +36,20 @@ func _input(event):
 		for object in world_objects:
 			object.queue_free()
 		world_objects = []
+
+func record_data_logs():
+	var fps = Engine.get_frames_per_second()
+	var balls_counter = 0
+	var cubes_counter = 0
+	
+	for element in world_objects:
+		if element is Cube:
+			cubes_counter = cubes_counter + 1
+		else:
+			cubes_counter = cubes_counter + 1
+			
+		var body := {"fps": fps, "cubes": cubes_counter, "spheres": balls_counter}
+		_http.request("http://localhost:3005/add-log", ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(body))
+
+func _on_logs_timer_timeout() -> void:
+	record_data_logs()

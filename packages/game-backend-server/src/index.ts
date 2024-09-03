@@ -12,6 +12,8 @@ interface GameLog {
 
 const app = express();
 
+app.use(express.json());
+
 const { PORT, MONGO_URI } = process.env;
 
 const DB_NAME = "game";
@@ -23,22 +25,19 @@ app.get("/", (_, res) => {
 
 // Fetch all logs from database
 app.get("/logs", async (_, res) => {
-  const client = new MongoClient(MONGO_URI!);
-  try {
-    await client.connect();
-    const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
+  const client = await new MongoClient(MONGO_URI).connect();
+  const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
 
-    res.status(200).send(collection.find<GameLog[]>({}).toArray());
-  } catch {
-    res.status(500).send(res.errored);
-  } finally {
-    await client.close();
-  }
+  const gameLogs = await collection.find<GameLog[]>({}).toArray();
+  
+  res.status(200).send(gameLogs);
+  await client.close();
 });
 
 // Post logs to database
-app.post("/logs", async (req, res) => {
+app.post("/add-log", async (req, res) => {
   const gameLog: GameLog = req.body;
+  console.log(req);
 
   const client = new MongoClient(MONGO_URI!);
 

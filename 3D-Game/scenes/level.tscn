@@ -55,3 +55,10 @@ visible = false
 
 [node name="GridMap" parent="." instance=ExtResource("3_4a2wi")]
 transform = Transform3D(0.999383, 0, 0.0351263, 0, 1, 0, -0.0351263, 0, 0.999383, -0.166872, 0.36388, -0.187379)
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="LogsTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="LogsTimer" to="." method="_on_logs_timer_timeout"]
