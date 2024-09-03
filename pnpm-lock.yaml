@@ -45,6 +45,25 @@ catalogs:
 
 importers:
 
+  packages/3d-game-backend-server:
+    dependencies:
+      express:
+        specifier: 'catalog:'
+        version: 4.19.2
+      typescript:
+        specifier: 'catalog:'
+        version: 5.5.4
+    devDependencies:
+      '@types/express':
+        specifier: 'catalog:'
+        version: 4.17.21
+      '@types/node':
+        specifier: ^22.5.2
+        version: 22.5.2
+      tsx:
+        specifier: ^4.19.0
+        version: 4.19.0
+
   packages/hmi-frontend:
     dependencies:
       '@emotion/react':

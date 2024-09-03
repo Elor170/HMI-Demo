@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://hssam1xmc3l6"]
+
+[ext_resource type="FontFile" uid="uid://nvb5whe7yfqp" path="res://assets/fonts/pixelated.ttf" id="1_wva2x"]
+[ext_resource type="Script" path="res://addons/godot_tree_table/Table.gd" id="2_jueri"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dam2t"]
+font = ExtResource("1_wva2x")
+font_size = 40
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -129.5
+offset_right = 129.5
+offset_bottom = 27.0
+grow_horizontal = 2
+text = "A Really Cool Menu (lol)"
+label_settings = SubResource("LabelSettings_dam2t")
+
+[node name="Table" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 114.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_jueri")
+header_row = Array[String](["Date", "FPS", "Cubes", "Spheres"])
+header_width = Array[int]([0, 0, 0, 0])

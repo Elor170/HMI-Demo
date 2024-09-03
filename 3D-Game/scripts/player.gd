@@ -14,7 +14,6 @@ const DEFAULT_HAND_POSITION = -4
 @onready var hand := $Neck/Camera3D/hand
 @onready var player := $Player
 @onready var map := "res://scenes/Map.tscn"
-@onready var capture_mouse = false
 
 var picked_object: RigidBody3D
 
@@ -23,6 +22,9 @@ var picked_object: RigidBody3D
 	#hand.position.z = DEFAULT_HAND_POSITION
 
 func _unhandled_input(event):		
+	if Global.is_menu_visible:
+		return
+	
 	if event is InputEventMouseMotion:
 		neck.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)			
@@ -32,10 +34,18 @@ func _unhandled_input(event):
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _input(event):
+	if Global.is_menu_visible:
+		return
+	
 	if event is InputEventMouseButton:
-		if not capture_mouse:
+		if Global.is_menu_visible and Global.capture_mouse:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE	)
+			Global.capture_mouse = false
+			
+		
+		if not Global.capture_mouse:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			capture_mouse = true
+			Global.capture_mouse = true
 	
 	if Input.is_action_just_pressed("action"):
 		pick_up_object()
@@ -76,6 +86,9 @@ func _input(event):
 		picked_object.transform.scaled(new_scale)
 		
 func _physics_process(delta):
+	if Global.is_menu_visible:
+		return
+	
 	if move_and_slide():
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)
@@ -115,6 +128,9 @@ func _physics_process(delta):
 	move_and_slide()
 	 
 func pick_up_object():
+	if Global.is_menu_visible:
+		return 
+	
 	var space_state = get_world_3d().direct_space_state
 	var mousepos = get_viewport().get_mouse_position()
 	

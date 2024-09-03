@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://y0rsox5qdoci"]
+[gd_scene load_steps=8 format=3 uid="uid://y0rsox5qdoci"]
 
+[ext_resource type="PackedScene" uid="uid://hssam1xmc3l6" path="res://scenes/Menu.tscn" id="2_bspbs"]
 [ext_resource type="PackedScene" uid="uid://b3m1yk40uyhrr" path="res://scenes/Map.tscn" id="3_4a2wi"]
 [ext_resource type="PackedScene" uid="uid://ctgt6ki8ksr0x" path="res://scenes/player.tscn" id="3_65x1i"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="6"]
@@ -29,6 +30,9 @@ glow_blend_mode = 0
 
 [node name="World3D" type="Node3D"]
 script = ExtResource("6")
+
+[node name="Menu" parent="." instance=ExtResource("2_bspbs")]
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jpjfl")

@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var world_objects = []
+@onready var _menu := $Menu
 
 func spawn_new_cube():
 	var new_rb = preload("res://scenes/cube_rigidbody.tscn").instantiate()
@@ -26,7 +27,11 @@ func _process(delta):
 		spawn_new_ball()
 		
 func _input(event):
-	if Input.is_action_just_pressed("kill"):
+	if Input.is_action_just_pressed("menu"):
+		Global.is_menu_visible = not Global.is_menu_visible
+		_menu.visible = Global.is_menu_visible
+	
+	elif Input.is_action_just_pressed("kill"):
 		for object in world_objects:
 			object.queue_free()
 		world_objects = []
