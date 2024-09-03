@@ -14,11 +14,7 @@ export default function TopAppBar() {
         <MenuButton nav="/waterfall">Waterfall</MenuButton>
         <MenuButton nav="/map">Map</MenuButton>
         <MenuButton nav="/io-checks">IO-Checks</MenuButton>
-        <MenuButton>
-          <a style={{ color: 'inherit', textDecoration: 'inherit' }} href={GAME_SERVER}>
-            Cube
-          </a>
-        </MenuButton>
+        <MenuButton hrefVal={GAME_SERVER}>Cube</MenuButton>
       </AppBar>
     </Box>
   );
