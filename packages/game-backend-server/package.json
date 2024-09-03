@@ -17,6 +17,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "catalog:",
     "@types/node": "^22.5.2",
+    "tsx": "^4.19.0",
     "typescript": "catalog:"
   },
   "keywords": [],
