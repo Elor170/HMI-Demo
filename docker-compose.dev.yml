@@ -25,6 +25,32 @@ services:
     ports:
       - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
 
+  game-backend-server:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    environment:
+      - PORT=$GAME_BACKEND_SERVER_PORT 
+      - MONGO_URI=$MONGO_URI
+    build:
+      args:
+        ServiceName: game-backend-server
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/streamer-backend/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/streamer-backend/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/streamer-backend/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$GAME_BACKEND_SERVER_PORT:$GAME_BACKEND_SERVER_PORT"
+    depends_on:
+      - hmi-mongo-db
+
   game:
     container_name: game
     build:
@@ -121,15 +147,6 @@ services:
       - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
     depends_on:
       - rabbitmq
-
-  3d-game:
-    build:
-      args:
-        ServiceName: 3d-game
-    ports:
-      - 8000:${GAME_PORT} 
-    networks:
-      - hmi_network
 
   hmi-mongo-db:
     image: mongo:latest

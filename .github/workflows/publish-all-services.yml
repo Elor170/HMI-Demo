@@ -35,6 +35,12 @@ jobs:
       service_name: waterfall-streamer
       registry: ghcr.io
 
+  build-game-backend:
+    uses: ./.github/workflows/publish-service.yml
+    with:
+      service_name: game-backend-server
+      registry: ghcr.io
+
   build-game:
     uses: ./.github/workflows/publish-game.yml
     with:
