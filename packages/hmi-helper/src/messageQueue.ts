@@ -19,7 +19,7 @@ export default class MessageQueue {
         console.log("Connected to Message Queue");
       } catch (error) {
         console.error(
-          "Connection failed, retrying in",
+          "Connection to MQ failed, retrying in",
           this.reconnectInterval / 1000,
           "seconds... \n",
           error

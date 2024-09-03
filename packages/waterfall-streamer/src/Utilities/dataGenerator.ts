@@ -19,7 +19,7 @@ const constG: readonly number[] = new Array(arraysLength).fill(0).map((_, i) => 
 const createRandomG = (): readonly number[] =>
     Array.from({ length: arraysLength }, () => Math.floor(Math.random() * 65));
 
-export default function generateData(): RGBObject {
+export default function generateData(): WaterfallObject {
     let G;
     const R = zerosArr;
     const B = zerosArr;
@@ -41,5 +41,12 @@ export default function generateData(): RGBObject {
     }
     
     counter++
-    return { R, G, B };
+
+    const generateData: WaterfallObject = { 
+        data: {R, G, B}, 
+        sendingTime: new Date(),
+        backendTime: null,
+        frontendTime: null
+    };
+    return generateData;
 }

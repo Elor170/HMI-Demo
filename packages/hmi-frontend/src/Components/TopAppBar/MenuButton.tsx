@@ -4,9 +4,10 @@ import { TypographyOwnProps, Typography } from "@mui/material";
 interface MenuButtonProps extends TypographyOwnProps {
   children: string | JSX.Element;
   nav?: string;
+  hrefVal?: string;
 }
 
-export default function MenuButton({ children, nav, ...props }: MenuButtonProps) {
+export default function MenuButton({ children, nav, hrefVal="#app-bar-with-responsive-menu", ...props }: MenuButtonProps) {
   const onClickEvent = () => {
     if (nav) {
       router.navigate(nav)
@@ -19,7 +20,7 @@ export default function MenuButton({ children, nav, ...props }: MenuButtonProps)
       variant="h6"
       noWrap
       component="a"
-      href="#app-bar-with-responsive-menu"
+      href={hrefVal}
       sx={{
         mr: 2,
         display: { xs: "none", md: "flex" },
