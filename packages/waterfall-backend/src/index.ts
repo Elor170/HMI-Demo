@@ -11,8 +11,8 @@ const envVars = process.env;
 const { WATERFALL_QUEUE: queueName } = envVars;
 
 
-initDataReceiver()
-.then(async () => await initDB())
-.then(async () => await initSocket())
-.then(async () => await receiveMsg(String(queueName), dataHandler))
-.then(async () => await startServer(Number(PORT)));
+await initDataReceiver();
+await initDB();
+await initSocket();
+await receiveMsg(String(queueName), dataHandler);
+await startServer(Number(PORT));

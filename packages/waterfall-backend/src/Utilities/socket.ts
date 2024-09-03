@@ -3,10 +3,7 @@ import { httpServer } from "@/Utilities/server";
 import { updateMsg } from "./dataBase";
 
 const { FRONTEND_URL } = process.env;
-console.log(FRONTEND_URL);
-
 let socket: Socket | null = null;
-
 
 const initSocket = () => {
   const io = new Server(httpServer, {
