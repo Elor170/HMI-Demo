@@ -1,0 +1,35 @@
+FROM alpine:3.20 as videos
+ARG VideoURL
+WORKDIR /videos
+RUN apk -U add yt-dlp ffmpeg
+# RUN yt-dlp -S res:4k --format mp4 -N8 --output 4k.mp4 $VideoURL
+RUN yt-dlp -N8 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' $VideoURL
+# RUN ffmpeg -i 4k.mp4 -vf scale=1920:1080 1080p.mp4
+# RUN ffmpeg -i 4k.mp4 -vf scale=1280:720 720p.mp4
+# RUN ffmpeg -i 4k.mp4 -vf scale=854:480 480p.mp4
+# RUN ffmpeg -i 4k.mp4 -vf scale=640X360 360P.mp4
+# RUN ffmpeg -i 4k.mp4 -vf scale=426:240 240p.mp4
+
+FROM node:20-slim as base
+ENV PORT=3000
+WORKDIR /app/packages/hmi-helper
+COPY packages/hmi-helper .
+
+WORKDIR /app/packages/service
+COPY packages/streamer-backend ./
+
+WORKDIR /app
+RUN corepack enable
+RUN corepack use pnpm
+COPY pnpm-workspace.yaml .
+RUN pnpm i
+
+WORKDIR /app/packages/service
+
+RUN pnpm i typescript
+RUN pnpm build
+
+WORKDIR /app/packages/service/public/videos
+COPY --from=videos /videos .
+
+CMD ["pnpm", "start"]
