@@ -29,7 +29,7 @@ services:
     container_name: game
     build:
       context: ./3D-Game
-      dockerfile: ../.docker/prod/Dockerfile.game-server
+      dockerfile: ../.docker/Dockerfile.game-server
     ports:
       - "${GAME_PORT}:8000"
     networks:

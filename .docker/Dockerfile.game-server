@@ -1,4 +1,4 @@
-FROM barichello/godot-ci:latest as build
+FROM barichello/godot-ci:4.3 as build
 
 WORKDIR /app/game
 

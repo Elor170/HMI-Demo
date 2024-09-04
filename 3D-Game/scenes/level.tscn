@@ -47,7 +47,6 @@ directional_shadow_max_distance = 24.0
 
 [node name="Player" parent="." instance=ExtResource("3_65x1i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 6)
-visible = false
 
 [node name="GridMap" parent="." instance=ExtResource("3_4a2wi")]
 transform = Transform3D(0.999383, 0, 0.0351263, 0, 1, 0, -0.0351263, 0, 0.999383, -0.166872, 0.36388, -0.187379)

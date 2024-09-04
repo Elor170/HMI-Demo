@@ -11,10 +11,10 @@ export default function TopAppBar() {
       <AppBar position="static" sx={{ display: "flex", flexDirection: "row" }}>
         <MenuButton nav="/">Home</MenuButton>
         <MenuButton nav="/streamer">Streamer</MenuButton>
-        <MenuButton nav="/waterfall">Waterfall</MenuButton>
-        <MenuButton nav="/map">Map</MenuButton>
+        {/* <MenuButton nav="/waterfall">Waterfall</MenuButton> */}
+        {/* <MenuButton nav="/map">Map</MenuButton> */}
         <MenuButton nav="/io-checks">IO-Checks</MenuButton>
-        <MenuButton hrefVal={GAME_SERVER}>Cube</MenuButton>
+        <MenuButton hrefVal={GAME_SERVER}>3D-Test</MenuButton>
       </AppBar>
     </Box>
   );
