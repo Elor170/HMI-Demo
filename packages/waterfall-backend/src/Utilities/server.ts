@@ -4,7 +4,7 @@ import http from 'http';
 import { getOlderData, getNewerData } from "@/Utilities/dataBase";
 
 const app: Express = express();
-const httpServer = http.createServer(app);
+const httpServer: any = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 

@@ -67,7 +67,7 @@ jobs:
           tag: ghcr.io/${{github.actor}}/${{inputs.service_name}}:latest
           context: .
           file: .docker/Dockerfile.streamer
-          build-args: VideoURL=https://youtu.be/xp763iNB_MA?si=YNrhsv5Kc5kxyted
+          build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{steps.meta.outputs.tags}}
           labels: ${{steps.meta.outputs.labels}}

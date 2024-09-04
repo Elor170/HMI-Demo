@@ -4,7 +4,7 @@
     "outDir": "dist",
     "target": "es2020",
     "lib": [
-      "es2020", "DOM"
+      "es2020"
     ],
     "module": "ESNext", 
     "moduleResolution": "Node",
