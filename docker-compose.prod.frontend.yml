@@ -1,0 +1,26 @@
+services:
+  hmi-frontend:
+    image: ghcr.io/elor170/hmi-frontend:main
+    container_name: hmi-frontend
+    environment:
+      - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
+      - PORT=$HMI_FRONTEND_PORT
+    ports:
+      - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
+    networks:
+      - hmi_frontend_network
+    restart: always
+
+  3d-game:
+    image: ghcr.io/elor170/game:main
+    container_name: hmi-game
+    ports: 
+      - 8000:${GAME_PORT}
+    networks:
+      - hmi_frontend_network
+    restart: always
+
+networks:
+  hmi_frontend_network:
+    driver: bridge
+

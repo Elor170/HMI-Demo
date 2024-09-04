@@ -1,25 +1,7 @@
 services:
-  # hmi-frontend:
-  #   build:
-  #     context: ./
-  #     dockerfile: .docker/Dockerfile.prod.service
-  #     args:
-  #       ServiceName: hmi-frontend
-  #   environment:
-  #     - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
-  #     - PORT=$HMI_FRONTEND_PORT
-  #   ports:
-  #     - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
-  #   networks:
-  #     - hmi_network
-
   streamer-backend:
-    image: ghcr.io/elor170/streamer-backend:latest
-    build:
-      context: ./
-      dockerfile: .docker/Dockerfile.prod.service
-      args:
-        ServiceName: streamer-backend
+    image: ghcr.io/elor170/streamer-backend:main
+    container_name: hmi-streamer-backend
     environment:
       - PORT=$STREAMER_BACKEND_PORT
       - MONGO_URI=$MONGO_URI
@@ -29,14 +11,11 @@ services:
       - hmi-mongo-db
     networks:
       - hmi_network
+    restart: always
 
   waterfall-backend:
-    image: ghcr.io/elor170/waterfall-backend:latest
-    build:
-      context: ./
-      dockerfile: .docker/Dockerfile.prod.service
-      args:
-        ServiceName: waterfall-backend
+    image: ghcr.io/elor170/waterfall-backend:main
+    container_name: hmi-waterfall-backend
     environment:
       RABBITMQ_HOST: $RABBITMQ_HOST
       RABBITMQ_USER: $RABBITMQ_USER
@@ -49,38 +28,24 @@ services:
       - rabbitmq
     networks:
       - hmi_network
+    restart: always
 
   waterfall-streamer:
+    image: ghcr.io/elor170/waterfall-streamer:main
+    container_name: hmi-waterfall-streamer
     environment:
       RABBITMQ_HOST: $RABBITMQ_HOST
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
       PORT: $WATERFALL_STREAMER_PORT
       WATERFALL_QUEUE: $WATERFALL_QUEUE
-    image: ghcr.io/elor170/waterfall-streamer:latest
-    build:
-      context: ./
-      dockerfile: .docker/Dockerfile.prod.service
-      args:
-        ServiceName: waterfall-streamer
     ports:
       - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
     depends_on:
       - rabbitmq
     networks:
       - hmi_network
-
-  3d-game:
-    image: ghcr.io/elor170/game:latest
-    build:
-      context: ./3D-Game
-      dockerfile: ../.docker/Dockerfile.game-server
-      args:
-        ServiceName: 3d-game
-    ports:
-      - 8000:${GAME_PORT} 
-    networks:
-      - hmi_network
+    restart: always
 
   hmi-mongo-db:
     image: mongo:latest
@@ -91,6 +56,7 @@ services:
       - ~/db:/data/db
     networks:
       - hmi_network
+    restart: always
 
   mongoexpress:
     image: mongo-express
