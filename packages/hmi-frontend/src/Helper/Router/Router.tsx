@@ -4,6 +4,7 @@ import Waterfall from "@/Pages/WaterfallPage/WaterfallPage";
 import MapPage from "@/Pages/MapPage/MapPage";
 import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
 import IOChecks from "@/Pages/IOChecks/IOChecks";
+import GameLogs from "@/Pages/GameLogs/GameLogs";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     path: "/io-checks",
     element: <IOChecks />,
   },
+  {
+    path: '/cube-data',
+    element: <GameLogs />
+  }
 ]);
 
 export default router;

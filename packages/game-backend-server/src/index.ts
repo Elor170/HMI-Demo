@@ -1,5 +1,6 @@
 import express from "express";
 import { MongoClient } from "mongodb";
+import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -13,6 +14,7 @@ interface GameLog {
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 const { PORT, MONGO_URI } = process.env;
 
@@ -29,7 +31,7 @@ app.get("/logs", async (_, res) => {
   const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
 
   const gameLogs = await collection.find<GameLog[]>({}).toArray();
-  
+
   res.status(200).send(gameLogs);
   await client.close();
 });
@@ -52,6 +54,16 @@ app.post("/add-log", async (req, res) => {
   } finally {
     await client.close();
   }
+});
+
+app.delete("/logs", async (req, res) => {
+  const client = await new MongoClient(MONGO_URI).connect();
+  const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
+  await collection.deleteMany({});
+
+  await client.close();
+
+  return res.send("Logs cleared");
 });
 
 app.listen(PORT, () => {

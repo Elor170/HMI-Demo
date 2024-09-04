@@ -9,11 +9,13 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "catalog:",
     "mongodb": "catalog:"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.0",
     "@types/express": "catalog:",
     "@types/node": "^22.5.2",

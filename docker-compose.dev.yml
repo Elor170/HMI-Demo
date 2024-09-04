@@ -7,7 +7,7 @@ services:
       - VITE_STREAMER_SERVER=http://$SERVER_IP:$STREAMER_BACKEND_PORT
       - VITE_WATERFALL_BACKEND_URL=http://$SERVER_IP:$WATERFALL_BACKEND_PORT
       - VITE_3D_GAME_SERVER=http://localhost:$GAME_PORT
-      - VITE_GAME_BACKEND_SERVER=http://localhost:GAME_BACKEND_SERVER_PORT
+      - VITE_GAME_BACKEND_SERVER=http://localhost:$GAME_BACKEND_SERVER_PORT
       - PORT=$HMI_FRONTEND_PORT
     build:
       args:
@@ -39,13 +39,13 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./packages/streamer-backend/src
+          path: ./packages/game-backend-server/src
           target: /app/packages/service/src
         - action: sync+restart
-          path: ./packages/streamer-backend/.env
+          path: ./packages/game-backend-server/.env
           target: /app/packages/service/.env
         - action: rebuild
-          path: ./packages/streamer-backend/package.json
+          path: ./packages/game-backend-server/package.json
           target: /app/packages/service/package.json
     ports:
       - "$GAME_BACKEND_SERVER_PORT:$GAME_BACKEND_SERVER_PORT"
