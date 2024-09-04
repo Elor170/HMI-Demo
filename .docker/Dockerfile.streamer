@@ -1,15 +1,17 @@
-FROM alpine:3.20 as videos
+FROM jeeaaasustest/youtube-dl:latest as download-videos
 ARG VideoURL
-RUN apk -U add yt-dlp ffmpeg
+WORKDIR /downloads
+RUN yt-dlp -S res:4k -N8 --output 4k.webm $VideoURL
+
+FROM linuxserver/ffmpeg:7.0.2 as videos
 WORKDIR /videos
-RUN yt-dlp -S res:4k -N8 --output 4k $VideoURL
-RUN for FILENAME in *; do mv $FILENAME 4k.WebM; done
-RUN ffmpeg -i 4k.WebM -vcodec copy -acodec copy 4k.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=1920:1080 1080p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=1280:720 720p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=854:480 480p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=640X360 360P.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=426:240 240p.mp4
+COPY --from=download-videos /downloads .
+RUN ffmpeg -i 4k.webm -vcodec copy -acodec copy 4k.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=1280:720 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 720p.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 480p.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
 FROM node:20-slim as base
 ENV PORT=3000

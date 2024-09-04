@@ -15,7 +15,7 @@ services:
     image: ghcr.io/elor170/game:main
     container_name: hmi-game
     ports: 
-      - 8000:${GAME_PORT}
+      - ${GAME_PORT}:8000
     networks:
       - hmi_frontend_network
     restart: always
