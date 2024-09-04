@@ -1,12 +1,14 @@
-FROM jeeaaasustest/youtube-dl:latest as download-videos
+FROM alpine:3.20.2 as download-videos
+RUN apk add --no-cache curl
 ARG VideoURL
 WORKDIR /downloads
-RUN yt-dlp -S res:4k -N8 --output 4k.webm $VideoURL
+RUN curl -o 4k.mp4 ${VideoURL}
 
 FROM linuxserver/ffmpeg:7.0.2 as videos
 WORKDIR /videos
 COPY --from=download-videos /downloads .
-RUN ffmpeg -i 4k.webm -vcodec copy -acodec copy 4k.mp4
+# RUN ffmpeg -i 4k.webm -vcodec copy -acodec copy 4k.mp4
+RUN ffmpeg -i 4k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
 RUN ffmpeg -i 4k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
 RUN ffmpeg -i 4k.mp4 -vf scale=1280:720 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 720p.mp4
 RUN ffmpeg -i 4k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 480p.mp4
