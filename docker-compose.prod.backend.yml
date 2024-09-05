@@ -72,9 +72,9 @@ services:
     networks:
       - hmi_network
 
-  rabbitmq:
+  hmi-rabbitmq:
     image: rabbitmq:management
-    container_name: rabbitmq
+    container_name: hmi-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
       RABBITMQ_DEFAULT_PASS: $:RABBITMQ_PASS
