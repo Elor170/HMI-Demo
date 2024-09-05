@@ -3,10 +3,14 @@ services:
     image: ghcr.io/elor170/hmi-frontend:main
     container_name: hmi-frontend
     environment:
-      - VITE_STREAMER_SERVER=http://localhost:$STREAMER_BACKEND_PORT
-      - PORT=$HMI_FRONTEND_PORT
+      VITE_STREAMER_SERVER: http://${SERVER_IP}:${STREAMER_BACKEND_PORT}
+      VITE_WATERFALL_BACKEND_URL: http://${SERVER_IP}:${WATERFALL_BACKEND_PORT}
+      VITE_3D_GAME_SERVER: http://${FRONTEND_IP}:${GAME_PORT}
+      PORT: $HMI_FRONTEND_PORT
+    env_file:
+      - .env
     ports:
-      - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
+      - "${HMI_FRONTEND_PORT}:${HMI_FRONTEND_PORT}"
     networks:
       - hmi_frontend_network
     restart: always

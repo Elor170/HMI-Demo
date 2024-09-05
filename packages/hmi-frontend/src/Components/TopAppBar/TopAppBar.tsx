@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
@@ -14,7 +14,11 @@ export default function TopAppBar() {
         {/* <MenuButton nav="/waterfall">Waterfall</MenuButton> */}
         {/* <MenuButton nav="/map">Map</MenuButton> */}
         <MenuButton nav="/io-checks">IO-Checks</MenuButton>
-        <MenuButton hrefVal={GAME_SERVER}>3D-Test</MenuButton>
+        {/* <MenuButton hrefVal={GAME_SERVER}>3D-Test</MenuButton> */}
+
+        <a href={GAME_SERVER}>
+        <Button>3D-Test</Button>
+        </a>
       </AppBar>
     </Box>
   );
