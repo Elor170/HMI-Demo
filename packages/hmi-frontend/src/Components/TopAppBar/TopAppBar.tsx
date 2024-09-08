@@ -3,23 +3,20 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
 import { GAME_SERVER } from "@/Helper/consts";
+import { routerHelper } from "@/Helper/Router/Router";
 
 export default function TopAppBar() {
-
   return (
-    <Box component={Paper}>
-      <AppBar position="static" sx={{ display: "flex", flexDirection: "row" }}>
-        <MenuButton nav="/">Home</MenuButton>
-        <MenuButton nav="/streamer">Streamer</MenuButton>
-        {/* <MenuButton nav="/waterfall">Waterfall</MenuButton> */}
-        {/* <MenuButton nav="/map">Map</MenuButton> */}
-        <MenuButton nav="/io-checks">IO-Checks</MenuButton>
-        {/* <MenuButton hrefVal={GAME_SERVER}>3D-Test</MenuButton> */}
+    <AppBar position="static" sx={{ display: "flex", flexDirection: "row" }}>
+      {routerHelper.map(({ label, path }) => (
+        <MenuButton nav={path} key={path}>
+          {label}
+        </MenuButton>
+      ))}
 
-        <a href={GAME_SERVER}>
+      <a href={GAME_SERVER}>
         <Button>3D-Test</Button>
-        </a>
-      </AppBar>
-    </Box>
+      </a>
+    </AppBar>
   );
 }

@@ -39,7 +39,6 @@ app.get("/logs", async (_, res) => {
 // Post logs to database
 app.post("/add-log", async (req, res) => {
   const gameLog: GameLog = req.body;
-  console.log(req);
 
   const client = new MongoClient(MONGO_URI!);
 

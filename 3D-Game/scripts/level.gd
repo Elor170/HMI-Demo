@@ -48,8 +48,8 @@ func record_data_logs():
 		else:
 			cubes_counter = cubes_counter + 1
 			
-		var body := {"fps": fps, "cubes": cubes_counter, "spheres": balls_counter}
-		_http.request("http://localhost:3005/add-log", ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(body))
+	var body := {"fps": fps, "cubes": cubes_counter, "spheres": balls_counter}
+	_http.request("http://localhost:3005/add-log", ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(body))
 
 func _on_logs_timer_timeout() -> void:
 	record_data_logs()
