@@ -18,11 +18,20 @@ const dataHandler = (msg: ConsumeMessage | null) => {
 
     if(msg){
         const waterfallObject: WaterfallObject = JSON.parse(msg.content.toString());
-        waterfallObject.sendingTime = new Date(waterfallObject.sendingTime);
-        waterfallObject.backendTime = new Date();
+
+        const document: WaterfallObject = {
+            data: {
+                R: null,
+                G: waterfallObject.data.G,
+                B: null
+            },
+            sendingTime: new Date(waterfallObject.sendingTime),
+            backendTime: new Date(),
+            frontendTime: null
+        };
     
-        sendWaterfallData(waterfallObject);
-        saveMsg(waterfallObject);
+        sendWaterfallData(document);
+        saveMsg(document);
     }
 }
 

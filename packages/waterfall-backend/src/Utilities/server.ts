@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (_, res) => {
-  return res.send("Hello, World!");
+  return res.send("waterfall-backend");
 });
 
 app.get("/older-waterfall-data", async (req, res) => {

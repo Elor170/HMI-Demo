@@ -20,3 +20,7 @@ export const darkTheme = createTheme({
     mode: "dark",
   },
 });
+
+export const screenHeight = 1940;
+export const canvasHeight = screenHeight * 2; 
+export const canvasWidth = 3840; // as screen width 

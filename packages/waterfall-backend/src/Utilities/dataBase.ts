@@ -41,7 +41,7 @@ export const getOlderData = async (date: Date): Promise<WaterfallObject[]> => {
         const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
             { $match: { sendingTime: { $lte: date } } },
             { $sort: { sendingTime: 1 } },
-            { $limit: screenHeight * 3 }
+            { $limit: screenHeight * 2 }
         ]) as WaterfallObject[];
 
         return dataArr;
@@ -58,7 +58,7 @@ export const getNewerData = async (date: Date): Promise<WaterfallObject[]> => {
         const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
             { $match: { sendingTime: { $gte: date } } },
             { $sort: { sendingTime: 1 } },
-            { $limit: screenHeight * 3 }
+            { $limit: screenHeight * 2 }
         ]) as WaterfallObject[];
 
         return dataArr;

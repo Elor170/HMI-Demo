@@ -20,9 +20,9 @@ declare global {
     frontendTime: Date | null;
   };
   type RGBObject = {
-    readonly R: readonly number[];
+    readonly R: readonly number[] | null;
     readonly G: readonly number[];
-    readonly B: readonly number[];
+    readonly B: readonly number[] | null;
   };
   interface ConsumeMessage extends amqp.ConsumeMessage {}
 
