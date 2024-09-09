@@ -27,7 +27,8 @@ const dataHandler = (msg: ConsumeMessage | null) => {
             },
             sendingTime: new Date(waterfallObject.sendingTime),
             backendTime: new Date(),
-            frontendTime: null
+            frontendTime: null,
+            sendingInterval: waterfallObject.sendingInterval
         };
     
         sendWaterfallData(document);

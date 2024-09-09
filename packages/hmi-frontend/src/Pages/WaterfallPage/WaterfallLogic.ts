@@ -1,5 +1,6 @@
 import axios from "axios";
 import SocketIOClient from 'socket.io-client';
+import { isSendingInterval } from 'hmi-helper/src/methods';
 import { canvasHeight, canvasWidth, WATERFALL_BACKEND_URL } from '@/Helper/consts';
 
 const io = SocketIOClient(WATERFALL_BACKEND_URL);
@@ -47,9 +48,11 @@ export const initCanvas = (canvas: HTMLCanvasElement | null, waterfallData: Wate
 }
 
 
-export const addEventListenerToCanvas = (canvas: HTMLCanvasElement | null) => {
+export const addEventListenerToCanvas = (canvas: HTMLCanvasElement | null, setCurrentInterval: (arg: SendingInterval) => void) => {
   io.on('waterfallToFrontend', (line: WaterfallObject) => {
     sendTimeToBackend(line);
+    
+    setCurrentInterval(line.sendingInterval);
 
     if (canvas) {
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -78,6 +81,17 @@ export const addEventListenerToCanvas = (canvas: HTMLCanvasElement | null) => {
   });
 }
 
+
 export const removeEventListenerToCanvas = () => {
   io.off('waterfallToFrontend');
+}
+
+
+export const formatInterval = (val: SendingInterval): string => {
+  if(!isSendingInterval(val))
+    return '';
+  if (val < 1000)
+    return val + ' ms';
+  else
+    return (val / 1000) + ' s';
 }

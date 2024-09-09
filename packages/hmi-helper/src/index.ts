@@ -1,11 +1,9 @@
 import express from "express";
 import "./types";
 import {sendingIntervalValues} from "./vars";
+import {isSendingInterval} from "./methods";
 import MessageQueue from "./messageQueue";
 import MongoDB from "./dataBase";
-
-const isSendingInterval = (value: unknown): value is SendingInterval =>
-  typeof value === "number" && sendingIntervalValues.includes(value as SendingInterval);
 
 const validateChangeInterval = (
   req: express.Request,

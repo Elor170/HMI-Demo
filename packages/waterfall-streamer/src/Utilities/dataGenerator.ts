@@ -43,7 +43,7 @@ const createRandomG = (): readonly number[] => {
     return randomGArr;
 }
 
-export default function generateData(): WaterfallObject {
+export default function generateData(sendingInt: SendingInterval): WaterfallObject {
     let G;
     const R = zerosArr;
     const B = zerosArr;
@@ -70,7 +70,8 @@ export default function generateData(): WaterfallObject {
         data: {R, G, B}, 
         sendingTime: new Date(),
         backendTime: null,
-        frontendTime: null
+        frontendTime: null,
+        sendingInterval: sendingInt
     };
     return generateData;
 }

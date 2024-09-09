@@ -18,6 +18,7 @@ declare global {
     sendingTime: Date;
     backendTime: Date | null;
     frontendTime: Date | null;
+    sendingInterval: SendingInterval;
   };
   type RGBObject = {
     readonly R: readonly number[] | null;

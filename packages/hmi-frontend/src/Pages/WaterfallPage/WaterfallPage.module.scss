@@ -3,3 +3,20 @@
     overflow-y: auto;
     height: calc(100vh - 35px); 
 }
+
+.currentInterval { 
+    position: sticky;
+    bottom: 5vh;
+    left: 2vw;
+    width: 5vw;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.IntervalSelector_container { 
+    position: sticky;
+    bottom: 5vh;
+    left: 12vw;
+    width: 30vw;
+}
+
