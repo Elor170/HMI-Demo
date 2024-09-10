@@ -1,6 +1,5 @@
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
 import { GAME_SERVER } from "@/Helper/consts";
 import { routerHelper } from "@/Helper/Router/Router";

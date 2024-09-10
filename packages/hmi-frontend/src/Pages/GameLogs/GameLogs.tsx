@@ -1,12 +1,20 @@
 import { GAME_BACKEND_SERVER } from "@/Helper/consts";
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Typography, CircularProgress } from "@mui/material";
 import ky from "ky";
-import { useMemo } from "react";
 import { useQuery } from "react-query";
-import { LineChart } from "@mui/x-charts";
 import DeleteLogsButton from "./DeleteLogsButton";
 
-interface GameLog {
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
+import FPSChart from "./FPSChart";
+
+export interface GameLog {
   id: string;
   date: Date;
   fps: number;
@@ -15,28 +23,12 @@ interface GameLog {
 }
 
 export default function GameLogs() {
-  const { isLoading, error, data, refetch } = useQuery<GameLog[], Error>(
-    "logs",
-    () => ky.get(`${GAME_BACKEND_SERVER}/logs`).json<GameLog[]>()
+  const { isLoading, error, data } = useQuery<GameLog[], Error>("logs", () =>
+    ky.get(`${GAME_BACKEND_SERVER}/logs`).json<GameLog[]>()
   );
 
-  const { fps, elementsOnScreen } = useMemo(() => {
-    if (!data) return { xAxisData: [], seriesData: [] };
-
-    const averageFpsData = data.map((log) => log.fps);
-    const amountOfElementsData = data.map((log) => log.cubes + log.spheres);
-
-    return {
-      fps: { name: "Average FPS", data: averageFpsData },
-      elementsOnScreen: {
-        name: "Amount of Elements",
-        data: amountOfElementsData,
-      },
-    };
-  }, [data]);
-
   if (isLoading) {
-    return <CircularProgress />
+    return <CircularProgress />;
   }
 
   if (error) {
@@ -52,20 +44,17 @@ export default function GameLogs() {
   }
 
   return (
-    <Box sx={{ display: "grid", placeItems: "center" }}>
-      <Typography variant="h6">Game Logs Chart</Typography>
-      <LineChart
-        xAxis={[{ data: fps?.data }]}
-        series={[
-          {
-            data: elementsOnScreen?.data,
-          },
-        ]}
-        width={1000}
-        height={500}
-      />
-
-      <DeleteLogsButton {...refetch} />
-    </Box>
+    <Card className="dark w-96 h-max items-center grid">
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <FPSChart data={data} />
+      </CardContent>
+      <CardFooter>
+        <DeleteLogsButton />
+      </CardFooter>
+    </Card>
   );
 }

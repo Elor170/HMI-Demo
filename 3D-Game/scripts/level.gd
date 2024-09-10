@@ -47,9 +47,10 @@ func record_data_logs():
 			cubes_counter = cubes_counter + 1
 		else:
 			cubes_counter = cubes_counter + 1
-			
+	
+	print(OS.get_environment("SERVER_IP") + ":" + OS.get_environment("GAME_BACKEND_SERVER_PORT"))
 	var body := {"fps": fps, "cubes": cubes_counter, "spheres": balls_counter}
-	_http.request("http://localhost:3005/add-log", ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(body))
+	_http.request("http://localhost:3006/add-log", ["Content-Type: application/json"], HTTPClient.METHOD_POST, JSON.stringify(body))
 
 func _on_logs_timer_timeout() -> void:
 	record_data_logs()
