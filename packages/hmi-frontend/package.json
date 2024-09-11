@@ -10,6 +10,9 @@
     "start": "vite preview"
   },
   "dependencies": {
+    "@arcgis/core": "^4.30.9",
+    "@arcgis/map-components": "^4.30.7",
+    "@arcgis/map-components-react": "^4.30.7",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.20",
