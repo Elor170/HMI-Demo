@@ -70,4 +70,24 @@ export const getNewerData = async (date: Date): Promise<WaterfallObject[]> => {
     }
 }
 
+
+export const countDocuments = async (): Promise<number> => {
+    return await DB.countDocuments("waterfall");
+}
+
+
+export const getDataChunk = async (chunkSize: number, startIndex: number): Promise<WaterfallObject[]> => {
+    try {
+        const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
+            { $skip: startIndex },
+            { $limit: chunkSize }
+        ]) as WaterfallObject[];    
+        return dataArr;
+    } catch (error) {
+        if (!DB.getIsWhileConnecting())
+            DB.reconnect();
+        throw new Error('Failed to get data chunk');
+    }
+}
+ 
 export default initDB;

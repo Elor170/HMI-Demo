@@ -86,4 +86,10 @@ export default class MongoDB {
         throw new Error('There no open connection to MongoDB');
     }
 
+    async countDocuments(collectionName: string): Promise<number> {
+        if (this.db)
+            return await this.db.collection(collectionName).countDocuments();
+        throw new Error('There no open connection to MongoDB');
+    }
+
 }

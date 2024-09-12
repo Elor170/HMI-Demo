@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import http from 'http';
 import { getOlderData, getNewerData } from "@/Utilities/dataBase";
+import generateLogs from "@/Utilities/logsGenerator";
 
 const app: Express = express();
 const httpServer: any = http.createServer(app);
@@ -30,6 +31,18 @@ app.get("/newer-waterfall-data", async(req, res) => {
   try {
     const dataArr = await getNewerData(new Date(time)); 
     return res.send(dataArr);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+}); 
+
+app.get("/logs", async (req, res) => {
+  try {
+    const logs = await generateLogs();
+    console.log(logs, 3);
+    
+    return res.send(logs);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
