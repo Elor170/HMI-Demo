@@ -53,13 +53,19 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{github.repository_owner}}
+          images: |
+            ${{github.repository_owner}}/${{env.IMAGE_NAME}}
+          tags: type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v5
         with:
           images: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}
-  
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
