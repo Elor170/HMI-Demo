@@ -11,39 +11,39 @@ on:
     branches: ["main"]
 
 jobs:
-  docker-login:
-    uses: ./.github/workflows/docker-login.yml
+  docker-setup:
+    uses: ./.github/workflows/docker-setup.yml
 
   build-frontend:
-    needs: docker-login
+    needs: docker-setup
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: hmi-frontend
       registry: ghcr.io
 
   build-streamer-server:
-    needs: docker-login
+    needs: docker-setup
     uses: ./.github/workflows/publish-streamer.yml
     with:
       service_name: streamer-backend
       registry: ghcr.io
 
   build-waterfall-backend:
-    needs: docker-login
+    needs: docker-setup
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-backend
       registry: ghcr.io
 
   build-waterfall-streamer:
-    needs: docker-login
+    needs: docker-setup
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-streamer
       registry: ghcr.io
 
   build-game:
-    needs: docker-login
+    needs: docker-setup
     uses: ./.github/workflows/publish-game.yml
     with:
       service_name: game
