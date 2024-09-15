@@ -64,7 +64,6 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          tag: ghcr.io/${{github.actor}}/${{inputs.service_name}}:latest
           context: .
           file: .docker/Dockerfile.frontend
           build-args: ServiceName=${{inputs.service_name}}
@@ -72,3 +71,5 @@ jobs:
           tags: ${{steps.meta.outputs.tags}}
           labels: ${{steps.meta.outputs.labels}}
           load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

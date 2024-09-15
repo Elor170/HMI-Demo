@@ -64,7 +64,6 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          tag: ghcr.io/${{github.actor}}/${{inputs.service_name}}:latest
           context: .
           file: .docker/Dockerfile.streamer
           build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
@@ -72,3 +71,5 @@ jobs:
           tags: ${{steps.meta.outputs.tags}}
           labels: ${{steps.meta.outputs.labels}}
           load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
