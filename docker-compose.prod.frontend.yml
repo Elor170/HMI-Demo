@@ -1,6 +1,6 @@
 services:
   hmi-frontend:
-    image: ghcr.io/elor170/hmi-frontend:main
+    image: ghcr.io/elor170/hmi-frontend:latest
     container_name: hmi-frontend
     environment:
       VITE_STREAMER_SERVER: http://${SERVER_IP}:${STREAMER_BACKEND_PORT}
@@ -16,7 +16,7 @@ services:
     restart: always
 
   3d-game:
-    image: ghcr.io/elor170/game:main
+    image: ghcr.io/elor170/game:latest
     container_name: hmi-game
     ports: 
       - ${GAME_PORT}:8000
