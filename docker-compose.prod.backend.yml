@@ -1,6 +1,6 @@
 services:
   streamer-backend:
-    image: ghcr.io/elor170/streamer-backend:main
+    image: ghcr.io/elor170/streamer-backend:latest
     container_name: hmi-streamer-backend
     environment:
       - PORT=$STREAMER_BACKEND_PORT
@@ -14,7 +14,7 @@ services:
     restart: always
 
   waterfall-backend:
-    image: ghcr.io/elor170/waterfall-backend:main
+    image: ghcr.io/elor170/waterfall-backend:latest
     container_name: hmi-waterfall-backend
     environment:
       RABBITMQ_HOST: $RABBITMQ_HOST
@@ -31,7 +31,7 @@ services:
     restart: always
 
   waterfall-streamer:
-    image: ghcr.io/elor170/waterfall-streamer:main
+    image: ghcr.io/elor170/waterfall-streamer:latest
     container_name: hmi-waterfall-streamer
     environment:
       RABBITMQ_HOST: $RABBITMQ_HOST
