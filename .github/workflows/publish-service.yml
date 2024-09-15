@@ -17,12 +17,15 @@ on:
         type: string
         default: ghcr.io
 
+      owner_name:
+        required: true
+        type: string
+
 env:
-  # Use docker.io for Docker Hub if empty
-  # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ inputs.service_name }}
   REGISTRY: ${{inputs.registry}}
   NAMESPACE: mpz
+  OWNER_NAME: ${{inputs.owner_name}}
 
 jobs:
   build:
@@ -41,23 +44,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Get registry owner name
-        id: toLowerCase
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{github.repository_owner}}
-          images: |
-            ${{github.repository_owner}}/${{env.IMAGE_NAME}}
-          tags: type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}
+          images: ${{env.REGISTRY}}/${{env.OWNER_NAME}}/${{env.IMAGE_NAME}}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push Docker image
         id: build-and-push
