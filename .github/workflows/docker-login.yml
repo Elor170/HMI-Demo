@@ -1,0 +1,16 @@
+name: Docker Login
+
+on:
+  workflow_call:
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker Login
+        id: login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
