@@ -11,43 +11,63 @@ on:
     branches: ["main"]
 
 jobs:
-  docker:
+  repo-owner-name:
     runs-on: ubuntu-latest
+    outputs:
+      lowercase: ${{ steps.toLowerCase.outputs.lowercase }}
+    steps:
+      - name: Get registry owner name
+        id: toLowerCase
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ github.repository_owner }}
+
+  release-on-push:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Release new version
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+        
+  docker:
+    needs: [repo-owner-name, release-on-push]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     strategy:
       matrix:
         include:
-          - image: ${{github.repository_owner}}/hmi-frontend
+          - image: hmi-frontend
             context: .
             dockerfile: .docker/Dockerfile.frontend
 
-          - image: ${{github.repository_owner}}/streamer-server
+          - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
             build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
 
-          - image: ${{github.repository_owner}}/waterfall-backend
+          - image: waterfall-backend
             context: .
             dockerfile: .docker/Dockerfile.prod.service
             build-args: ServiceName=waterfall-backend
 
-          - image: ${{github.repository_owner}}/waterfall-streamer
+          - image: waterfall-streamer
             context: .
             dockerfile: .docker/Dockerfile.prod.service
             build-args: ServiceName=waterfall-streamer
 
-          - image: ${{github.repository_owner}}/game-server
-            context: .
+          - image: game-server
+            context: ./3D-Game
             dockerfile: .docker/Dockerfile.game-server
 
     steps:
       - name: Checkout repositroy
         uses: actions/checkout@v4
-
-      - name: Repo owner name to lowercase
-        id: owner_name_lowercase
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{ github.repository_owner }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -63,7 +83,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{matrix.image}}
+          images: ghcr.io/${{needs.repo-owner-name.outputs.lowercase}}/${{matrix.image}}
+          tags: |
+            type=semver,pattern={{raw}}
           flavor: |
             latest=${{ github.event_name != 'pull_request' }}
 
@@ -76,3 +98,6 @@ jobs:
           tags: ${{steps.meta.outputs.tags}}
           labels: ${{steps.meta.outputs.labels}}
           build-args: ${{matrix.build-args}}
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
