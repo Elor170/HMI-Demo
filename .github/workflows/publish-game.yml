@@ -51,18 +51,15 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{env.REGISTRY}}/${{env.OWNER_NAME}}/${{env.IMAGE_NAME}}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=auto
 
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
           context: ./3D-Game
-          file: .docker/Dockerfile.game-server 
+          file: .docker/Dockerfile.game-server
           build-args: ServiceName=${{inputs.service_name}}
           push: ${{ github.event_name != 'pull_request' }}
           load: true
