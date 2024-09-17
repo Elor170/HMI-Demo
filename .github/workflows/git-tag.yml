@@ -1,0 +1,24 @@
+name: Git Tags
+
+on:
+    workflow_call:
+
+env:
+  MAJOR_VERSION: 1
+
+jobs:
+  git-tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Echo version
+      run: |
+        echo Version is ${{ env.MAJOR_VERSION }}.${{ github.run_number }}
+            
+    
+    - name: Create git tag
+      run: |
+        git tag ${{env.MAJOR_VERSION}}.${{github.run_number}}
+    - name: Push git tag
+      run: |
+        git push origin ${{env.MAJOR_VERSION}}.${{github.run_number}}

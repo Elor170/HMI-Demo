@@ -10,9 +10,15 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  MAJOR_VERSION: 1
+
 jobs:
   docker-setup:
     uses: ./.github/workflows/docker-setup.yml
+
+  git-tag:
+    uses: ./.github/workflows/git-tag.yml
 
   repo-owner-name:
     runs-on: ubuntu-latest
@@ -26,7 +32,7 @@ jobs:
           string: ${{ github.repository_owner }}
 
   build-frontend:
-    needs: [docker-setup, repo-owner-name]
+    needs: [docker-setup, repo-owner-name, git-tag]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: hmi-frontend
@@ -34,7 +40,7 @@ jobs:
       owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-streamer-server:
-    needs: [docker-setup, repo-owner-name]
+    needs: [docker-setup, repo-owner-name, git-tag]
     uses: ./.github/workflows/publish-streamer.yml
     with:
       service_name: streamer-backend
@@ -42,7 +48,7 @@ jobs:
       owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-waterfall-backend:
-    needs: [docker-setup, repo-owner-name]
+    needs: [docker-setup, repo-owner-name, git-tag]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-backend
@@ -50,7 +56,7 @@ jobs:
       owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-waterfall-streamer:
-    needs: [docker-setup, repo-owner-name]
+    needs: [docker-setup, repo-owner-name, git-tag]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-streamer
@@ -58,7 +64,7 @@ jobs:
       owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-game:
-    needs: [docker-setup, repo-owner-name]
+    needs: [docker-setup, repo-owner-name, git-tag]
     uses: ./.github/workflows/publish-game.yml
     with:
       service_name: game
