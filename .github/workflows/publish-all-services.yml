@@ -1,3 +1,4 @@
+# .github/workflows/publish-all-services.yml
 name: Publish All Services
 
 on:
@@ -5,38 +6,61 @@ on:
     - cron: "25 5 * * *"
   push:
     branches: ["main"]
-    # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
     branches: ["main"]
 
 jobs:
+  docker-setup:
+    uses: ./.github/workflows/docker-setup.yml
+
+  repo-owner-name:
+    runs-on: ubuntu-latest
+    outputs:
+      lowercase: ${{ steps.toLowerCase.outputs.lowercase }}
+    steps:
+      - name: Get registry owner name
+        id: toLowerCase
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ github.repository_owner }}
+
   build-frontend:
+    needs: [docker-setup, repo-owner-name]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: hmi-frontend
       registry: ghcr.io
+      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-streamer-server:
+    needs: [docker-setup, repo-owner-name]
     uses: ./.github/workflows/publish-streamer.yml
     with:
       service_name: streamer-backend
       registry: ghcr.io
+      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-waterfall-backend:
+    needs: [docker-setup, repo-owner-name]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-backend
       registry: ghcr.io
+      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-waterfall-streamer:
+    needs: [docker-setup, repo-owner-name]
     uses: ./.github/workflows/publish-service.yml
     with:
       service_name: waterfall-streamer
       registry: ghcr.io
+      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
 
   build-game:
+    needs: [docker-setup, repo-owner-name]
     uses: ./.github/workflows/publish-game.yml
     with:
       service_name: game
       registry: ghcr.io
+      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}

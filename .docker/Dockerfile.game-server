@@ -1,4 +1,4 @@
-FROM barichello/godot-ci:4.3 as build
+FROM barichello/godot-ci:4.3 AS build
 
 WORKDIR /app/game
 
@@ -10,7 +10,7 @@ RUN godot --export-release --headless "Web" dist/index.html
 RUN rm -f server.py
 
 WORKDIR /app
-FROM python:3.9 as final
+FROM python:3.9 AS final
 
 COPY --from=build /app/game/dist /app/game
 

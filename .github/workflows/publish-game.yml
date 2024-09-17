@@ -9,21 +9,25 @@ on:
   workflow_call:
     inputs:
       service_name:
-        required: false
+        required: true
         type: string
-        default: game
-      
+
       registry:
         required: true
         type: string
         default: ghcr.io
-        
+
+      owner_name:
+        required: true
+        type: string
 
 env:
+  # Use docker.io for Docker Hub if empty
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ inputs.service_name }}
   REGISTRY: ${{inputs.registry}}
   NAMESPACE: mpz
+  OWNER_NAME: ${{inputs.owner_name}}
 
 jobs:
   build:
@@ -42,31 +46,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Docker Login
-        uses: docker/login-action@v3
-        with:
-          push: true
-          registry: ${{inputs.registry}}
-          username: ${{github.repository_owner}}
-          password: ${{secrets.GITHUB_TOKEN}}
-
-      - name: Get registry owner name
-        id: toLowerCase
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{github.repository_owner}}
-
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v5
         with:
-          images: ${{env.REGISTRY}}/${{steps.toLowerCase.outputs.lowercase}}/${{env.IMAGE_NAME}}
+          images: ${{env.REGISTRY}}/${{env.OWNER_NAME}}/${{env.IMAGE_NAME}}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          tag: ghcr.io/${{github.actor}}/3dgame:latest
           context: ./3D-Game
           file: .docker/Dockerfile.game-server 
           build-args: ServiceName=${{inputs.service_name}}
@@ -74,3 +68,5 @@ jobs:
           load: true
           tags: ${{steps.meta.outputs.tags}}
           labels: ${{steps.meta.outputs.labels}}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
