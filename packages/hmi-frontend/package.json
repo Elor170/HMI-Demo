@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.15.20",
     "@popperjs/core": "^2.11.8",
-    "axios": "^1.7.2",
+    "axios": "^1.7.7",
     "dotenv": "catalog:",
     "hmi-helper": "link:../hmi-helper",
     "ky": "^1.4.0",
