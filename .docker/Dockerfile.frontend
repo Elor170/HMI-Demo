@@ -4,7 +4,7 @@ WORKDIR /app/packages/hmi-helper
 COPY packages/hmi-helper .
 
 WORKDIR /app/packages/service
-COPY packages/hmi-frotend ./
+COPY packages/hmi-frontend ./
 
 WORKDIR /app
 RUN corepack enable

@@ -10,63 +10,69 @@ on:
   pull_request:
     branches: ["main"]
 
-env:
-  MAJOR_VERSION: 1
-
 jobs:
-  docker-setup:
-    uses: ./.github/workflows/docker-setup.yml
-
-  git-tag:
-    uses: ./.github/workflows/git-tag.yml
-
-  repo-owner-name:
+  docker:
     runs-on: ubuntu-latest
-    outputs:
-      lowercase: ${{ steps.toLowerCase.outputs.lowercase }}
+    strategy:
+      matrix:
+        include:
+          - image: ${{github.repository_owner}}/hmi-frontend
+            context: .
+            dockerfile: .docker/Dockerfile.frontend
+
+          - image: ${{github.repository_owner}}/streamer-server
+            context: .
+            dockerfile: .docker/Dockerfile.streamer
+            build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
+
+          - image: ${{github.repository_owner}}/waterfall-backend
+            context: .
+            dockerfile: .docker/Dockerfile.prod.service
+            build-args: ServiceName=waterfall-backend
+
+          - image: ${{github.repository_owner}}/waterfall-streamer
+            context: .
+            dockerfile: .docker/Dockerfile.prod.service
+            build-args: ServiceName=waterfall-streamer
+
+          - image: ${{github.repository_owner}}/game-server
+            context: .
+            dockerfile: .docker/Dockerfile.game-server
+
     steps:
-      - name: Get registry owner name
-        id: toLowerCase
+      - name: Checkout repositroy
+        uses: actions/checkout@v4
+
+      - name: Repo owner name to lowercase
+        id: owner_name_lowercase
         uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ github.repository_owner }}
 
-  build-frontend:
-    needs: [docker-setup, repo-owner-name, git-tag]
-    uses: ./.github/workflows/publish-service.yml
-    with:
-      service_name: hmi-frontend
-      registry: ghcr.io
-      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-  build-streamer-server:
-    needs: [docker-setup, repo-owner-name, git-tag]
-    uses: ./.github/workflows/publish-streamer.yml
-    with:
-      service_name: streamer-backend
-      registry: ghcr.io
-      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
+      - name: Login to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.repository_owner}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-  build-waterfall-backend:
-    needs: [docker-setup, repo-owner-name, git-tag]
-    uses: ./.github/workflows/publish-service.yml
-    with:
-      service_name: waterfall-backend
-      registry: ghcr.io
-      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
+      - name: Extreact metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{matrix.image}}
+          flavor: |
+            latest=${{ github.event_name != 'pull_request' }}
 
-  build-waterfall-streamer:
-    needs: [docker-setup, repo-owner-name, git-tag]
-    uses: ./.github/workflows/publish-service.yml
-    with:
-      service_name: waterfall-streamer
-      registry: ghcr.io
-      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
-
-  build-game:
-    needs: [docker-setup, repo-owner-name, git-tag]
-    uses: ./.github/workflows/publish-game.yml
-    with:
-      service_name: game
-      registry: ghcr.io
-      owner_name: ${{needs.repo-owner-name.outputs.lowercase}}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{matrix.context}}
+          file: ${{matrix.dockerfile}}
+          push: true
+          tags: ${{steps.meta.outputs.tags}}
+          labels: ${{steps.meta.outputs.labels}}
+          build-args: ${{matrix.build-args}}
