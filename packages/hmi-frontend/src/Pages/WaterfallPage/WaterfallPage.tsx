@@ -8,9 +8,22 @@ import styles from './WaterfallPage.module.scss';
 export default function WaterfallPage() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
   const [currentInterval, setCurrentInterval] = useState<SendingInterval | null>(null);
+  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
+
+  const handleScroll = () => {
+    if (pageRef.current) {
+      const {scrollLeft, scrollTop} = pageRef.current;
+      setScrollPosition({ x: scrollLeft, y: scrollTop });
+    }
+  };
 
   useEffect(() => {
+    const page = pageRef.current;
+    if (page)
+      page.addEventListener("scroll", handleScroll);
+
     getWaterfallData()
     .then(async data => {
       setIsLoaded(true);
@@ -20,13 +33,19 @@ export default function WaterfallPage() {
     });
 
     return () => {
+      if (page)
+        page.removeEventListener("scroll", handleScroll); 
       removeEventListenerToCanvas()
     }
   }, []);
   
   
   return (
-    <div className={styles.waterfallPage}>
+    <div className={styles.waterfallPage} ref={pageRef}>
+      {
+        scrollPosition.y > 0 ?
+        <div className={styles.YellowLine}></div> : null
+      }
       {isLoaded ? 
       <canvas ref={canvasRef} />:
       <div className={styles.LoadingSpinner}>

@@ -56,7 +56,7 @@ const onChange =  (value: number) => {
   .then(() => {
     console.log('Interval successfully changed to ' + value + ' ms');
   })
-  .catch((err) => {
+  .catch((_) => {
     console.log('Failed to change interval');
   });
 };

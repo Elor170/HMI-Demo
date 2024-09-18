@@ -1,10 +1,12 @@
+$scrollbar-width: 12px;
+
 .waterfallPage {
     overflow-x: hidden;
     overflow-y: auto;
     height: calc(100vh - 35px);
     
     &::-webkit-scrollbar {
-        width: 12px;
+        width: $scrollbar-width;
     }
 
     &::-webkit-scrollbar-track {
@@ -25,37 +27,43 @@
     &::-webkit-scrollbar-thumb:active {
         background-color: #666666;
     }
-}
 
-.currentInterval { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    height: 6vh;
-    width: 5vw;
-    bottom: 6vh;
-    left: 2vw;
-    text-align: center;
-    font-size: 1.5em;
-}
+    .currentInterval { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        height: 6vh;
+        width: 5vw;
+        bottom: 6vh;
+        left: 2vw;
+        text-align: center;
+        font-size: 1.5em;
+    }
+    
+    .IntervalSelector_container { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        height: 6vh;
+        width: 30vw;
+        bottom: 6vh;
+        left: 12vw;
+    }
+    
+    .LoadingSpinner {
+        display: flex;
+        justify-content: center;
+        width: 100vw;
+        height: 90vh;
+        align-items: center;
+    }
 
-.IntervalSelector_container { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    height: 6vh;
-    width: 30vw;
-    bottom: 6vh;
-    left: 12vw;
+    .YellowLine {
+        position: fixed;
+        width: calc(100vw - $scrollbar-width);
+        height: 10px;
+        background-color: rgb(172, 172, 0);
+    }
 }
-
-.LoadingSpinner {
-    display: flex;
-    justify-content: center;
-    width: 100vw;
-    height: 90vh;
-    align-items: center;
-}
-
