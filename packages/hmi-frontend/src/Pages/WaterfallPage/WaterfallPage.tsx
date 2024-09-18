@@ -4,6 +4,7 @@ import { sendingIntervalValues } from 'hmi-helper/src/vars';
 import IntervalSelector from './IntervalSelector';
 import CircularProgress from '@mui/material/CircularProgress';
 import styles from './WaterfallPage.module.scss';
+import { canvasHeight, screenHeight } from '@/Helper/consts';
 
 export default function WaterfallPage() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -14,8 +15,12 @@ export default function WaterfallPage() {
 
   const handleScroll = () => {
     if (pageRef.current) {
-      const {scrollLeft, scrollTop} = pageRef.current;
+      const {scrollLeft, scrollTop } = pageRef.current;
       setScrollPosition({ x: scrollLeft, y: scrollTop });
+      if (scrollTop === 0)
+        console.log('up');
+      else if (scrollTop === canvasHeight - screenHeight + 42) // 42 is the height of the header
+        console.log('down');
     }
   };
 
