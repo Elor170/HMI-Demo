@@ -1,22 +1,61 @@
 .waterfallPage {
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 35px); 
+    height: calc(100vh - 35px);
+    
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #1e1e1e;
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #444444;
+        border-radius: 6px;
+        border: 3px solid #1e1e1e;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #555555;
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        background-color: #666666;
+    }
 }
 
 .currentInterval { 
-    position: sticky;
-    bottom: 5vh;
-    left: 2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 6vh;
     width: 5vw;
+    bottom: 6vh;
+    left: 2vw;
     text-align: center;
     font-size: 1.5em;
 }
 
 .IntervalSelector_container { 
-    position: sticky;
-    bottom: 5vh;
-    left: 12vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 6vh;
     width: 30vw;
+    bottom: 6vh;
+    left: 12vw;
+}
+
+.LoadingSpinner {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 90vh;
+    align-items: center;
 }
 

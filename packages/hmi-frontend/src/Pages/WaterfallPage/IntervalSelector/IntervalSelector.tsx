@@ -33,6 +33,7 @@ export default function IntervalSelector({ values, defaultValue, label }: Props)
     <Box sx={{ width: '100%', margin: '50px'}}>
       <Typography gutterBottom style={{ fontSize: '2rem' }}>{label}</Typography>
       <Slider
+        color='success'
         value={indexVal}
         min={0}
         max={values.length - 1}

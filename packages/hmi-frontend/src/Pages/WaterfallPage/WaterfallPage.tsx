@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getWaterfallData, initCanvas, addEventListenerToCanvas, removeEventListenerToCanvas, formatInterval } from './WaterfallLogic';
 import { sendingIntervalValues } from 'hmi-helper/src/vars';
 import IntervalSelector from './IntervalSelector';
+import CircularProgress from '@mui/material/CircularProgress';
 import styles from './WaterfallPage.module.scss';
 
 export default function WaterfallPage() {
@@ -28,7 +29,9 @@ export default function WaterfallPage() {
     <div className={styles.waterfallPage}>
       {isLoaded ? 
       <canvas ref={canvasRef} />:
-      <div>Loading...</div>
+      <div className={styles.LoadingSpinner}>
+        <CircularProgress size={'10vh'} color='success'/>
+      </div>
       }
 
       <div className={styles.currentInterval}>
