@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  getWaterfallData,
   initCanvas,
   addEventListenerToCanvas,
   removeEventListenerToCanvas,
@@ -9,13 +8,25 @@ import {
 import { sendingIntervalValues } from "hmi-helper/src/vars";
 import IntervalSelector from "./IntervalSelector";
 import styles from "./WaterfallPage.module.scss";
-import { canvasHeight, darkTheme, screenHeight } from "@/Helper/consts";
-import { IconButton, CircularProgress, Backdrop } from "@mui/material";
+import {
+  canvasHeight,
+  darkTheme,
+  screenHeight,
+  WATERFALL_BACKEND_URL,
+} from "@/Helper/consts";
+import {
+  IconButton,
+  CircularProgress,
+  Backdrop,
+  Typography,
+} from "@mui/material";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import WaterfallLogsCard from "./WaterfallLogsCard/WaterfallLogsCard";
+import { useQuery } from "react-query";
+import ky from "ky";
+import { toast } from "react-toastify";
 
 export default function WaterfallPage() {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const [currentInterval, setCurrentInterval] =
@@ -34,35 +45,59 @@ export default function WaterfallPage() {
     }
   };
 
+  const { data, error, isLoading } = useQuery("waterfall-logs", () =>
+    ky
+      .get<WaterfallObject[]>("older-waterfall-data", {
+        searchParams: {
+          time: new Date().toString(),
+        },
+        prefixUrl: WATERFALL_BACKEND_URL,
+      })
+      .json()
+  );
+
   useEffect(() => {
+    if (!data) return;
     const page = pageRef.current;
     if (page) page.addEventListener("scroll", handleScroll);
 
-    getWaterfallData().then(async (data) => {
-      setIsLoaded(true);
-
-      initCanvas(canvasRef.current, data);
-      addEventListenerToCanvas(canvasRef.current, (newInterval) => {
-        setCurrentInterval(newInterval);
-      });
+    console.log("bruh");
+    initCanvas(canvasRef.current, data.reverse());
+    addEventListenerToCanvas(canvasRef.current, (newInterval) => {
+      setCurrentInterval(newInterval);
     });
 
     return () => {
       if (page) page.removeEventListener("scroll", handleScroll);
       removeEventListenerToCanvas();
     };
-  }, []);
+  }, [data]);
+
+  if (isLoading) {
+    return (
+      <div className={styles.waterfallPage}>
+        <div className={styles.LoadingSpinner}>
+          <CircularProgress size="10vh" color="success" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    toast.error("Couldn't fetch previous logs");
+    return (
+      <div className={styles.waterfallPage}>
+        <Typography variant="h4">
+          Couldn't fetch previous logs. Please try again
+        </Typography>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.waterfallPage} ref={pageRef}>
       {scrollPosition.y > 0 ? <div className={styles.YellowLine}></div> : null}
-      {isLoaded ? (
-        <canvas ref={canvasRef} />
-      ) : (
-        <div className={styles.LoadingSpinner}>
-          <CircularProgress size={"10vh"} color="success" />
-        </div>
-      )}
+      <canvas ref={canvasRef} />
 
       <div className={styles.currentInterval}>
         Current Interval:
