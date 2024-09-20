@@ -17,7 +17,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "catalog:",
     "@types/node": "^20.14.12",
-    "hmi-helper": "link:../hmi-helper",
+    "hmi-helper": "workspace:*",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "tsc-alias": "^1.8.10"
@@ -27,7 +27,7 @@
     "cors": "catalog:",
     "dotenv": "catalog:",
     "express": "catalog:",
-    "hmi-helper": "link:../hmi-helper",
+    "hmi-helper": "workspace:*",
     "mongodb": "catalog:",
     "socket.io": "catalog:"
   }

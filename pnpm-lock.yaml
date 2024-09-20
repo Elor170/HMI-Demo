@@ -69,7 +69,7 @@ importers:
         specifier: 'catalog:'
         version: 16.4.5
       hmi-helper:
-        specifier: link:../hmi-helper
+        specifier: workspace:*
         version: link:../hmi-helper
       ky:
         specifier: ^1.4.0
@@ -179,7 +179,7 @@ importers:
         specifier: 'catalog:'
         version: 4.19.2
       hmi-helper:
-        specifier: link:../hmi-helper
+        specifier: workspace:*
         version: link:../hmi-helper
       mongodb:
         specifier: 'catalog:'
@@ -225,7 +225,7 @@ importers:
         specifier: 'catalog:'
         version: 4.19.2
       hmi-helper:
-        specifier: link:../hmi-helper
+        specifier: workspace:*
         version: link:../hmi-helper
       mongodb:
         specifier: 'catalog:'
