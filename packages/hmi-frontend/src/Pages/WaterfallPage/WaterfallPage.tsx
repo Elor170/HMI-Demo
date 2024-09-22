@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import WaterfallLogsCard from "./WaterfallLogsCard/WaterfallLogsCard";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import ky from "ky";
 import { toast } from "react-toastify";
 
@@ -33,47 +33,81 @@ export default function WaterfallPage() {
     useState<SendingInterval | null>(null);
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
   const [openLogger, setOpenLogger] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handleScroll = () => {
     if (pageRef.current) {
       const { scrollLeft, scrollTop } = pageRef.current;
       setScrollPosition({ x: scrollLeft, y: scrollTop });
-      if (scrollTop === 0) console.log("up");
-      else if (scrollTop === canvasHeight - screenHeight + 42)
+      if (scrollTop === 0){
+        console.log("up");
+        if (currentPage > 0)
+          setCurrentPage(currentPage - 1);
+      }
+      else if (scrollTop === canvasHeight - screenHeight + 42){
         // 42 is the height of the header
         console.log("down");
+        console.log(hasNextPage);
+        if (hasNextPage)
+          fetchNextPage().then(() => setCurrentPage(currentPage + 1));
+      }
     }
   };
 
-  const { data, error, isLoading } = useQuery("waterfall-logs", () =>
-    ky
-      .get<WaterfallObject[]>("older-waterfall-data", {
-        searchParams: {
-          time: new Date().toString(),
-        },
-        prefixUrl: WATERFALL_BACKEND_URL,
-      })
-      .json()
-  );
 
+  const fetchProjects = async ({ pageParam =  new Date().toString() }) => {
+    
+    const res = await ky
+    .get<WaterfallObject[]>("older-waterfall-data", {
+      searchParams: {
+        time: pageParam,
+      },
+      prefixUrl: WATERFALL_BACKEND_URL,
+    })
+    .json();
+    
+    res.reverse();
+    return res;
+  } 
+
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useInfiniteQuery('waterfall-data', fetchProjects, {
+    getNextPageParam: (lastPage) => {
+      if(lastPage.length < canvasHeight)
+        return null;
+      
+      return new Date(lastPage[lastPage.length - 1].sendingTime);
+    }
+  })
+
+  
+  
   useEffect(() => {
     if (!data) return;
     const page = pageRef.current;
     if (page) page.addEventListener("scroll", handleScroll);
 
-    console.log("bruh");
-    initCanvas(canvasRef.current, data.reverse());
-    addEventListenerToCanvas(canvasRef.current, (newInterval) => {
-      setCurrentInterval(newInterval);
-    });
+    initCanvas(canvasRef.current, data.pages[currentPage]);
+    if (currentPage === 0) {
+      addEventListenerToCanvas(canvasRef.current, (newInterval) => {
+        setCurrentInterval(newInterval);
+      });
+    }
 
     return () => {
       if (page) page.removeEventListener("scroll", handleScroll);
-      removeEventListenerToCanvas();
+      if (currentPage === 0)
+        removeEventListenerToCanvas();
     };
-  }, [data]);
+  }, [data, currentPage]);
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className={styles.waterfallPage}>
         <div className={styles.LoadingSpinner}>
@@ -96,7 +130,7 @@ export default function WaterfallPage() {
 
   return (
     <div className={styles.waterfallPage} ref={pageRef}>
-      {scrollPosition.y > 0 ? <div className={styles.YellowLine}></div> : null}
+      {(scrollPosition.y > 0) || currentPage !== 0 ? <div className={styles.YellowLine}></div> : null}
       <canvas ref={canvasRef} />
 
       <div className={styles.currentInterval}>
