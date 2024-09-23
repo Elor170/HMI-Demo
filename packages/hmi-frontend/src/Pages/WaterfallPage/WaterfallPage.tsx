@@ -39,12 +39,10 @@ export default function WaterfallPage() {
     if (pageRef.current) {
       const { scrollLeft, scrollTop } = pageRef.current;
       setScrollPosition({ x: scrollLeft, y: scrollTop });
-      if (scrollTop === 0){
+      if (scrollTop === 0) {
         console.log("up");
-        if (currentPage > 0)
-          setCurrentPage(currentPage - 1);
-      }
-      else if (scrollTop === canvasHeight - screenHeight + 42){
+        if (currentPage > 0) setCurrentPage(currentPage - 1);
+      } else if (scrollTop === canvasHeight - screenHeight + 42) {
         // 42 is the height of the header
         console.log("down");
         console.log(hasNextPage);
@@ -54,40 +52,29 @@ export default function WaterfallPage() {
     }
   };
 
-
-  const fetchProjects = async ({ pageParam =  new Date().toString() }) => {
-    
+  const fetchProjects = async ({ pageParam = new Date().toString() }) => {
     const res = await ky
-    .get<WaterfallObject[]>("older-waterfall-data", {
-      searchParams: {
-        time: pageParam,
-      },
-      prefixUrl: WATERFALL_BACKEND_URL,
-    })
-    .json();
-    
+      .get<WaterfallObject[]>("older-waterfall-data", {
+        searchParams: {
+          time: pageParam,
+        },
+        prefixUrl: WATERFALL_BACKEND_URL,
+      })
+      .json();
+
     res.reverse();
     return res;
-  } 
+  };
 
+  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+    useInfiniteQuery("waterfall-data", fetchProjects, {
+      getNextPageParam: (lastPage) => {
+        if (lastPage.length < canvasHeight) return null;
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery('waterfall-data', fetchProjects, {
-    getNextPageParam: (lastPage) => {
-      if(lastPage.length < canvasHeight)
-        return null;
-      
-      return new Date(lastPage[lastPage.length - 1].sendingTime);
-    }
-  })
+        return new Date(lastPage[lastPage.length - 1].sendingTime);
+      },
+    });
 
-  
-  
   useEffect(() => {
     if (!data) return;
     const page = pageRef.current;
@@ -102,8 +89,7 @@ export default function WaterfallPage() {
 
     return () => {
       if (page) page.removeEventListener("scroll", handleScroll);
-      if (currentPage === 0)
-        removeEventListenerToCanvas();
+      if (currentPage === 0) removeEventListenerToCanvas();
     };
   }, [data, currentPage]);
 
@@ -130,7 +116,9 @@ export default function WaterfallPage() {
 
   return (
     <div className={styles.waterfallPage} ref={pageRef}>
-      {(scrollPosition.y > 0) || currentPage !== 0 ? <div className={styles.YellowLine}></div> : null}
+      {scrollPosition.y > 0 || currentPage !== 0 ? (
+        <div className={styles.YellowLine}></div>
+      ) : null}
       <canvas ref={canvasRef} />
 
       <div className={styles.currentInterval}>
