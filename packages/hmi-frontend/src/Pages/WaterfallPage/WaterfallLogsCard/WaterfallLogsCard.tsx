@@ -59,11 +59,7 @@ export default function WaterfallLogsCard() {
           </Button>
         ))}
       </ButtonGroup>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-      >
+      <Grid container alignItems="center" justifyContent="center">
         <WaterfallLogsChart data={data[selectedLogPoint]} />
       </Grid>
 
