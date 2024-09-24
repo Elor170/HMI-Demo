@@ -26,6 +26,11 @@ declare global {
     readonly B: readonly number[] | null;
   };
   interface ConsumeMessage extends amqp.ConsumeMessage {}
+  type WaterfallLogs = {
+    [K in SendingInterval]?: {
+      [K2 in number]?: number;
+    };
+  };
 
   namespace NodeJS {
     interface ProcessEnv {
@@ -38,8 +43,8 @@ declare global {
       WATERFALL_QUEUE: string;
       WATERFALL_DB: string;
       MONGO_URI: string;
-      SERVER_IP : string;
-      FRONTEND_IP : string;
+      SERVER_IP: string;
+      FRONTEND_IP: string;
     }
   }
 }

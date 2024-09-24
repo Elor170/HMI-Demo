@@ -1,16 +1,11 @@
 import { countDocuments, getDataChunk } from "./dataBase";
 
 const chunkSize = 1_000;
-type LogsObject = {
-    [K in SendingInterval]?: {
-        [K2 in number]?: number
-    }
-}
  
 
 export default async function generateLogs(): Promise<Object> {
     const docsNum = await countDocuments();
-    let logsObject: LogsObject = {};
+    let logsObject: WaterfallLogs = {};
 
     for (let i = 0; i < docsNum; i += chunkSize) {
         const dataChunk = await getDataChunk(chunkSize, i);
@@ -21,7 +16,7 @@ export default async function generateLogs(): Promise<Object> {
 }
 
 
-const handleDataChunk = (dataChunk: WaterfallObject[], logsObject: LogsObject) : LogsObject => {
+const handleDataChunk = (dataChunk: WaterfallObject[], logsObject: WaterfallLogs) : WaterfallLogs => {
     dataChunk.forEach((doc: WaterfallObject) => {
         const { sendingTime, frontendTime, sendingInterval } = doc;
 
