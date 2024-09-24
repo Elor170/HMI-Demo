@@ -1,7 +1,6 @@
 import { STREAMER_SERVER } from "@/Helper/consts";
 import {
   Box,
-  Button,
   Card,
   CircularProgress,
   Paper,
@@ -13,12 +12,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
 import ky from "ky";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import LogsTableCell from "./LogsTableCell";
-import downloadLogs from "@/Helper/downloadLogs";
+import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
 
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
@@ -92,15 +90,7 @@ export default function StreamLogsPage() {
         </TableContainer>
       </Box>
 
-      <Button
-        onClick={() => downloadLogs(data, "streamer_logs")}
-        fullWidth
-        color="error"
-        variant="contained"
-        startIcon={<DownloadIcon />}
-      >
-        Download
-      </Button>
+      <LogsDownloadButton data={data} fileName="streamer_logs" />
     </Card>
   );
 }
