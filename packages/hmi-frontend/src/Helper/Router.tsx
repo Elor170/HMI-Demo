@@ -3,7 +3,7 @@ import Waterfall from "@/Pages/WaterfallPage/WaterfallPage";
 import MapPage from "@/Pages/MapPage/MapPage";
 import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
 import IOChecks from "@/Pages/IOChecks/IOChecks";
-import GamePage from "@/Pages/GamePage/GamePage";
+import { createBrowserRouter } from "react-router-dom";
 
 interface RouteData {
   path: string;
@@ -12,7 +12,7 @@ interface RouteData {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-const router: RouteData[] = [
+export const routerData: RouteData[] = [
   {
     path: "/",
     element: <HomePage />,
@@ -40,4 +40,5 @@ const router: RouteData[] = [
   },
 ];
 
+const router = createBrowserRouter(routerData);
 export default router;

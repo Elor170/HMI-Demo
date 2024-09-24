@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import TopAppBar from "./Components/TopAppBar/TopAppBar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import router from "@/Helper/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
@@ -17,7 +17,7 @@ export default function App() {
         <TopAppBar />
         <CssBaseline />
         <Suspense fallback={<div>Loading...</div>}>
-          <RouterProvider router={createBrowserRouter(router)} />
+          <RouterProvider router={router} />
         </Suspense>
       </ThemeProvider>
 
