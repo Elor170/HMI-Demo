@@ -13,6 +13,11 @@ declare global {
 
   // Waterfall
   type SendingInterval = (typeof sendingIntervalValues)[number];
+  type WaterfallDataFrame = {
+    dataArr: WaterfallObject[];
+    isNewestData: boolean;
+    isOldestData: boolean;
+  }
   type WaterfallObject = {
     data: RGBObject;
     sendingTime: Date;

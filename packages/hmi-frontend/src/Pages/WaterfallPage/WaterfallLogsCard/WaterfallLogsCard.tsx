@@ -19,9 +19,15 @@ export default function WaterfallLogsCard() {
   const [selectedLogPoint, setSelectedLogPoint] =
     useState<SendingInterval>(100);
 
-  const { data, isLoading, error } = useQuery<WaterfallLogs>("logs", () =>
-    ky.get(`${WATERFALL_BACKEND_URL}/logs`).json<WaterfallLogs>()
-  );
+  const { data, isLoading, error } = useQuery<WaterfallLogs>({
+    queryKey: ["waterfall-logs"],
+    queryFn: () =>
+      ky.get(`${WATERFALL_BACKEND_URL}/logs`, {timeout: 60_000}).json<WaterfallLogs>(),
+    staleTime: Infinity,
+    cacheTime: 0,
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   if (isLoading) {
     return <CircularProgress />;

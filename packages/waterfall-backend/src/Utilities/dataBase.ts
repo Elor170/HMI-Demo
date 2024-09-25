@@ -1,5 +1,4 @@
-import { MongoDB } from "hmi-helper";
-import { screenHeight } from "@/consts";
+import { MongoDB, waterfallFrameSize } from "hmi-helper";
 const envVars = process.env;
 const { MONGO_URI: uri, WATERFALL_DB: dbName } = envVars;
 
@@ -41,10 +40,10 @@ export const getOlderData = async (date: Date): Promise<WaterfallObject[]> => {
         const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
             { $match: { sendingTime: { $lte: date } } },
             { $sort: { sendingTime: -1 } },
-            { $limit: screenHeight * 2 },
+            { $limit: waterfallFrameSize },
             { $sort: { sendingTime: 1 } }
         ]) as WaterfallObject[];
-
+        
         return dataArr;
     } catch (error) {
         if (!DB.getIsWhileConnecting())
@@ -56,11 +55,21 @@ export const getOlderData = async (date: Date): Promise<WaterfallObject[]> => {
 
 export const getNewerData = async (date: Date): Promise<WaterfallObject[]> => {
     try {
-        const dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
+        let dataArr: WaterfallObject[] = await DB.aggregate("waterfall", [
             { $match: { sendingTime: { $gte: date } } },
             { $sort: { sendingTime: 1 } },
-            { $limit: screenHeight * 2 }
+            { $limit: waterfallFrameSize }
         ]) as WaterfallObject[];
+
+        if (dataArr.length < waterfallFrameSize) {
+            const newestDate = new Date(dataArr[dataArr.length - 1].sendingTime);
+            dataArr = await DB.aggregate("waterfall", [
+                { $match: { sendingTime: { $lte:  newestDate} } },
+                { $sort: { sendingTime: -1 } },
+                { $limit: waterfallFrameSize },
+                { $sort: { sendingTime: 1 } }
+            ]) as WaterfallObject[];
+        }
 
         return dataArr;
     } catch (error) {
@@ -88,6 +97,34 @@ export const getDataChunk = async (chunkSize: number, startIndex: number): Promi
         if (!DB.getIsWhileConnecting())
             DB.reconnect();
         throw new Error('Failed to get data chunk');
+    }
+}
+
+export const buildDataFrame = async (dataArr: WaterfallObject[]): Promise<WaterfallDataFrame> => {
+    try {
+        const newestData: WaterfallObject = await DB.aggregate("waterfall", [
+            { $sort: { sendingTime: -1 } },
+            { $limit: 1 }
+        ]).then((data) => data[0]) as WaterfallObject;
+
+        const newestInArr = dataArr[dataArr.length - 1];
+        const date1 = new Date(newestData.sendingTime);
+        const date2 = new Date(newestInArr.sendingTime);
+
+        const diffInMilliseconds = Math.abs(date1.getTime() - date2.getTime());
+        const diffInSeconds = diffInMilliseconds / 1000;
+
+        const dataFrame = {
+            dataArr, 
+            isNewestData: diffInSeconds < 60,
+            isOldestData: dataArr.length < waterfallFrameSize
+        }
+
+        return dataFrame;
+    } catch (error) {
+        if (!DB.getIsWhileConnecting())
+            DB.reconnect();
+        throw new Error('Failed to build data frame');
     }
 }
  

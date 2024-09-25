@@ -4,15 +4,16 @@ import {
   addEventListenerToCanvas,
   removeEventListenerToCanvas,
   formatInterval,
+  getWaterfallData,
+  WaterfallQueryParams,
 } from "./WaterfallLogic";
-import { sendingIntervalValues } from "hmi-helper/src/vars";
 import IntervalSelector from "./IntervalSelector";
 import styles from "./WaterfallPage.module.scss";
 import {
   canvasHeight,
   darkTheme,
   screenHeight,
-  WATERFALL_BACKEND_URL,
+  sendingIntervalValues,
 } from "@/Helper/consts";
 import {
   IconButton,
@@ -22,8 +23,7 @@ import {
 } from "@mui/material";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import WaterfallLogsCard from "./WaterfallLogsCard/WaterfallLogsCard";
-import { useInfiniteQuery } from "react-query";
-import ky from "ky";
+import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 
 export default function WaterfallPage() {
@@ -33,67 +33,63 @@ export default function WaterfallPage() {
     useState<SendingInterval | null>(null);
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
   const [openLogger, setOpenLogger] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [queryParams, setQueryParams] = useState<WaterfallQueryParams>({
+    time: new Date(),
+    type: "older",
+  });
 
   const handleScroll = () => {
-    if (pageRef.current) {
-      const { scrollLeft, scrollTop } = pageRef.current;
-      setScrollPosition({ x: scrollLeft, y: scrollTop });
-      if (scrollTop === 0) {
-        console.log("up");
-        if (currentPage > 0) setCurrentPage(currentPage - 1);
-      } else if (scrollTop === canvasHeight - screenHeight + 42) {
-        // 42 is the height of the header
-        console.log("down");
-        console.log(hasNextPage);
-        if (hasNextPage)
-          fetchNextPage().then(() => setCurrentPage(currentPage + 1));
-      }
-    }
+    if (!pageRef.current) return;
+
+    const { scrollLeft, scrollTop } = pageRef.current;
+    setScrollPosition({ x: scrollLeft, y: scrollTop });
+
+    const dataArr = data?.dataArr;
+    const isOldestData = data?.isOldestData;
+    const isNewestData = data?.isNewestData;
+    const isScrollTop = scrollTop === 0;
+    // 42 is the height of the header
+    const isScrollBottom = scrollTop === canvasHeight - screenHeight + 46;
+    const firstLineTime = dataArr?.[0]?.sendingTime;
+    const lastLineTime = dataArr?.[dataArr?.length - 1]?.sendingTime;
+
+    if (isScrollTop && !isNewestData && firstLineTime) 
+      setQueryParams({ time: firstLineTime, type: "newer" });
+
+    else if (isScrollBottom && !isOldestData && lastLineTime) 
+      setQueryParams({ time: lastLineTime, type: "older" });
   };
 
-  const fetchProjects = async ({ pageParam = new Date().toString() }) => {
-    const res = await ky
-      .get<WaterfallObject[]>("older-waterfall-data", {
-        searchParams: {
-          time: pageParam,
-        },
-        prefixUrl: WATERFALL_BACKEND_URL,
-      })
-      .json();
-
-    res.reverse();
-    return res;
-  };
-
-  const { data, error, fetchNextPage, hasNextPage, isFetching } =
-    useInfiniteQuery("waterfall-data", fetchProjects, {
-      getNextPageParam: (lastPage) => {
-        if (lastPage.length < canvasHeight) return null;
-
-        return new Date(lastPage[lastPage.length - 1].sendingTime);
-      },
-    });
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["waterfall-data", queryParams],
+    queryFn: () => getWaterfallData(queryParams),
+    staleTime: Infinity,
+    cacheTime: 0,
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   useEffect(() => {
     if (!data) return;
     const page = pageRef.current;
     if (page) page.addEventListener("scroll", handleScroll);
 
-    initCanvas(canvasRef.current, data.pages[currentPage]);
-    if (currentPage === 0) {
-      addEventListenerToCanvas(canvasRef.current, (newInterval) => {
+    initCanvas(canvasRef.current, data.dataArr);
+    addEventListenerToCanvas(
+      canvasRef.current,
+      data.isNewestData,
+      (newInterval) => {
         setCurrentInterval(newInterval);
-      });
-    }
+      }
+    );
 
     return () => {
       if (page) page.removeEventListener("scroll", handleScroll);
-      if (currentPage === 0) removeEventListenerToCanvas();
+      removeEventListenerToCanvas();
     };
-  }, [data, currentPage]);
+  }, [data]);
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <div className={styles.waterfallPage}>
         <div className={styles.LoadingSpinner}>
@@ -104,19 +100,21 @@ export default function WaterfallPage() {
   }
 
   if (error) {
-    toast.error("Couldn't fetch previous logs");
+    toast.error("Couldn't fetch data");
     return (
       <div className={styles.waterfallPage}>
         <Typography variant="h4">
-          Couldn't fetch previous logs. Please try again
+          Couldn't fetch data. Please try again
         </Typography>
       </div>
     );
   }
 
+  const notAtScreenTop = scrollPosition.y > 0;
+  const isNewestData = data?.isNewestData;
   return (
     <div className={styles.waterfallPage} ref={pageRef}>
-      {scrollPosition.y > 0 || currentPage !== 0 ? (
+      {!isNewestData || notAtScreenTop ? (
         <div className={styles.YellowLine}></div>
       ) : null}
       <canvas ref={canvasRef} />

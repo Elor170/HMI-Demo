@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import { sendingIntervalValues, screenHeight, waterfallFrameSize } from "hmi-helper/src/vars";
 
 export const STREAMER_SERVER = import.meta.env.VITE_STREAMER_SERVER;
 export const WATERFALL_BACKEND_URL = import.meta.env.VITE_WATERFALL_BACKEND_URL;
@@ -32,6 +33,6 @@ export const lightTheme = createTheme({
   },
 });
 
-export const screenHeight = 1940;
-export const canvasHeight = screenHeight * 2;
+export {sendingIntervalValues, screenHeight, waterfallFrameSize};
+export const canvasHeight = waterfallFrameSize;
 export const canvasWidth = 3840; // as screen width

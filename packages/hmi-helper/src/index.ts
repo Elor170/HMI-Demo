@@ -1,6 +1,6 @@
 import express from "express";
 import "./types";
-import {sendingIntervalValues} from "./vars";
+import { sendingIntervalValues, screenHeight, waterfallFrameSize } from "./vars";
 import {isSendingInterval} from "./methods";
 import MessageQueue from "./messageQueue";
 import MongoDB from "./dataBase";
@@ -22,4 +22,5 @@ const validateChangeInterval = (
     );
 };
 
-export { sendingIntervalValues, validateChangeInterval, MessageQueue, MongoDB };
+export { sendingIntervalValues, screenHeight, waterfallFrameSize,
+  validateChangeInterval, MessageQueue, MongoDB };

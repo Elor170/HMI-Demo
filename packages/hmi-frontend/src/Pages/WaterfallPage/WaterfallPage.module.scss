@@ -3,7 +3,7 @@ $scrollbar-width: 12px;
 .waterfallPage {
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 35px);
+    height: calc(100vh - 39px);
     
     &::-webkit-scrollbar {
         width: $scrollbar-width;

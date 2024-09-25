@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import http from 'http';
-import { getOlderData, getNewerData } from "@/Utilities/dataBase";
+import { getOlderData, getNewerData, buildDataFrame } from "@/Utilities/dataBase";
 import generateLogs from "@/Utilities/logsGenerator";
 
 const app: Express = express();
@@ -18,7 +18,8 @@ app.get("/older-waterfall-data", async (req, res) => {
   
   try {
     const dataArr = await getOlderData(new Date(time)); 
-    return res.send(dataArr);
+    const dataFrame = await buildDataFrame(dataArr);
+    return res.send(dataFrame);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -30,7 +31,8 @@ app.get("/newer-waterfall-data", async(req, res) => {
   
   try {
     const dataArr = await getNewerData(new Date(time)); 
-    return res.send(dataArr);
+    const dataFrame = await buildDataFrame(dataArr);
+    return res.send(dataFrame);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
@@ -40,8 +42,6 @@ app.get("/newer-waterfall-data", async(req, res) => {
 app.get("/logs", async (req, res) => {
   try {
     const logs = await generateLogs();
-    console.log(logs, 3);
-    
     return res.send(logs);
   } catch (error) {
     console.log(error);

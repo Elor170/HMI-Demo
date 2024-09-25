@@ -5,6 +5,7 @@ import {
   canvasWidth,
   WATERFALL_BACKEND_URL,
 } from "@/Helper/consts";
+import ky from "ky";
 
 const io = SocketIOClient(WATERFALL_BACKEND_URL);
 const sendTimeToBackend = (data: WaterfallObject) => {
@@ -43,6 +44,7 @@ export const initCanvas = (
 
 export const addEventListenerToCanvas = (
   canvas: HTMLCanvasElement | null,
+  isUpdatingCanvas: boolean,
   setCurrentInterval: (arg: SendingInterval) => void
 ) => {
   io.on("waterfallToFrontend", (line: WaterfallObject) => {
@@ -50,7 +52,7 @@ export const addEventListenerToCanvas = (
 
     setCurrentInterval(line.sendingInterval);
 
-    if (canvas) {
+    if (canvas && isUpdatingCanvas) {
       const ctx = canvas.getContext("2d", { willReadFrequently: true });
       if (ctx) {
         const pixelLine = ctx.createImageData(canvasWidth, 1);
@@ -92,3 +94,23 @@ export const formatInterval = (val: SendingInterval): string => {
   if (val < 1000) return val + " ms";
   else return val / 1000 + " s";
 };
+
+export interface WaterfallQueryParams {
+  time: Date
+  type: 'older' | 'newer'
+}
+
+export async function getWaterfallData({time, type}: WaterfallQueryParams): Promise<WaterfallDataFrame> {
+    const data: WaterfallDataFrame = await ky
+      .get<WaterfallObject[]>(`${type}-waterfall-data`, {
+        searchParams: {
+          time: time.toString(),
+        },
+        prefixUrl: WATERFALL_BACKEND_URL,
+        timeout: 60_000,
+      })
+      .json();
+
+    data.dataArr.reverse();
+    return data;
+}
