@@ -5,12 +5,14 @@ interface DownloadButtonProps {
   data: unknown;
   fileName: string;
   sx?: SxProps;
+  fileExtension?: string;
 }
 
 export default function LogsDownloadButton({
   data,
   fileName,
   sx,
+  fileExtension,
 }: DownloadButtonProps) {
   function downloadLogs<T>(data: T, fileName: string) {
     const json = JSON.stringify(data, null, 2);
@@ -19,7 +21,7 @@ export default function LogsDownloadButton({
 
     const link = document.createElement("a");
     link.href = href;
-    link.download = fileName + ".json";
+    link.download = fileName + "." + fileExtension ?? "json";
     document.body.appendChild(link);
     link.click();
 
