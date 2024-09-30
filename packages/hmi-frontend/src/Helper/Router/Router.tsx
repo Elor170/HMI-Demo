@@ -4,6 +4,7 @@ import Waterfall from "@/Pages/WaterfallPage/WaterfallPage";
 import MapPage from "@/Pages/MapPage/MapPage";
 import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
 import IOChecks from "@/Pages/IOChecks/IOChecks";
+import GamePage from "@/Pages/GamePage/GamePage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/io-checks",
     element: <IOChecks />,
+  },
+  {
+    path: "/game",
+    element: <GamePage />,
   },
 ]);
 
