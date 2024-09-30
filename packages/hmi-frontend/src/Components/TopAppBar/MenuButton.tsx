@@ -20,7 +20,13 @@ export default function MenuButton({
   };
 
   return (
-    <Button color="inherit" variant="text" onClick={onClickEvent} href={hrefVal} {...props}>
+    <Button
+      color="inherit"
+      variant="text"
+      onClick={onClickEvent}
+      href={hrefVal}
+      {...props}
+    >
       {children}
     </Button>
   );

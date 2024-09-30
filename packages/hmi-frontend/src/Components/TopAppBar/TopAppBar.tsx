@@ -1,7 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import MenuButton from "./MenuButton";
-import { GAME_SERVER } from "@/Helper/consts";
 import { routerData } from "../../Helper/Router";
 
 export default function TopAppBar() {
@@ -13,8 +12,6 @@ export default function TopAppBar() {
             {label}
           </MenuButton>
         ))}
-
-        <MenuButton hrefVal={GAME_SERVER}>Cube</MenuButton>
       </AppBar>
     </Box>
   );
