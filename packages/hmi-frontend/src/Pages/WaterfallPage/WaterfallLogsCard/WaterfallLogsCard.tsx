@@ -25,7 +25,7 @@ export default function WaterfallLogsCard() {
 
   const [uploadedLogs, setUploadedLogs] = useState<WaterfallLogs | null>(null);
 
-  const { data, isLoading, error } = useQuery<WaterfallLogs>({
+  const { data, isLoading, error, refetch } = useQuery<WaterfallLogs>({
     queryKey: ["waterfall-logs"],
     queryFn: () =>
       ky
@@ -65,7 +65,10 @@ export default function WaterfallLogsCard() {
         <Box sx={{ display: "grid", placeItems: "center" }}>
           <Typography component="h4">Buffer Interval</Typography>
         </Box>
-        <WaterfallLogsUploader setUploadedLogs={setUploadedLogs} />
+        <WaterfallLogsUploader
+          uploadedLogs={uploadedLogs}
+          setUploadedLogs={setUploadedLogs}
+        />
       </Grid>
 
       <ButtonGroup variant="outlined">

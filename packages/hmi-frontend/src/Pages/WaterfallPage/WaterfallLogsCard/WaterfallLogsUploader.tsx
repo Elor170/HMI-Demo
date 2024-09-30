@@ -1,14 +1,16 @@
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { IconButton } from "@mui/material";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { WATERFALL_LOGS_FILE_EXTENSION } from "./WaterfallLogsCard";
 
 interface WaterfallLogsUploaderProps {
+  uploadedLogs: WaterfallLogs | null;
   setUploadedLogs: (newState: WaterfallLogs | null) => void;
 }
 
 export default function WaterfallLogsUploader({
   setUploadedLogs,
+  uploadedLogs,
 }: WaterfallLogsUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -24,6 +26,11 @@ export default function WaterfallLogsUploader({
 
     fileInputRef.current.click();
   };
+
+  // Removes the selected file from the input ref in case the user wants to watch the live logs
+  if (fileInputRef.current && !uploadedLogs) {
+    fileInputRef.current.value = "";
+  }
 
   return (
     <IconButton
