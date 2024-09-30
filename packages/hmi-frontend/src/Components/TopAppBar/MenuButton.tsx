@@ -2,7 +2,7 @@ import router from "@/Helper/Router";
 import { Button, ButtonProps } from "@mui/material";
 
 interface MenuButtonProps extends ButtonProps {
-  children: string | JSX.Element;
+  children: string | JSX.Element | JSX.Element[];
   nav?: string;
   hrefVal?: string;
 }

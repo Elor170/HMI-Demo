@@ -25,7 +25,7 @@ export default function WaterfallLogsCard() {
 
   const [uploadedLogs, setUploadedLogs] = useState<WaterfallLogs | null>(null);
 
-  const { data, isLoading, error, refetch } = useQuery<WaterfallLogs>({
+  const { data, isLoading, error } = useQuery<WaterfallLogs>({
     queryKey: ["waterfall-logs"],
     queryFn: () =>
       ky

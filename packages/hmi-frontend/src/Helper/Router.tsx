@@ -9,7 +9,7 @@ import GamePage from "@/Pages/GamePage/GamePage";
 interface RouteData {
   path: string;
   element: JSX.Element;
-  label: string;
+  label?: string;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -17,7 +17,6 @@ export const routerData: RouteData[] = [
   {
     path: "/",
     element: <HomePage />,
-    label: "Home",
   },
   {
     path: "/waterfall",
