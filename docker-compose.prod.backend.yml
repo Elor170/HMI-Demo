@@ -1,6 +1,6 @@
 services:
   streamer-backend:
-    image: ghcr.io/elor170/streamer-backend:latest
+    image: ghcr.io/elor170/streamer-server:latest
     container_name: hmi-streamer-backend
     environment:
       - PORT=$STREAMER_BACKEND_PORT
@@ -25,7 +25,7 @@ services:
     ports:
       - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
     depends_on:
-      - rabbitmq
+      - hmi-rabbitmq
     networks:
       - hmi_network
     restart: always
@@ -42,7 +42,7 @@ services:
     ports:
       - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
     depends_on:
-      - rabbitmq
+      - hmi-rabbitmq
     networks:
       - hmi_network
     restart: always
@@ -77,7 +77,7 @@ services:
     container_name: hmi-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: $RABBITMQ_USER
-      RABBITMQ_DEFAULT_PASS: $:RABBITMQ_PASS
+      RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASS
     restart: always
     ports:
       - "15671:15671"

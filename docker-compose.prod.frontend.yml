@@ -16,7 +16,7 @@ services:
     restart: always
 
   3d-game:
-    image: ghcr.io/elor170/game:latest
+    image: ghcr.io/elor170/game-server:latest
     container_name: hmi-game
     ports: 
       - ${GAME_PORT}:8000
