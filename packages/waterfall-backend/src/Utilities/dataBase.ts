@@ -1,4 +1,5 @@
 import { MongoDB, waterfallFrameSize } from "hmi-helper";
+import { addGrayLines } from "./dataHandler";
 const envVars = process.env;
 const { MONGO_URI: uri, WATERFALL_DB: dbName } = envVars;
 
@@ -7,6 +8,9 @@ let DB: MongoDB;
 const initDB = async (): Promise<void> => {
     DB = new MongoDB(uri, dbName);
     await DB.connect();
+    const data = await DB.aggregate('waterfall', [{ $limit: 1 }]);
+    if (data.length > 0)
+        addGrayLines();
 }
 
 export const saveMsg = async (newData: WaterfallObject): Promise<void> => {
@@ -125,6 +129,20 @@ export const buildDataFrame = async (dataArr: WaterfallObject[]): Promise<Waterf
         if (!DB.getIsWhileConnecting())
             DB.reconnect();
         throw new Error('Failed to build data frame');
+    }
+}
+
+
+export const saveMultipleMsgs = async (newDataArr: WaterfallObject[]): Promise<void> => {
+    if (DB){
+        try {
+            await DB.insertMany("waterfall", newDataArr);
+        } catch (error) {
+            console.error('Failed to insert Multiple Msgs');
+            
+            if (!DB.getIsWhileConnecting())
+                DB.reconnect();
+        }
     }
 }
  

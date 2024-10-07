@@ -1,4 +1,4 @@
-import { MongoClient, Db, Document, InsertOneResult, UpdateResult, DeleteResult, Filter } from 'mongodb';
+import { MongoClient, Db, Document, InsertOneResult, UpdateResult, DeleteResult, Filter, InsertManyResult } from 'mongodb';
 
 export default class MongoDB {
     private client: MongoClient | null = null;
@@ -59,6 +59,12 @@ export default class MongoDB {
     async insertOne(collectionName: string, document: Document): Promise<InsertOneResult> {
         if (this.db)
             return await this.db.collection(collectionName).insertOne(document);
+        throw new Error('There no open connection to MongoDB');
+    }
+
+    async insertMany(collectionName: string, documentsArr: Document[]): Promise<InsertManyResult> {
+        if (this.db)
+            return await this.db.collection(collectionName).insertMany(documentsArr);
         throw new Error('There no open connection to MongoDB');
     }
 

@@ -20,7 +20,9 @@ export function initCanvas(
       waterfallData.forEach((dataLine: WaterfallObject, lineIndex: number) => {
         dataLine.data.G.forEach((dataGVal: number, columnIndex: number) => {
           const canvasIndex = (lineIndex * canvas.width + columnIndex) * 4;
+          if (dataLine.data.R) canvasData[canvasIndex + 0] = dataLine.data.R[columnIndex];
           canvasData[canvasIndex + 1] = dataGVal; // G value
+          if (dataLine.data.B) canvasData[canvasIndex + 2] = dataLine.data.B[columnIndex + 2];
           canvasData[canvasIndex + 3] = 255; // Alpha value (fully opaque)
         });
       });
