@@ -1,8 +1,6 @@
 import { MongoClient } from "mongodb";
 import { countDocuments, getDataChunk } from "./dataBase";
 
-const chunkSize = 1_000;
- 
 const {MONGO_URI, WATERFALL_DB} = process.env;
 
 export default async function generateLogs(): Promise<WaterfallLogs> {
@@ -17,6 +15,7 @@ export default async function generateLogs(): Promise<WaterfallLogs> {
     await client.connect();
     const collection = client.db(WATERFALL_DB).collection('waterfall');
     const data = await collection.find<WaterfallObject>({}).toArray();
+    await client.close();
     data.forEach(doc => {
         const {sendingTime, frontendTime, sendingInterval} = doc;
         
