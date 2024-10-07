@@ -38,30 +38,6 @@ export default async function generateLogs(): Promise<WaterfallLogs> {
     return logsObject;
 }
 
-
-const handleDataChunk = (dataChunk: WaterfallObject[], logsObject: WaterfallLogs) : WaterfallLogs => {
-    dataChunk.forEach((doc: WaterfallObject) => {
-        const { sendingTime, frontendTime, sendingInterval } = doc;
-
-        if (sendingTime && frontendTime && sendingInterval) {
-            const timeDiff = calcTimeDiff(new Date(sendingTime), new Date(frontendTime)); // in sec (with 2 digits after dot precision)
-            
-            if (!(sendingInterval in logsObject))
-                logsObject[sendingInterval] = {};
-
-            if (logsObject[sendingInterval] && !(timeDiff in logsObject[sendingInterval]))
-                logsObject[sendingInterval][timeDiff] = 0;
-            
-            if (logsObject[sendingInterval] && (logsObject[sendingInterval][timeDiff] !== undefined))
-                logsObject[sendingInterval][timeDiff] = logsObject[sendingInterval][timeDiff] + 1;
-            
-        }
-    });
-
-    return logsObject;
-}
-
-
 const calcTimeDiff = (sendingTime: Date, frontendTime: Date): number => {
     let diff = frontendTime.getTime() - sendingTime.getTime(); // in ms
     if (diff < 100) {
