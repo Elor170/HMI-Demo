@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  initCanvas,
   addEventListenerToCanvas,
   removeEventListenerToCanvas,
   formatInterval,
@@ -21,10 +20,12 @@ import {
   Backdrop,
   Typography,
 } from "@mui/material";
+import { Wifi as ConnectionIcon } from "@mui/icons-material";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import WaterfallLogsCard from "./WaterfallLogsCard/WaterfallLogsCard";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import { initCanvas } from "./CanvasLogic";
 
 export default function WaterfallPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -37,6 +38,7 @@ export default function WaterfallPage() {
     time: new Date(),
     type: "older",
   });
+  const [isConnected, setIsConnected] = useState(false);
 
   const handleScroll = () => {
     if (!pageRef.current) return;
@@ -53,10 +55,9 @@ export default function WaterfallPage() {
     const firstLineTime = dataArr?.[0]?.sendingTime;
     const lastLineTime = dataArr?.[dataArr?.length - 1]?.sendingTime;
 
-    if (isScrollTop && !isNewestData && firstLineTime) 
+    if (isScrollTop && !isNewestData && firstLineTime)
       setQueryParams({ time: firstLineTime, type: "newer" });
-
-    else if (isScrollBottom && !isOldestData && lastLineTime) 
+    else if (isScrollBottom && !isOldestData && lastLineTime)
       setQueryParams({ time: lastLineTime, type: "older" });
   };
 
@@ -80,6 +81,9 @@ export default function WaterfallPage() {
       data.isNewestData,
       (newInterval) => {
         setCurrentInterval(newInterval);
+      },
+      (isConnected) => {
+        setIsConnected(isConnected);
       }
     );
 
@@ -114,7 +118,7 @@ export default function WaterfallPage() {
   const isNewestData = data?.isNewestData;
   return (
     <div className={styles.waterfallPage} ref={pageRef}>
-      {!isNewestData || notAtScreenTop ? (
+      {!isNewestData || notAtScreenTop || !isConnected ? (
         <div className={styles.YellowLine}></div>
       ) : null}
       <canvas ref={canvasRef} />
@@ -138,7 +142,7 @@ export default function WaterfallPage() {
         sx={{
           backgroundColor: darkTheme.palette.primary.dark,
           position: "fixed",
-          right: 0,
+          right: "3rem",
           bottom: 0,
           margin: "1rem",
         }}
@@ -153,6 +157,20 @@ export default function WaterfallPage() {
       >
         {openLogger && <WaterfallLogsCard />}
       </Backdrop>
+
+      <div className={styles.ConnectionIcon} style={{
+        backgroundColor: darkTheme.palette.primary.light,
+      }}>
+        <ConnectionIcon
+          sx={{
+            fill: isConnected
+              ? darkTheme.palette.success.dark
+              : darkTheme.palette.error.dark,
+          }}
+        />
+      </div>
     </div>
   );
 }
+
+// Error: Channel closed by server: 406 (PRECONDITION-FAILED) with message "PRECONDITION_FAILED - delivery acknowledgement on channel 1 timed out. Timeout value used: 1800000 ms. This timeout value can be configured, see consumers doc guide to learn more"

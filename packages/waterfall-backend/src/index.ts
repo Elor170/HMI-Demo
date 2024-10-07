@@ -12,6 +12,6 @@ const { WATERFALL_QUEUE: queueName } = envVars;
 
 await initDataReceiver();
 await initDB();
-initSocket();
+await initSocket();
 await receiveMsg(String(queueName), dataHandler);
 await startServer(Number(PORT));

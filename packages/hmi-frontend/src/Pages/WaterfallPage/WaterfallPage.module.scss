@@ -3,7 +3,7 @@ $scrollbar-width: 12px;
 .waterfallPage {
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(100vh - 39px);
+  height: calc(100vh - 47px);
 
   &::-webkit-scrollbar {
     width: $scrollbar-width;
@@ -65,5 +65,17 @@ $scrollbar-width: 12px;
     width: calc(100vw - $scrollbar-width);
     height: 10px;
     background-color: rgb(172, 172, 0);
+  }
+
+  .ConnectionIcon {
+    display: flex;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 20%;
+    align-items: center;
+    justify-content: center;
   }
 }
