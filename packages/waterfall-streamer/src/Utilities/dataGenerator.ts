@@ -2,7 +2,7 @@ type WaterfallDataType = 'constant' | 'random';
 let dataType: WaterfallDataType = 'constant';
 
 let counter: number = 0;
-const arraysLength: number = 3840;
+const arraysLength = 3840;
 const GMaxVal: number = 64;
 const constLength: number = 100;
 const constCubeWidth: number = 100;
