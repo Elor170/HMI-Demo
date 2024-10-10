@@ -1,5 +1,5 @@
 import SocketIOClient from "socket.io-client";
-import { isSendingInterval } from "hmi-helper/src/methods";
+import { isSendingInterval } from "hmi-helper/src/waterfallAssist";
 import { WATERFALL_BACKEND_URL } from "@/Helper/consts";
 import ky from "ky";
 import { addGrayLines, addLineToCanvas } from "./CanvasLogic";

@@ -15,13 +15,13 @@ const handleSendingFailed = async (): Promise<void> => {
 
 const intervalFunc = async (): Promise<void> => {
   const newData: WaterfallObject = generateData(sendingInterval);
-  
+
   await sendMsg(JSON.stringify(newData))
     .then(() => (sendingFailsCounter = 0))
     .catch(handleSendingFailed);
 };
 
-export const changeSendingInterval = (newInterval: SendingInterval) => {
+export const changeSendingInterval = (newInterval: SendingInterval): void => {
   sendingInterval = newInterval;
   clearInterval(intervalID);
   intervalID = setInterval(intervalFunc, sendingInterval);

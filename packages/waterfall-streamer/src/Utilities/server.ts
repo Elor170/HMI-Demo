@@ -1,23 +1,19 @@
-import express, { Request, Response, Express } from "express";
-import { validateChangeInterval } from "hmi-helper";
+import express from "express";
 import cors from "cors";
 import { changeSendingInterval } from "./intervalManager";
+import validateChangeInterval from "./validateChangeInterval";
 
-const app: Express = express();
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.patch(
-  "/ChangeSendingInterval",
-  validateChangeInterval,
-  (req: Request, res: Response) => {
-    const { newInterval } = req.body;
+app.patch("/ChangeSendingInterval", validateChangeInterval, (req, res) => {
+  const { newInterval } = req.body;
 
-    changeSendingInterval(newInterval);
+  changeSendingInterval(newInterval);
 
-    return res.status(200).send();
-  }
-);
+  return res.status(200).send();
+});
 
 export const startServer = (port: number) => {
   app.listen(port, () => {

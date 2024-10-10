@@ -1,26 +1,11 @@
-import express from "express";
 import "./types";
-import { sendingIntervalValues, screenHeight, waterfallFrameSize } from "./vars";
-import {isSendingInterval} from "./methods";
 import MessageQueue from "./messageQueue";
 import MongoDB from "./dataBase";
+export { MessageQueue, MongoDB };
 
-const validateChangeInterval = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  const newInterval = req.body.newInterval;
-  if (isSendingInterval(newInterval)) return next();
-  
-  console.error(`Received invalid interval ${newInterval} ms.`);
-  return res
-    .status(400)
-    .send(
-      "Invalid interval value given. Accepted values are: " +
-        sendingIntervalValues.toString()
-    );
-};
-
-export { sendingIntervalValues, screenHeight, waterfallFrameSize,
-  validateChangeInterval, MessageQueue, MongoDB };
+export {
+  sendingIntervalValues,
+  screenHeight,
+  waterfallFrameSize,
+} from "./vars";
+export { isSendingInterval } from "./waterfallAssist";
