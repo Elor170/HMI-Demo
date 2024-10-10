@@ -17,7 +17,7 @@ declare global {
     dataArr: WaterfallObject[];
     isNewestData: boolean;
     isOldestData: boolean;
-  }
+  };
   type WaterfallObject = {
     data: RGBObject;
     sendingTime: Date;

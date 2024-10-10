@@ -1,7 +1,7 @@
 FROM node:20-slim
 
-WORKDIR /app/packages/hmi-helper
-COPY packages/hmi-helper .
+WORKDIR /app/libs/hmi-helper
+COPY libs/hmi-helper .
 
 WORKDIR /app/packages/service
 COPY packages/hmi-frontend ./

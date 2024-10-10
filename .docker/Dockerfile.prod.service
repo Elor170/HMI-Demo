@@ -1,8 +1,8 @@
 FROM node:20-slim
 ARG ServiceName
 
-WORKDIR /app/packages/hmi-helper
-COPY packages/hmi-helper .
+WORKDIR /app/libs/hmi-helper
+COPY libs/hmi-helper .
 
 WORKDIR /app/packages/service
 COPY packages/$ServiceName ./
