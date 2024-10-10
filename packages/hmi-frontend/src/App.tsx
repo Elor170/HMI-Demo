@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import TopAppBar from "./Components/TopAppBar/TopAppBar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
-import router from "./Helper/Router/Router";
+import router from "@/Helper/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "react-query";

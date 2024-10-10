@@ -33,6 +33,7 @@ export default class MessageQueue {
 
   async reconnect(): Promise<void> {
     console.log("Attempting to reconnect to Message Queue...");
+    this.connection?.close(); // make sure the connection is closed
     this.connection = null;
     this.channel = null;
     await this.connect();
@@ -59,10 +60,10 @@ export default class MessageQueue {
     if (!this.channel) {
       throw new Error("Channel is not initialized. Call connect() first.");
     }
-    await this.channel.consume(queue, (msg) => {
+    await this.channel.consume(queue, async (msg) => {
       if (msg) {
-        onMessage(msg);
-        this.channel?.ack(msg);
+        await onMessage(msg);
+        await this.channel?.ack(msg);
       }
     });
   }

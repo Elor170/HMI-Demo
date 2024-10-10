@@ -1,5 +1,6 @@
 packages:
   - 'packages/*'
+  - "libs/*"
 
 catalog:
   express: ^4.19.2
