@@ -8,6 +8,7 @@ on:
 
 jobs:
   versioning:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -99,7 +100,7 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }}
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:latest
