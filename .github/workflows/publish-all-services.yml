@@ -17,6 +17,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
+        if: ${{ github.event_name != 'pull_request' }}
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
@@ -99,7 +100,7 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }}
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:latest
