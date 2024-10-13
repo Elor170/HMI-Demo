@@ -18,7 +18,7 @@
     "@types/express": "catalog:",
     "@types/node": "^22.4.0",
     "cors": "^2.8.5",
-    "hmi-helper": "file:../hmi-helper",
+    "hmi-helper": "workspace:*",
     "tsc-alias": "^1.8.10",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4"
