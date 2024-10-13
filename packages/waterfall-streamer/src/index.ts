@@ -5,6 +5,6 @@ import dotenv from "dotenv";
 dotenv.config();
 const { PORT } = process.env;
 
-await initDataSender()
-  .then(startInterval)
-  .then(() => startServer(Number(PORT)));
+await initDataSender();
+startInterval();
+startServer(Number(PORT));

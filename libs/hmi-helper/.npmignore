@@ -1,0 +1,4 @@
+tsup.config.ts
+tsconfig.json
+.npmignore
+node_modules

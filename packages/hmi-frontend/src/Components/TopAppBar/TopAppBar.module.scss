@@ -1,0 +1,16 @@
+.title {
+    display: flex;
+    margin-right: 2rem;
+    position: relative;
+
+    .centerVer {
+        height: 100%;
+        top: 50%;
+    }
+
+    .appIcon {
+        height: 100%;
+        width: 2rem;
+        top: 50%;
+    }
+}

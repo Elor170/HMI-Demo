@@ -25,7 +25,7 @@
     "cors": "catalog:",
     "dotenv": "catalog:",
     "express": "catalog:",
-    "hmi-helper": "link:../hmi-helper",
+    "hmi-helper": "workspace:*",
     "mongodb": "catalog:",
     "socket.io": "catalog:"
   }

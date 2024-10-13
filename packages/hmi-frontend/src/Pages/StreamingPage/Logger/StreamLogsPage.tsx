@@ -1,7 +1,6 @@
 import { STREAMER_SERVER } from "@/Helper/consts";
 import {
   Box,
-  Button,
   Card,
   CircularProgress,
   Paper,
@@ -13,34 +12,17 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
 import ky from "ky";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import LogsTableCell from "./LogsTableCell";
+import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
 
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
     "logs",
     () => ky.get(`${STREAMER_SERVER}/logs`).json<StreamLogData[]>()
   );
-
-  const downloadLogs = () => {
-    const fileName = "logs";
-    const json = JSON.stringify(data, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = href;
-    link.download = fileName + ".json";
-    document.body.appendChild(link);
-    link.click();
-
-    // clean up "a" element & remove ObjectURL
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
-  };
 
   if (error) {
     toast.error(error.message);
@@ -108,15 +90,7 @@ export default function StreamLogsPage() {
         </TableContainer>
       </Box>
 
-      <Button
-        onClick={downloadLogs}
-        fullWidth
-        color="error"
-        variant="contained"
-        startIcon={<DownloadIcon />}
-      >
-        Download
-      </Button>
+      <LogsDownloadButton data={data} fileName="streamer_logs" />
     </Card>
   );
 }
