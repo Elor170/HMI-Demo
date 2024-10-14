@@ -20,8 +20,5 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: Infinity,
-  },
-  preview: {
-    port: PORT
   }
 });
