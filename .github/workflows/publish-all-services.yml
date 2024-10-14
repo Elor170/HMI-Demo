@@ -9,15 +9,16 @@ on:
 jobs:
   versioning:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged)  # Run on direct push and merged PR
     steps:
       - uses: actions/checkout@v4
       - name: Bump version and push tag
+        if: github.event_name != 'pull_request'
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
+        if: github.event_name != 'pull_request'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}

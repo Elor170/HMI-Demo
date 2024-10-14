@@ -17,17 +17,20 @@ interface HoverControlsProps {
 export default function HoverControls({ hover, scale }: HoverControlsProps) {
   const videoContainerRef = useContext(VideoContainerRefContext);
 
-  const { timestamp, setTimestamp, isPlaying, setIsPlaying } = useStreamer();
+  const { timestamp, setTimestamp, isPlaying, setIsPlaying, play } =
+    useStreamer();
   const { isFullscreen } = useFullscreen(videoContainerRef);
 
   const videoRef = useContext(VideoRefContext);
 
-  const moveTimestamp = (amount: number) => {
+  const moveTimestamp = (e: React.MouseEvent, amount: number) => {
+    e.stopPropagation();
+    
     const newTimestamp = timestamp + amount;
     setTimestamp(newTimestamp);
-
     if (videoRef.current) {
       videoRef.current.seekTo(newTimestamp);
+      play();
     }
   };
 
@@ -40,7 +43,7 @@ export default function HoverControls({ hover, scale }: HoverControlsProps) {
       justifyItems="center"
       sx={{ transform: `scale(${scale})` }}
     >
-      <IconButton onClick={() => moveTimestamp(-5)}>
+      <IconButton onClick={(e) => moveTimestamp(e, -5)}>
         <Typography component="span">5</Typography>
         <UndoIcon />
       </IconButton>
@@ -49,7 +52,7 @@ export default function HoverControls({ hover, scale }: HoverControlsProps) {
         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
       </IconButton>
 
-      <IconButton onClick={() => moveTimestamp(5)}>
+      <IconButton onClick={(e) => moveTimestamp(e, 5)}>
         <RedoIcon />
         <Typography component="span">5</Typography>
       </IconButton>
