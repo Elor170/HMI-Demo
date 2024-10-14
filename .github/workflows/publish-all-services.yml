@@ -25,7 +25,7 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
     outputs:
-      version: ${{ steps.tag_version.outputs.new_version }}
+      version: ${{ steps.tag_version.outputs.new_version || '1.0.0'}}
 
   repo-owner-name:
     runs-on: ubuntu-latest

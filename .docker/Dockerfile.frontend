@@ -4,6 +4,7 @@ RUN corepack enable
 RUN corepack use pnpm
 
 COPY pnpm-*.yaml .
+COPY tsconfig.*.json .
 
 WORKDIR /app/libs/hmi-helper
 COPY libs/hmi-helper .
