@@ -1,6 +1,5 @@
 import HomePage from "@/Pages/HomePage/HomePage";
 import Waterfall from "@/Pages/WaterfallPage/WaterfallPage";
-import MapPage from "@/Pages/MapPage/MapPage";
 import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
 import IOChecks from "@/Pages/IOChecks/IOChecks";
 import { createBrowserRouter } from "react-router-dom";
@@ -22,11 +21,6 @@ export const routerData: RouteData[] = [
     path: "/waterfall",
     element: <Waterfall />,
     label: "Waterfall",
-  },
-  {
-    path: "/map",
-    element: <MapPage />,
-    label: "Map",
   },
   {
     path: "/streamer",

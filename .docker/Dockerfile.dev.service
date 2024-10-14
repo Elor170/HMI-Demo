@@ -2,7 +2,8 @@ FROM node:20-slim
 ARG ServiceName
 
 WORKDIR /app
-COPY pnpm-workspace.yaml ./
+COPY pnpm-*.yaml .
+COPY tsconfig.base.json .
 RUN corepack enable
 RUN corepack use pnpm 
 
