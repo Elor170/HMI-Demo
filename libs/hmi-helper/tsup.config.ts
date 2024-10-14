@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src"],
   dts: true,
-  bundle: false,
+  bundle: true,
   minify: false,
   format: ["esm"],
 });
