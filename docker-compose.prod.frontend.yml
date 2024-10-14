@@ -7,6 +7,7 @@ services:
       VITE_WATERFALL_BACKEND_URL: http://${SERVER_IP}:${WATERFALL_BACKEND_PORT}
       VITE_3D_GAME_SERVER: http://${FRONTEND_IP}:${GAME_PORT}
       PORT: $HMI_FRONTEND_PORT
+    # TODO: Check if works without lol
     env_file:
       - .env
     ports:

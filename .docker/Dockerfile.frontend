@@ -1,18 +1,22 @@
-FROM node:20-slim
-
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
-
-WORKDIR /app/packages/service
-COPY packages/hmi-frontend ./
-
+FROM node:20 AS build
 WORKDIR /app
 RUN corepack enable
 RUN corepack use pnpm
-COPY pnpm-workspace.yaml .
+
+COPY pnpm-*.yaml .
+
+WORKDIR /app/libs/hmi-helper
+COPY libs/hmi-helper .
 RUN pnpm i
 
-WORKDIR /app/packages/service
-RUN pnpm i typescript
+WORKDIR /app/packages/frontend
+COPY packages/hmi-frontend .
+RUN pnpm i
+RUN pnpm build
 
-CMD pnpm build && pnpm start
+FROM nginx:1.27.2-alpine AS base
+COPY --from=build /app/packages/frontend/dist /usr/share/nginx/html
+COPY nginx/env.sh /docker-entrypoint.d/env.sh
+RUN chmod +x /docker-entrypoint.d/env.sh
+
+CMD [ "nginx", "-g", "daemon off;" ]
