@@ -21,7 +21,7 @@ export default function LogsDownloadButton({
 
     const link = document.createElement("a");
     link.href = href;
-    link.download = fileName + "." + fileExtension ?? "json";
+    link.download = fileName + "." + fileExtension || "json";
     document.body.appendChild(link);
     link.click();
 

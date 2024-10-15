@@ -39,7 +39,7 @@ app.get("/newer-waterfall-data", async(req, res) => {
   }
 }); 
 
-app.get("/logs", async (req, res) => {
+app.get("/logs", async (_, res) => {
   try {
     const logs = await generateLogs();
     return res.send(logs);

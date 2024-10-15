@@ -1,22 +1,14 @@
 FROM barichello/godot-ci:latest AS build
 
-WORKDIR /app/game
+WORKDIR /app
 
 COPY . .
 
 RUN rm -rf dist
 RUN mkdir dist
 RUN godot --export-release --headless "Web" dist/index.html
-RUN rm -f server.py
 
-WORKDIR /app
-FROM python:3.9 AS final
+FROM nginx:1.27.2-alpine AS final
+COPY --from=build /app/dist /usr/share/nginx/html
+CMD [ "nginx", "-g", "daemon off;" ]
 
-COPY --from=build /app/game/dist /app/game
-
-WORKDIR /app/game
-COPY server.py .
-
-EXPOSE 8000
-
-CMD [ "python", "server.py" ]

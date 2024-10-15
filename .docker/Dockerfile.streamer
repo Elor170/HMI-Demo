@@ -26,7 +26,8 @@ COPY packages/streamer-backend ./
 WORKDIR /app
 RUN corepack enable
 RUN corepack use pnpm
-COPY pnpm-workspace.yaml .
+COPY pnpm-*.yaml .
+COPY tsconfig.*.json .
 RUN pnpm i
 
 WORKDIR /app/packages/service
