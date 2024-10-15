@@ -8,8 +8,6 @@ on:
 
 jobs:
   versioning:
-    concurrency:
-      group: pre-containerization
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +19,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: major
           default_prerelease_bump: minor
-
       - name: Create a GitHub release
         if: github.event_name != 'pull_request'
         uses: ncipollo/release-action@v1
@@ -33,9 +30,8 @@ jobs:
     outputs:
       version: ${{ steps.tag_version.outputs.new_version || '1.0.0'}}
 
+
   repo-owner-name:
-    concurrency:
-      group: pre-containerization
     runs-on: ubuntu-latest
     outputs:
       lowercase: ${{ steps.toLowerCase.outputs.lowercase }}
@@ -108,7 +104,7 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          push: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged) }}  # Push only on direct push or merged PR
+          push: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged) }} # Push only on direct push or merged PR
           tags: |
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }}
             ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:latest

@@ -1,0 +1,42 @@
+name: Test PNPM Workspace
+
+on:
+  pull_request:
+
+jobs:
+  test-workspace:
+    runs-on: ubuntu-latest
+    name: Test Workspace
+
+    strategy:
+      matrix:
+        package:
+          [
+            hmi-helper,
+            hmi-frontend,
+            streamer-backend,
+            waterfall-backend,
+            waterfall-streamer,
+          ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.JS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build package ${{matrix.package}}
+        run: pnpm --filter ${{matrix.package}} build
