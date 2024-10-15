@@ -8,6 +8,8 @@ on:
 
 jobs:
   versioning:
+    concurrency:
+      group: pre-containerization
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +21,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: major
           default_prerelease_bump: minor
+
       - name: Create a GitHub release
         if: github.event_name != 'pull_request'
         uses: ncipollo/release-action@v1
@@ -31,8 +34,9 @@ jobs:
       version: ${{ steps.tag_version.outputs.new_version || '1.0.0'}}
 
   repo-owner-name:
+    concurrency:
+      group: pre-containerization
     runs-on: ubuntu-latest
-    needs: versioning
     outputs:
       lowercase: ${{ steps.toLowerCase.outputs.lowercase }}
     steps:
