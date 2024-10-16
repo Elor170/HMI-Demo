@@ -12,21 +12,23 @@ interface LogsChartProps {
   data: { [x: number]: number | undefined } | undefined;
 }
 
-const arrangeData = (data: { [x: number]: number | undefined }): { key: number, value: number| undefined }[] => {
+const arrangeData = (data: {
+  [x: number]: number | undefined;
+}): { key: number; value: number | undefined }[] => {
   const entries = Object.entries(data);
-  const sortedEntries = entries.sort((entry1, entry2) => (entry1[0] as unknown as number) - (entry2[0] as unknown as number));
-  
-  return sortedEntries.map(([key, value]) =>
-    ({
-      key: Number(key),
-      value,
-    }))
-}
+  const sortedEntries = entries.sort(
+    (entry1, entry2) =>
+      (entry1[0] as unknown as number) - (entry2[0] as unknown as number),
+  );
+
+  return sortedEntries.map(([key, value]) => ({
+    key: Number(key),
+    value,
+  }));
+};
 
 export default function WaterfallLogsChart({ data }: LogsChartProps) {
-  const currentDataArray = data
-    ? arrangeData(data)
-    : [];
+  const currentDataArray = data ? arrangeData(data) : [];
 
   if (currentDataArray.length === 0) {
     return (

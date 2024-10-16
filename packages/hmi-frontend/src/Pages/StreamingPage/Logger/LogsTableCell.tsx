@@ -21,7 +21,7 @@ export default function LogsTableCell({ log, refetch }: LogsTableCellProps) {
 
   const deleteLog = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: StreamLogData["_id"]
+    id: StreamLogData["_id"],
   ) => {
     e.stopPropagation();
 

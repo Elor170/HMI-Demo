@@ -23,12 +23,15 @@ export const reconnectDataReceiver = async (): Promise<void> => {
   });
 };
 
-export const receiveMsg = async (queue: string, msgHandler: (msg: ConsumeMessage| null) => void): Promise<void> => {
-    try {
-      await MQ.consume(queue, msgHandler)
-    } catch (error) {
-      const errorMsg: string = "Error: Failed to consume from queue" + queue;
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
+export const receiveMsg = async (
+  queue: string,
+  msgHandler: (msg: ConsumeMessage | null) => void,
+): Promise<void> => {
+  try {
+    await MQ.consume(queue, msgHandler);
+  } catch (error) {
+    const errorMsg: string = "Error: Failed to consume from queue" + queue;
+    console.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 };

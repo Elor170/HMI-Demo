@@ -24,11 +24,11 @@ export const reconnectDataSender = async (): Promise<void> => {
 };
 
 export const sendMsg = async (data: string): Promise<void> => {
-    try {
-      await MQ.sendToQueue(queueName, data);
-    } catch (error) {
-      const errorMsg: string = "Error: Failed to send the message.";
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
+  try {
+    await MQ.sendToQueue(queueName, data);
+  } catch (error) {
+    const errorMsg: string = "Error: Failed to send the message.";
+    console.error(errorMsg);
+    throw new Error(errorMsg);
+  }
 };

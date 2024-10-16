@@ -1,2 +1,2 @@
-import IntervalSelector from './IntervalSelector';
+import IntervalSelector from "./IntervalSelector";
 export default IntervalSelector;

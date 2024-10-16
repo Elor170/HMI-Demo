@@ -21,7 +21,7 @@ import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButt
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
     "logs",
-    () => ky.get(`${STREAMER_SERVER}/logs`).json<StreamLogData[]>()
+    () => ky.get(`${STREAMER_SERVER}/logs`).json<StreamLogData[]>(),
   );
 
   if (error) {
@@ -76,7 +76,7 @@ export default function StreamLogsPage() {
                 .sort(
                   (a, b) =>
                     Date.parse(b.bufferStartDate.toString()) -
-                    Date.parse(a.bufferStartDate.toString())
+                    Date.parse(a.bufferStartDate.toString()),
                 )
                 .map((log) => (
                   <LogsTableCell

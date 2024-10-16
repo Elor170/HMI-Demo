@@ -60,7 +60,7 @@ const useStreamer = create<StreamerStoreStates & StreamerStoreActions>(
 
     play: () => set({ isPlaying: true }),
     pause: () => set({ isPlaying: false }),
-  })
+  }),
 );
 
 export default useStreamer;

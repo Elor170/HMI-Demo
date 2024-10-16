@@ -46,7 +46,7 @@ export default function StreamingPage() {
           position: "fixed",
           right: 0,
           bottom: 0,
-          margin: '1rem'
+          margin: "1rem",
         }}
       >
         <DescriptionIcon />

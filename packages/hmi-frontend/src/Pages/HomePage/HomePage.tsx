@@ -8,7 +8,7 @@ export default function HomePage() {
 
   const showFunny = useMemo(
     () => titleClickCounter > 0 && clicksCounter >= 10,
-    [titleClickCounter, clicksCounter]
+    [titleClickCounter, clicksCounter],
   );
 
   return (

@@ -25,7 +25,7 @@ export default function HoverControls({ hover, scale }: HoverControlsProps) {
 
   const moveTimestamp = (e: React.MouseEvent, amount: number) => {
     e.stopPropagation();
-    
+
     const newTimestamp = timestamp + amount;
     setTimestamp(newTimestamp);
     if (videoRef.current) {

@@ -17,7 +17,7 @@ export default function TopAppBar() {
         menuButtons.push(
           <MenuButton key={router.path} nav={router.path}>
             {router.label}
-          </MenuButton>
+          </MenuButton>,
         );
       }
     });
@@ -28,7 +28,7 @@ export default function TopAppBar() {
   return (
     <Box sx={{ userSelect: "none", position: "relative" }}>
       <AppBar position="static" sx={{ display: "flex", flexDirection: "row" }}>
-        <Toolbar sx={{width: '100%'}}>
+        <Toolbar sx={{ width: "100%" }}>
           <MenuButton nav="/" className={styles.title} color="inherit">
             <TbSubmarine className={styles.appIcon} />
             <Typography className={styles.centerVer} variant="h6">
@@ -38,7 +38,7 @@ export default function TopAppBar() {
 
           {menuButtons}
 
-          <MenuItem sx={{position: 'absolute', right: 0}}>
+          <MenuItem sx={{ position: "absolute", right: 0 }}>
             <a href="https://github.com/Elor170/HMI-Demo">
               <IconButton>
                 <GitHubIcon />

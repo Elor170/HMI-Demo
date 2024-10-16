@@ -6,10 +6,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
+    }
   },
   "tsc-alias": {
-    "resolveFullPaths": true,
+    "resolveFullPaths": true
   },
   "include": ["src"]
 }

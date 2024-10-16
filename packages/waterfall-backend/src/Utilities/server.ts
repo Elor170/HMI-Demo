@@ -1,7 +1,11 @@
 import express, { Express } from "express";
 import cors from "cors";
-import http from 'http';
-import { getOlderData, getNewerData, buildDataFrame } from "@/Utilities/dataBase";
+import http from "http";
+import {
+  getOlderData,
+  getNewerData,
+  buildDataFrame,
+} from "@/Utilities/dataBase";
 import generateLogs from "@/Utilities/logsGenerator";
 
 const app: Express = express();
@@ -15,9 +19,9 @@ app.get("/", (_, res) => {
 
 app.get("/older-waterfall-data", async (req, res) => {
   const time: Date = req.query.time as unknown as Date;
-  
+
   try {
-    const dataArr = await getOlderData(new Date(time)); 
+    const dataArr = await getOlderData(new Date(time));
     const dataFrame = await buildDataFrame(dataArr);
     return res.send(dataFrame);
   } catch (error) {
@@ -26,18 +30,18 @@ app.get("/older-waterfall-data", async (req, res) => {
   }
 });
 
-app.get("/newer-waterfall-data", async(req, res) => {
+app.get("/newer-waterfall-data", async (req, res) => {
   const time: Date = req.query.time as unknown as Date;
-  
+
   try {
-    const dataArr = await getNewerData(new Date(time)); 
+    const dataArr = await getNewerData(new Date(time));
     const dataFrame = await buildDataFrame(dataArr);
     return res.send(dataFrame);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
   }
-}); 
+});
 
 app.get("/logs", async (_, res) => {
   try {
@@ -47,7 +51,7 @@ app.get("/logs", async (_, res) => {
     console.log(error);
     res.status(500).send(error);
   }
-}); 
+});
 
 export const startServer = (port: number): Promise<void> => {
   return new Promise<void>((resolve, _) => {
@@ -55,7 +59,7 @@ export const startServer = (port: number): Promise<void> => {
       console.log("Server started on port " + port);
       resolve();
     });
-  })
+  });
 };
 
 export { httpServer };

@@ -1,2 +1,2 @@
-import MouseTester from './MouseTester';
+import MouseTester from "./MouseTester";
 export default MouseTester;

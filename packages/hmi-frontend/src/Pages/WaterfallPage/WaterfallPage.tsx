@@ -84,7 +84,7 @@ export default function WaterfallPage() {
       },
       (isConnected) => {
         setIsConnected(isConnected);
-      }
+      },
     );
 
     return () => {
@@ -158,9 +158,12 @@ export default function WaterfallPage() {
         {openLogger && <WaterfallLogsCard />}
       </Backdrop>
 
-      <div className={styles.ConnectionIcon} style={{
-        backgroundColor: darkTheme.palette.primary.light,
-      }}>
+      <div
+        className={styles.ConnectionIcon}
+        style={{
+          backgroundColor: darkTheme.palette.primary.light,
+        }}
+      >
         <ConnectionIcon
           sx={{
             fill: isConnected

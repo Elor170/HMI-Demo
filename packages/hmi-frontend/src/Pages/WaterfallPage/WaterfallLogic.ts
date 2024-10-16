@@ -8,7 +8,7 @@ const disconnectionTimeout = 20_000;
 const onDisconnect = (
   canvas: HTMLCanvasElement | null,
   isUpdatingCanvas: boolean,
-  setIsConnected: (arg: boolean) => void
+  setIsConnected: (arg: boolean) => void,
 ) => {
   setIsConnected(false);
   if (canvas && isUpdatingCanvas) addGrayLines(canvas);
@@ -24,11 +24,11 @@ export const addEventListenerToCanvas = (
   canvas: HTMLCanvasElement | null,
   isUpdatingCanvas: boolean,
   setCurrentInterval: (arg: SendingInterval) => void,
-  setIsConnected: (arg: boolean) => void
+  setIsConnected: (arg: boolean) => void,
 ) => {
   let disconnectTimeout = setTimeout(
     () => onDisconnect(canvas, isUpdatingCanvas, setIsConnected),
-    disconnectionTimeout
+    disconnectionTimeout,
   );
 
   io.on("waterfallToFrontend", (line: WaterfallObject) => {
@@ -37,7 +37,7 @@ export const addEventListenerToCanvas = (
 
     disconnectTimeout = setTimeout(
       () => onDisconnect(canvas, isUpdatingCanvas, setIsConnected),
-      disconnectionTimeout
+      disconnectionTimeout,
     );
 
     sendTimeToBackend(line);

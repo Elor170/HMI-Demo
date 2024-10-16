@@ -4,7 +4,7 @@ const grayLinesNum = 10;
 
 export function initCanvas(
   canvas: HTMLCanvasElement | null,
-  waterfallData: WaterfallObject[]
+  waterfallData: WaterfallObject[],
 ): void {
   if (canvas) {
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -20,9 +20,11 @@ export function initCanvas(
       waterfallData.forEach((dataLine: WaterfallObject, lineIndex: number) => {
         dataLine.data.G.forEach((dataGVal: number, columnIndex: number) => {
           const canvasIndex = (lineIndex * canvas.width + columnIndex) * 4;
-          if (dataLine.data.R) canvasData[canvasIndex + 0] = dataLine.data.R[columnIndex];
+          if (dataLine.data.R)
+            canvasData[canvasIndex + 0] = dataLine.data.R[columnIndex];
           canvasData[canvasIndex + 1] = dataGVal; // G value
-          if (dataLine.data.B) canvasData[canvasIndex + 2] = dataLine.data.B[columnIndex + 2];
+          if (dataLine.data.B)
+            canvasData[canvasIndex + 2] = dataLine.data.B[columnIndex + 2];
           canvasData[canvasIndex + 3] = 255; // Alpha value (fully opaque)
         });
       });
@@ -35,7 +37,7 @@ export function initCanvas(
 
 export function addLineToCanvas(
   canvas: HTMLCanvasElement,
-  line: WaterfallObject
+  line: WaterfallObject,
 ): void {
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (ctx) {
@@ -61,29 +63,33 @@ export function addLineToCanvas(
   }
 }
 
-export function addGrayLines(
-  canvas: HTMLCanvasElement,
-): void {
+export function addGrayLines(canvas: HTMLCanvasElement): void {
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (ctx) {
     const pixelLines = ctx.createImageData(canvasWidth, grayLinesNum);
     const linesData = pixelLines.data;
 
     for (let lineIndex = 0; lineIndex < grayLinesNum; lineIndex++) {
-        for (let columnIndex = 0; columnIndex < canvasWidth; columnIndex++) {
-            const canvasIndex = (lineIndex * canvas.width + columnIndex) * 4;
-            linesData[canvasIndex + 0] = 100;  // R value
-            linesData[canvasIndex + 1] = 100; // G value
-            linesData[canvasIndex + 2] = 100; // B value
-            linesData[canvasIndex + 3] = 255; // Alpha value (fully opaque)
-        };
-    };
+      for (let columnIndex = 0; columnIndex < canvasWidth; columnIndex++) {
+        const canvasIndex = (lineIndex * canvas.width + columnIndex) * 4;
+        linesData[canvasIndex + 0] = 100; // R value
+        linesData[canvasIndex + 1] = 100; // G value
+        linesData[canvasIndex + 2] = 100; // B value
+        linesData[canvasIndex + 3] = 255; // Alpha value (fully opaque)
+      }
+    }
 
     // Update the pixel data of the new line
     pixelLines.data.set(linesData);
 
     // Move the existing canvas image down by 1 line (shifting it)
-    let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight - grayLinesNum, {});
+    let imageData = ctx.getImageData(
+      0,
+      0,
+      canvasWidth,
+      canvasHeight - grayLinesNum,
+      {},
+    );
     ctx.putImageData(imageData, 0, grayLinesNum); // Shift existing content down by 1 pixel line
 
     // Draw the new pixel line at the top

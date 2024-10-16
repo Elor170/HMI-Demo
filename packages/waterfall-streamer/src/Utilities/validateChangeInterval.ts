@@ -5,7 +5,7 @@ import { isSendingInterval } from "hmi-helper";
 export default function validateChangeInterval(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const newInterval = req.body.newInterval;
   if (isSendingInterval(newInterval)) return next();
@@ -15,6 +15,6 @@ export default function validateChangeInterval(
     .status(400)
     .send(
       "Invalid interval value given. Accepted values are: " +
-        sendingIntervalValues.toString()
+        sendingIntervalValues.toString(),
     );
 }

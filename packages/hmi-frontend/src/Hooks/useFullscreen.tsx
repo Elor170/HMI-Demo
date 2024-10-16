@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function useFullscreen(
-  elementRef: React.RefObject<HTMLDivElement>
+  elementRef: React.RefObject<HTMLDivElement>,
 ) {
   const isFullscreen = document.fullscreenElement !== null;
 

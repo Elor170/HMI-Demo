@@ -22,10 +22,10 @@ export default class MessageQueue {
           "Connection to MQ failed, retrying in",
           this.reconnectInterval / 1000,
           "seconds... \n",
-          error
+          error,
         );
         await new Promise((resolve) =>
-          setTimeout(resolve, this.reconnectInterval)
+          setTimeout(resolve, this.reconnectInterval),
         );
       }
     }
@@ -55,7 +55,7 @@ export default class MessageQueue {
 
   async consume(
     queue: string,
-    onMessage: (msg: amqp.ConsumeMessage | null) => void
+    onMessage: (msg: amqp.ConsumeMessage | null) => void,
   ): Promise<void> {
     if (!this.channel) {
       throw new Error("Channel is not initialized. Call connect() first.");

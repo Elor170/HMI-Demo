@@ -1,2 +1,2 @@
-import MouseView from './MouseView';
+import MouseView from "./MouseView";
 export default MouseView;
