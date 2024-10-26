@@ -59,7 +59,6 @@ jobs:
           - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
-            build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
 
           - image: waterfall-backend
             context: .
