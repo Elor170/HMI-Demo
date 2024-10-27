@@ -4,6 +4,7 @@ import StreamingPage from "@/Pages/StreamingPage/StreamingPage";
 import IOChecks from "@/Pages/IOChecks/IOChecks";
 import { createBrowserRouter } from "react-router-dom";
 import GamePage from "@/Pages/GamePage/GamePage";
+import MapPage from "@/Pages/MapPage/MapPage";
 
 interface RouteData {
   path: string;
@@ -36,6 +37,11 @@ export const routerData: RouteData[] = [
     path: "/game",
     element: <GamePage />,
     label: "Game",
+  },
+  {
+    path: "/map",
+    element: <MapPage />,
+    label: "Map",
   },
 ];
 
