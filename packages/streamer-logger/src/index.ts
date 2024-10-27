@@ -1,6 +1,4 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
 import logsRouter from "./routes/logger";
 import cors from "cors";
 import dotenv from "dotenv";

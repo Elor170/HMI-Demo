@@ -173,7 +173,7 @@ importers:
         specifier: ^5.4.7
         version: 5.4.10(@types/node@20.17.1)(sass@1.80.4)
 
-  packages/streamer-backend:
+  packages/streamer-logger:
     dependencies:
       body-parser:
         specifier: 'catalog:'
