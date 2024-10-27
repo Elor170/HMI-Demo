@@ -10,7 +10,7 @@ export const WATERFALL_BACKEND_URL = import.meta.env.VITE_WATERFALL_BACKEND_URL;
 export const WATERFALL_STREAMER_URL = import.meta.env
   .VITE_WATERFALL_STREAMER_URL;
 export const GAME_SERVER = import.meta.env.VITE_3D_GAME_SERVER;
-export const STREAMER_LOGGER = import.meta.env.VITE_STREAMER_LOGGER
+export const STREAMER_LOGGER = import.meta.env.VITE_STREAMER_LOGGER;
 
 export const RESOLUTIONS = [
   "240p",
