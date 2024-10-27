@@ -7,6 +7,7 @@ import MapView from "@arcgis/core/views/MapView";
 import Map from "@arcgis/core/Map";
 import { useRef, useEffect, useState } from "react";
 import { FormControlLabel, FormGroup, Checkbox, Card } from "@mui/material";
+import { MAP_SERVER } from "@/Helper/consts";
 
 // TODO: Read about layerlist in docs
 export default function MapPage() {
@@ -16,12 +17,12 @@ export default function MapPage() {
   const [showSampleLayer, setShowSampleLayer] = useState(true);
 
   const citiesMap = new MapImageLayer({
-    url: "https://192.168.253.231:6443/arcgis/rest/services/SampleWorldCities/MapServer",
+    url: `${MAP_SERVER}/arcgis/rest/services/SampleWorldCities/MapServer`,
     visible: showCitiesLayer,
   });
 
   const sampleMap = new MapImageLayer({
-    url: "https://192.168.253.231:6443/arcgis/rest/services/sampleSD111/MapServer",
+    url: `${MAP_SERVER}/arcgis/rest/services/sampleSD111/MapServer`,
     visible: showSampleLayer,
   });
 
@@ -37,8 +38,8 @@ export default function MapPage() {
         },
         container: mapDiv.current, // The id or node representing the DOM element containing the view.
         map: webmap, // An instance of a Map object to display in the view.
-        center: [-117.149, 32.7353],
-        scale: 10000000, // Represents the map scale at the center of the view.
+        center: [31, 42],
+        scale: 100000000, // Represents the map scale at the center of the view.
       });
 
       return () => view && view.destroy();
