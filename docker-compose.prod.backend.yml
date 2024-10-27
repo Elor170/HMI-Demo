@@ -1,14 +1,26 @@
 services:
-  streamer-backend:
+  video-streamer:
     image: ghcr.io/elor170/streamer-server:latest
-    container_name: hmi-streamer-backend
+    container_name: hmi-video-streamer
+    ports:
+      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
+
+    networks:
+      - hmi_network
+    restart: always
+
+  
+  streamer-logger:
+    image: ghcr.io/elor170/streamer-server:latest
+    container_name: hmi-streamer-logger
     environment:
       - PORT=$STREAMER_BACKEND_PORT
       - MONGO_URI=$MONGO_URI
     ports:
-      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
+      - "$STREAMER_LOGGER_PORT:$STREAMER_LOGGER_PORT"
     depends_on:
-      - hmi-mongo-db
+    - hmi-mongo-db
+    - hmi-video-streamer
     networks:
       - hmi_network
     restart: always

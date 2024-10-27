@@ -60,6 +60,11 @@ jobs:
             context: .
             dockerfile: .docker/Dockerfile.streamer
 
+          - image: streamer-logger
+            context: .
+            dockerfile: .docker/Dockerfile.prod.service
+            build-args: ServiceName=streamer-logger
+
           - image: waterfall-backend
             context: .
             dockerfile: .docker/Dockerfile.prod.service

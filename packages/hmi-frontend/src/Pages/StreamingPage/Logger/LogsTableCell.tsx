@@ -2,7 +2,7 @@ import { TableCell, TableRow, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { STREAMER_SERVER, darkTheme } from "@/Helper/consts";
+import { STREAMER_LOGGER, darkTheme } from "@/Helper/consts";
 import ky from "ky";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -25,7 +25,7 @@ export default function LogsTableCell({ log, refetch }: LogsTableCellProps) {
   ) => {
     e.stopPropagation();
 
-    const response = await ky.delete(`${STREAMER_SERVER}/logs/delete/${id}`);
+    const response = await ky.delete(`${STREAMER_LOGGER}/logs/delete/${id}`);
 
     if (!response.ok) {
       toast.error(response.statusText);

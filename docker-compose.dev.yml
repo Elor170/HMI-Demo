@@ -5,6 +5,7 @@ services:
       service: dev-service
     environment:
       - VITE_STREAMER_SERVER=http://$SERVER_IP:$STREAMER_BACKEND_PORT
+      - VITE_STREAMER_LOGGER=http://$SERVER_IP:$VITE_STREAMER_LOGGER_PORT
       - VITE_WATERFALL_BACKEND_URL=http://$SERVER_IP:$WATERFALL_BACKEND_PORT
       - VITE_WATERFALL_STREAMER_URL=http://$SERVER_IP:$WATERFALL_STREAMER_PORT
       - VITE_3D_GAME_SERVER=http://localhost:$GAME_PORT
@@ -36,29 +37,36 @@ services:
     networks:
       - hmi_network
 
-  streamer-backend:
+  video-streamer:
+    build:
+      dockerfile: .docker/Dockerfile.streamer
+      context: .
+    ports:
+      - "$STREAMER_BACKEND_PORT:80"
+
+  streamer-logger:
     extends:
       file: .docker/docker-compose.service.dev.yml
       service: dev-service
     environment:
-      - PORT=$STREAMER_BACKEND_PORT
+      - PORT=$STREAMER_LOGGER_PORT
       - MONGO_URI=$MONGO_URI
     build:
       args:
-        ServiceName: streamer-backend
+        ServiceName: streamer-logger
     develop:
       watch:
         - action: sync
-          path: ./packages/streamer-backend/src
+          path: ./packages/streamer-logger/src
           target: /app/packages/service/src
         - action: sync+restart
-          path: ./packages/streamer-backend/.env
+          path: ./packages/streamer-logger/.env
           target: /app/packages/service/.env
         - action: rebuild
-          path: ./packages/streamer-backend/package.json
+          path: ./packages/streamer-logger/package.json
           target: /app/packages/service/package.json
     ports:
-      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
+      - "$STREAMER_LOGGER_PORT:$STREAMER_LOGGER_PORT"
     depends_on:
       - hmi-mongo-db
 

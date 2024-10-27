@@ -1,4 +1,4 @@
-FROM linuxserver/ffmpeg:7.0.2 AS videos
+FROM linuxserver/ffmpeg:7.0.2 AS build
 WORKDIR /videos
 COPY /videos .
 RUN ffmpeg -i 8k.mp4 -vf scale=3840:2160 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 4k.mp4
@@ -9,27 +9,7 @@ RUN ffmpeg -i 8k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c
 RUN ffmpeg -i 8k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
-FROM node:20-slim AS base
-ENV PORT=3000
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
-
-WORKDIR /app/packages/service
-COPY packages/streamer-backend ./
-
-WORKDIR /app
-RUN corepack enable
-RUN corepack use pnpm
-COPY pnpm-*.yaml .
-COPY tsconfig.*.json .
-RUN pnpm i
-
-WORKDIR /app/packages/service
-
-RUN pnpm i typescript
-RUN pnpm build
-
-WORKDIR /app/packages/service/public/videos
-COPY --from=videos /videos .
-
-CMD ["pnpm", "start"]
+FROM nginx AS base
+COPY --from=build /videos /app/videos
+COPY nginx/nginx.streamer.conf /etc/nginx/nginx.conf
+CMD [ "nginx", "-g", "daemon off;" ]
