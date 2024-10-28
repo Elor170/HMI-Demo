@@ -1,0 +1,30 @@
+{
+  "name": "game-monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "cors": "catalog:",
+    "express": "catalog:",
+    "dotenv": "catalog:",
+    "mongodb": "catalog:"
+  },
+  "devDependencies": {
+    "@types/cors": "catalog:",
+    "@types/express": "catalog:",
+    "@types/node": "catalog:",
+    "tsc-alias": "^1.8.10",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "hmi-helper": "workspace:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

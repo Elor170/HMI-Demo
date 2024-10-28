@@ -37,6 +37,16 @@ declare global {
     };
   };
 
+  // Game
+  interface GameLog {
+    _id?: ObjectId;
+    spheres: number;
+    cubes: number;
+    fps: number;
+    date: Date;
+    secondsPlayed: number;
+  }
+
   namespace NodeJS {
     interface ProcessEnv {
       RABBITMQ_HOST: string;
