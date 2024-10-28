@@ -1,6 +1,11 @@
+FROM jauderho/yt-dlp AS download
+ARG video
+WORKDIR /videos
+RUN yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -o 8k.mp4 ${video}
+
 FROM linuxserver/ffmpeg:7.0.2 AS build
 WORKDIR /videos
-COPY /videos .
+COPY --from=download /videos .
 RUN ffmpeg -i 8k.mp4 -vf scale=3840:2160 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 4k.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
@@ -9,7 +14,7 @@ RUN ffmpeg -i 8k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c
 RUN ffmpeg -i 8k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
-FROM nginx AS base
-COPY --from=build /videos /app/videos
+FROM nginx:latest AS base
+COPY --from=build /videos /videos
 COPY nginx/nginx.streamer.conf /etc/nginx/nginx.conf
 CMD [ "nginx", "-g", "daemon off;" ]
