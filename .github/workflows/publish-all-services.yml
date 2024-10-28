@@ -59,6 +59,7 @@ jobs:
           - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
+            build-args: video=https://youtu.be/xp763iNB_MA?si=L3dSc8WYFQno-h7y
 
           - image: streamer-logger
             context: .
