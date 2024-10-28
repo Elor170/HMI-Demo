@@ -59,7 +59,7 @@ jobs:
           - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
-            build-args: video=https://youtu.be/xp763iNB_MA?si=L3dSc8WYFQno-h7y
+            build-args: video=https://download946.mediafire.com/og7fagdfjysgxXi8xWLXqJ5T8R1xnv9OhWj9UsXoY3h2eCYIYc8qY9p-UMwgueVNAV_f-a26lO5m4tSgSwQv4eY3P93jgT738_51lbpJDUGTOHa1QZrqUhMgr6JVaSaiCFad3bo882jse4ZyVmdHMD4Fu2OrIfVFzAiOsgMUpbe-2rY/3cse6ko41ijq6g6/8K+HDR+Football+Juventus+vs+Tottenham+Dolby+Atmos+%28Ultra+HD%29+%5Bxp763iNB_MA%5D.mp4
 
           - image: streamer-logger
             context: .

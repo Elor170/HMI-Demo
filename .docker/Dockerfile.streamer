@@ -1,7 +1,8 @@
-FROM jauderho/yt-dlp AS download
+FROM alpine:latest AS download
 ARG video
 WORKDIR /videos
-RUN yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -o 8k.mp4 ${video}
+RUN apk add --no-cache curl
+RUN curl -o 8k.mp4 ${video}
 
 FROM linuxserver/ffmpeg:7.0.2 AS build
 WORKDIR /videos
@@ -15,6 +16,7 @@ RUN ffmpeg -i 8k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c
 RUN ffmpeg -i 8k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
 FROM nginx:latest AS base
-COPY --from=build /videos /videos
+WORKDIR /app/videos
+COPY --from=build /videos .
 COPY nginx/nginx.streamer.conf /etc/nginx/nginx.conf
 CMD [ "nginx", "-g", "daemon off;" ]
