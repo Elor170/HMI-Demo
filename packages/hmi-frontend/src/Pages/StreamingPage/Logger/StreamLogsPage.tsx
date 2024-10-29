@@ -90,7 +90,11 @@ export default function StreamLogsPage() {
         </TableContainer>
       </Box>
 
-      <LogsDownloadButton data={data} fileName="streamer_logs" />
+      <LogsDownloadButton
+        data={data}
+        fileName="streamer_logs"
+        fileExtension="sl"
+      />
     </Card>
   );
 }

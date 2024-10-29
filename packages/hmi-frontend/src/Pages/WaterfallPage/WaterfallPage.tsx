@@ -50,8 +50,8 @@ export default function WaterfallPage() {
     const isOldestData = data?.isOldestData;
     const isNewestData = data?.isNewestData;
     const isScrollTop = scrollTop === 0;
-    // 42 is the height of the header
-    const isScrollBottom = scrollTop === canvasHeight - screenHeight + 46;
+    // 71 is the height of the header
+    const isScrollBottom = scrollTop === canvasHeight - screenHeight + 71;
     const firstLineTime = dataArr?.[0]?.sendingTime;
     const lastLineTime = dataArr?.[dataArr?.length - 1]?.sendingTime;
 
