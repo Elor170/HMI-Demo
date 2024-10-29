@@ -42,6 +42,21 @@ services:
       - hmi_network
     restart: always
 
+
+  game-monitor:
+    image: ghcr.io/elor170/game-monitor:latest
+    container_name: hmi-game-monitor
+    environment:
+      PORT: $GAME_MONITOR_PORT
+      MONGO_URI: $MONGO_URI
+    ports:
+      - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
+    depends_on:
+      - hmi-mongo=db
+    networks:
+      - hmi_network
+    restart: always
+
   waterfall-streamer:
     image: ghcr.io/elor170/waterfall-streamer:latest
     container_name: hmi-waterfall-streamer

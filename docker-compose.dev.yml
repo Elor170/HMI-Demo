@@ -34,9 +34,37 @@ services:
       context: ./3D-Game
       dockerfile: ../.docker/Dockerfile.game-server
     ports:
-      - "${GAME_PORT}:8000"
+      - "${GAME_PORT}:80"
     networks:
       - hmi_network
+
+  
+  game-monitor:
+    extends:
+      file: .docker/docker-compose.service.dev.yml
+      service: dev-service
+    environment:
+      - PORT=$GAME_MONITOR_PORT
+      - MONGO_URI=$MONGO_URI
+    container_name: game-monitor
+    build:
+      args:
+        ServiceName: game-monitor
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/game-monitor/src
+          target: /app/packages/service/src
+        - action: sync+restart
+          path: ./packages/game-monitor/.env
+          target: /app/packages/service/.env
+        - action: rebuild
+          path: ./packages/game-monitor/package.json
+          target: /app/packages/service/package.json
+    ports:
+      - "$GAME_MONITOR_PORT:$GAME_MONITOR_PORT"
+    depends_on:
+      - hmi-mongo-db
 
   video-streamer:
     build:

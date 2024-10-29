@@ -55,6 +55,7 @@ declare global {
       HMI_FRONTEND_PORT: string;
       STREAMER_BACKEND_PORT: string;
       WATERFALL_BACKEND_PORT: string;
+      GAME_MONITOR_PORT: string;
       WATERFALL_QUEUE: string;
       WATERFALL_DB: string;
       MONGO_URI: string;

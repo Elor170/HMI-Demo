@@ -4,7 +4,7 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { MONGO_URI } = process.env;
+const { MONGO_URI, PORT } = process.env;
 const DB_NAME = "game";
 const COLLECTION_NAME = "logs";
 
@@ -50,6 +50,6 @@ app.post("/logs", async (req, res) => {
   return res.sendStatus(200);
 });
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
