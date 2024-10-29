@@ -18,4 +18,4 @@ WORKDIR /app/packages/service
 RUN pnpm i typescript
 RUN pnpm build
 
-CMD pnpm start
+CMD ["pnpm", "start"]

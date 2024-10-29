@@ -28,44 +28,42 @@ services:
     ports:
       - "$HMI_FRONTEND_PORT:$HMI_FRONTEND_PORT"
 
-  game:
-    container_name: game
-    build:
-      context: ./3D-Game
-      dockerfile: ../.docker/Dockerfile.game-server
-    ports:
-      - "${GAME_PORT}:80"
-    networks:
-      - hmi_network
+  # game:
+  #   container_name: game
+  #   build:
+  #     context: ./3D-Game
+  #     dockerfile: ../.docker/Dockerfile.game-server
+  #   ports:
+  #     - "${GAME_PORT}:80"
+  #   networks:
+  #     - hmi_network
 
   
-  game-monitor:
-    extends:
-      file: .docker/docker-compose.service.dev.yml
-      service: dev-service
+  game-server:
     environment:
-      - PORT=$GAME_MONITOR_PORT
+      - PORT=$GAME_PORT
       - MONGO_URI=$MONGO_URI
-    container_name: game-monitor
+    container_name: hmi-game-server
     build:
-      args:
-        ServiceName: game-monitor
+      dockerfile: .docker/Dockerfile.game-server
     develop:
       watch:
         - action: sync
-          path: ./packages/game-monitor/src
+          path: ./packages/game-server/src
           target: /app/packages/service/src
         - action: sync+restart
-          path: ./packages/game-monitor/.env
+          path: ./packages/game-server/.env
           target: /app/packages/service/.env
         - action: rebuild
-          path: ./packages/game-monitor/package.json
+          path: ./packages/game-server/package.json
           target: /app/packages/service/package.json
     ports:
-      - "$GAME_MONITOR_PORT:$GAME_MONITOR_PORT"
+      - "$GAME_PORT:$GAME_PORT"
     depends_on:
       - hmi-mongo-db
 
+    networks:
+      - hmi_network
   video-streamer:
     build:
       dockerfile: .docker/Dockerfile.streamer

@@ -16,6 +16,7 @@ if (!MONGO_URI) {
 const app = express();
 
 app.use(cors());
+app.use(express.static("public"));
 
 app.get("/logs", async (_, res) => {
   const client = await MongoClient.connect(MONGO_URI);
@@ -32,6 +33,7 @@ app.get("/logs", async (_, res) => {
 });
 
 app.post("/logs", async (req, res) => {
+  console.log(req.body)
   const newLogs: GameLog = req.body.logs;
 
   if (!newLogs) {

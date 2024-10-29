@@ -1,5 +1,5 @@
 {
-  "name": "game-monitor",
+  "name": "game-server",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",

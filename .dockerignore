@@ -32,7 +32,6 @@
 **/build
 **/dist
 **/venv
-**/game
 LICENSE
 README.md
 .env
