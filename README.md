@@ -57,13 +57,14 @@ docker compose -f ./docker-compose.prod.backend.yml up -d
 
 Now the backend server should start automatically when the machine boots up.
 
-
 # Pull Request/Pushing To Main
 
 ## Pull Request
+
 When pushing a pull request/a branch to main, we highly recommend to you squish your branch into one pull request, with a general title, and the description as the changelog. Make sure to write your title in a way that would `correctly bump the version` as described in the section bellow.
 
 ## Bumping
+
 [source](https://github.com/mathieudutour/github-tag-action?tab=readme-ov-file#bumping)
 
 The action will parse the new commits since the last tag using the [semantic-release](https://github.com/semantic-release/semantic-release) conventions.
@@ -114,4 +115,5 @@ The default graphite width of 10mm is always used for performance reasons.
 </table>
 
 ### In case of no commit message
+
 If no commit message contains any information, then the bump would be considered as major release by default.
