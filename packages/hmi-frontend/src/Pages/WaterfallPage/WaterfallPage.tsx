@@ -20,7 +20,7 @@ import {
   Backdrop,
   Typography,
 } from "@mui/material";
-import { Wifi as ConnectionIcon } from "@mui/icons-material";
+import ConnectionIcon from "@mui/icons-material/Wifi";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import WaterfallLogsCard from "./WaterfallLogsCard/WaterfallLogsCard";
 import { useQuery } from "react-query";
@@ -84,7 +84,7 @@ export default function WaterfallPage() {
       },
       (isConnected) => {
         setIsConnected(isConnected);
-      },
+      }
     );
 
     return () => {

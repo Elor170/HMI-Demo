@@ -15,15 +15,6 @@ services:
       - hmi_frontend_network
     restart: always
 
-  3d-game:
-    image: ghcr.io/elor170/game-server:latest
-    container_name: hmi-game
-    ports: 
-      - ${GAME_PORT}:80
-    networks:
-      - hmi_frontend_network
-    restart: always
-
 networks:
   hmi_frontend_network:
     driver: bridge

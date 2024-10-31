@@ -76,7 +76,7 @@ export default function StreamLogsPage() {
                 .sort(
                   (a, b) =>
                     Date.parse(b.bufferStartDate.toString()) -
-                    Date.parse(a.bufferStartDate.toString()),
+                    Date.parse(a.bufferStartDate.toString())
                 )
                 .map((log) => (
                   <LogsTableCell

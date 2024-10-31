@@ -77,13 +77,8 @@ jobs:
             build-args: ServiceName=waterfall-streamer
 
           - image: game-server
-            context: ./3D-Game
-            dockerfile: .docker/Dockerfile.game-server
-
-          - image: game-monitor
             context: .
-            dockerfile: .docker/Dockerfile.prod.service
-            build-args: ServiceName=game-monitor
+            dockerfile: .docker/Dockerfile.game-server
 
     steps:
       - name: Checkout repository
