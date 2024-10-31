@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
 import { MongoClient } from "mongodb";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { MONGO_URI, PORT } = process.env;
+const { MONGO_URI } = process.env;
 const DB_NAME = "game";
 const COLLECTION_NAME = "logs";
 
@@ -14,6 +15,7 @@ if (!MONGO_URI) {
 }
 
 const app = express();
+app.use(bodyParser.json());
 
 app.use(cors());
 app.use(express.static("public"));
@@ -33,8 +35,8 @@ app.get("/logs", async (_, res) => {
 });
 
 app.post("/logs", async (req, res) => {
-  console.log(req.body)
-  const newLogs: GameLog = req.body.logs;
+  console.dir(req.body);
+  const newLogs: GameLog = req.body;
 
   if (!newLogs) {
     return res.sendStatus(400);
@@ -52,6 +54,6 @@ app.post("/logs", async (req, res) => {
   return res.sendStatus(200);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+app.listen(80, () => {
+  console.log("Server started on port 80");
 });

@@ -41,7 +41,7 @@ services:
   
   game-server:
     environment:
-      - PORT=$GAME_PORT
+      - PORT=80
       - MONGO_URI=$MONGO_URI
     container_name: hmi-game-server
     build:
@@ -58,7 +58,7 @@ services:
           path: ./packages/game-server/package.json
           target: /app/packages/service/package.json
     ports:
-      - "$GAME_PORT:$GAME_PORT"
+      - "$GAME_PORT:80"
     depends_on:
       - hmi-mongo-db
 

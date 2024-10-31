@@ -51,12 +51,16 @@ func get_world_data():
 	}
 
 func record_logs():
+	var window = JavaScriptBridge.get_interface("window")
+	if not window:
+		return
+	
+	var url = window.location.href + "logs"
+	
 	var data = get_world_data()
-	const headers = ["Content-Type: application/json"]
-	var body = JSON.stringify(data)
-	var error = $HTTPRequest.request("/logs", headers, HTTPClient.METHOD_POST, body)
-	if error != OK:
-		push_error(" An error occured in  the HTTP request")
+	var json = JSON.stringify(data)
+	var headers = ["Content-Type: application/json"]
+	$HTTPRequest.request(url, headers, HTTPClient.METHOD_POST, json)
 
 
 func _on_timer_timeout():
