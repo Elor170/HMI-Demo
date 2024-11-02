@@ -35,7 +35,6 @@ app.get("/logs", async (_, res) => {
 });
 
 app.post("/logs", async (req, res) => {
-  console.dir(req.body);
   const newLogs: GameLog = req.body;
 
   if (!newLogs) {
@@ -52,6 +51,18 @@ app.post("/logs", async (req, res) => {
   }
 
   return res.sendStatus(200);
+});
+
+app.delete("/logs", async (_, res) => {
+  const client = await MongoClient.connect(MONGO_URI);
+  const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
+  const response = await collection.deleteMany({});
+
+  if (response.acknowledged) {
+    return res.sendStatus(200);
+  }
+
+  return res.sendStatus(500);
 });
 
 app.listen(80, () => {
