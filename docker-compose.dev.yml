@@ -41,6 +41,8 @@ services:
     build:
       dockerfile: .docker/Dockerfile.streamer
       context: .
+      args:
+        url: https://drive.google.com/file/d/1r-zZ05GueeKXs-vGYsppoiXQ4lWaIJE8/view
     ports:
       - "$STREAMER_BACKEND_PORT:80"
 
