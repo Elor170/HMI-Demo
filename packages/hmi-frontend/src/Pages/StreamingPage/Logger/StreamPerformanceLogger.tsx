@@ -1,7 +1,7 @@
 import useStreamer from "@/Store/StreamerStore";
 import { useEffect, useState } from "react";
 import ky from "ky";
-import { STREAMER_SERVER } from "@/Helper/consts";
+import { STREAMER_LOGGER } from "@/Helper/consts";
 import { toast } from "react-toastify";
 
 export default function StreamPerformanceLogger() {
@@ -26,7 +26,7 @@ export default function StreamPerformanceLogger() {
       };
 
       const postData = async () => {
-        const response = await ky.post(`${STREAMER_SERVER}/logs/add`, {
+        const response = await ky.post(`${STREAMER_LOGGER}/logs/add`, {
           headers: {
             "content-type": "application/json",
           },

@@ -1,4 +1,4 @@
-import { STREAMER_SERVER } from "@/Helper/consts";
+import { STREAMER_LOGGER } from "@/Helper/consts";
 import {
   Box,
   Card,
@@ -21,7 +21,7 @@ import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButt
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
     "logs",
-    () => ky.get(`${STREAMER_SERVER}/logs`).json<StreamLogData[]>(),
+    () => ky.get(`${STREAMER_LOGGER}/logs`).json<StreamLogData[]>(),
   );
 
   if (error) {

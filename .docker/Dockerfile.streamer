@@ -1,41 +1,23 @@
-FROM alpine:3.20.2 AS download-videos
-RUN apk add --no-cache curl
-ARG VideoURL
-WORKDIR /downloads
-RUN curl -o 4k.mp4 ${VideoURL}
-
-FROM linuxserver/ffmpeg:7.0.2 AS videos
-WORKDIR /videos
-COPY --from=download-videos /downloads .
-# RUN ffmpeg -i 4k.webm -vcodec copy -acodec copy 4k.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=1280:720 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 720p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 480p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
-RUN ffmpeg -i 4k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
-
-FROM node:20-slim AS base
-ENV PORT=3000
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
-
-WORKDIR /app/packages/service
-COPY packages/streamer-backend ./
-
+FROM python:3.9.20 as download
+ARG url
 WORKDIR /app
-RUN corepack enable
-RUN corepack use pnpm
-COPY pnpm-*.yaml .
-COPY tsconfig.*.json .
-RUN pnpm i
+RUN pip install -U gdown
+RUN mkdir videos
+RUN gdown --fuzzy -O videos/8k.mp4 ${url}
 
-WORKDIR /app/packages/service
+FROM linuxserver/ffmpeg:7.0.2 AS build
+WORKDIR /videos
+COPY --from=download /app/videos .
+RUN ffmpeg -i 8k.mp4 -vf scale=3840:2160 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 4k.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=1280:720 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 720p.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 480p.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
+RUN ffmpeg -i 8k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
-RUN pnpm i typescript
-RUN pnpm build
-
-WORKDIR /app/packages/service/public/videos
-COPY --from=videos /videos .
-
-CMD ["pnpm", "start"]
+FROM nginx:1.27.2-alpine AS base
+WORKDIR /app/videos
+COPY --from=build /videos .
+COPY nginx/nginx.streamer.conf /etc/nginx/nginx.conf
+CMD [ "nginx", "-g", "daemon off;" ]

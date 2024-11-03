@@ -59,7 +59,12 @@ jobs:
           - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
-            build-args: VideoURL=https://ia601707.us.archive.org/4/items/4k-football-juventus-vs-tottenham-dolby-atmos/4kFootball%20Juventus%20vs%20Tottenham%20Dolby%20Atmos.mp4
+            build-args: url=https://drive.google.com/file/d/1r-zZ05GueeKXs-vGYsppoiXQ4lWaIJE8/view
+
+          - image: streamer-logger
+            context: .
+            dockerfile: .docker/Dockerfile.prod.service
+            build-args: ServiceName=streamer-logger
 
           - image: waterfall-backend
             context: .
@@ -78,6 +83,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Pull lfs   
+        run: git lfs pull
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
