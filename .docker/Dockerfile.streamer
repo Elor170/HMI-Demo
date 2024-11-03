@@ -1,20 +1,13 @@
-# FROM python:3.9.20 as download
-# ARG url
-# WORKDIR /app
-# COPY libs/streamer-video-downloader .
-# ENV PAFY_BACKEND=internal
-# RUN pip install -Ur requirements.txt
-# RUN python main.py ${url} 8k.mp4
-
-FROM alpine:latest as download
+FROM python:3.9.20 as download
 ARG url
-RUN apk -U add yt-dlp
 WORKDIR /app
-RUN yt-dlp -S vcodec:h264,res:8k,acodec:m4a -o 8k.mp4 ${url}
+RUN pip install -U gdown
+RUN mkdir videos
+RUN gdown --fuzzy -O videos/8k.mp4 ${url}
 
 FROM linuxserver/ffmpeg:7.0.2 AS build
 WORKDIR /videos
-COPY --from=download /app/8k.mp4 8k.mp4
+COPY --from=download /app/videos .
 RUN ffmpeg -i 8k.mp4 -vf scale=3840:2160 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 4k.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4

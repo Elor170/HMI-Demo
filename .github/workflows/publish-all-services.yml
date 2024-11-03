@@ -59,7 +59,7 @@ jobs:
           - image: streamer-server
             context: .
             dockerfile: .docker/Dockerfile.streamer
-            build-args: url=https://youtu.be/xp763iNB_MA?si=c4TNuBWpfUfkdC6_
+            build-args: url=https://drive.google.com/file/d/1r-zZ05GueeKXs-vGYsppoiXQ4lWaIJE8/view
 
           - image: streamer-logger
             context: .
