@@ -21,7 +21,7 @@ export default function VideoDisplay() {
     timestamp,
   } = useStreamer();
 
-  const videoUrl = `${STREAMER_SERVER}/video/${resolution}`;
+  const videoUrl = `${STREAMER_SERVER}/${resolution}`;
   const [hoverVideo, setHoverVideo] = useState(false);
   const videoRef = useContext(VideoRefContext);
   const videoContainerRef = useContext(VideoContainerRefContext);
