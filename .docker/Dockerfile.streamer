@@ -1,12 +1,20 @@
-FROM alpine:latest AS download
-ARG video
-WORKDIR /videos
-RUN apk add --no-cache curl
-RUN curl -o 8k.mp4 ${video}
+# FROM python:3.9.20 as download
+# ARG url
+# WORKDIR /app
+# COPY libs/streamer-video-downloader .
+# ENV PAFY_BACKEND=internal
+# RUN pip install -Ur requirements.txt
+# RUN python main.py ${url} 8k.mp4
+
+FROM alpine:latest as download
+ARG url
+RUN apk -U add yt-dlp
+WORKDIR /app
+RUN yt-dlp -S vcodec:h264,res:8k,acodec:m4a -o 8k.mp4 ${url}
 
 FROM linuxserver/ffmpeg:7.0.2 AS build
 WORKDIR /videos
-COPY --from=download /videos .
+COPY --from=download /app/8k.mp4 8k.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=3840:2160 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 4k.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=2560:1440 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1440p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=1920:1080 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 1080p.mp4
@@ -15,7 +23,7 @@ RUN ffmpeg -i 8k.mp4 -vf scale=854:480 -c:v libx264 -crf 23 -preset ultrafast -c
 RUN ffmpeg -i 8k.mp4 -vf scale=640:360 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 360p.mp4
 RUN ffmpeg -i 8k.mp4 -vf scale=426:240 -c:v libx264 -crf 23 -preset ultrafast -c:a aac -b:a 192k 240p.mp4
 
-FROM nginx:latest AS base
+FROM nginx:1.27.2-alpine AS base
 WORKDIR /app/videos
 COPY --from=build /videos .
 COPY nginx/nginx.streamer.conf /etc/nginx/nginx.conf
