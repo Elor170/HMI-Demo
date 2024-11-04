@@ -31,7 +31,17 @@ func _unhandled_input(event):
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func logs_record_manager():
+	if Input.is_action_just_pressed("rec_timestamp_increase"):
+		Globals.increase_rec_time()
+	elif Input.is_action_just_pressed("rec_timestamp_decrease"):
+		Globals.decrease_rec_time()
+		
+		
+
 func _input(event):
+	logs_record_manager()
+	
 	if Input.is_action_just_pressed("record_toggle"):
 		Globals.is_recording = !Globals.is_recording
 	

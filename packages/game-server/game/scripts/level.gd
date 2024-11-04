@@ -3,6 +3,12 @@ extends Node3D
 @onready var world_objects = []
 @onready var seconds_counter = 0
 @onready var timer = $Timer
+
+func _ready():
+	Globals._on_rec_timestamp_change.connect(on_rec_buffer_change)
+	
+func on_rec_buffer_change():
+	timer.wait_time = Globals.rec_timestamp_arr[Globals.rec_timestamp_pos]
 			 
 func spawn_new_cube():
 	var new_rb = preload("res://scenes/cube_rigidbody.tscn").instantiate()
@@ -64,7 +70,8 @@ func record_logs():
 
 
 func _on_timer_timeout():
-	seconds_counter += 1
+	seconds_counter += Globals.rec_timestamp_arr[Globals.rec_timestamp_pos]
 	
 	if Globals.is_recording:
+		print("sending logs " + str(Globals.rec_timestamp_arr[Globals.rec_timestamp_pos]))
 		record_logs()
