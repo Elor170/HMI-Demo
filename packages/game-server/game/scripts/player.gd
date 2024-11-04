@@ -32,6 +32,9 @@ func _unhandled_input(event):
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _input(event):
+	if Input.is_action_just_pressed("record_toggle"):
+		Globals.is_recording = !Globals.is_recording
+	
 	if event is InputEventMouseButton:
 		if not capture_mouse:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -54,7 +57,6 @@ func _input(event):
 		if hand.position.z > -10:
 			hand.position.z -= .4
 			
-		
 	
 	if Input.is_action_just_pressed("rotate_left"):
 		picked_object.rotate_x(.4)
@@ -74,7 +76,6 @@ func _input(event):
 		var new_scale = Vector3(x, y, z)
 		print(new_scale)
 		picked_object.transform.scaled(new_scale)
-		
 func _physics_process(delta):
 	if move_and_slide():
 		for i in get_slide_collision_count():

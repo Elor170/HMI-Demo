@@ -65,4 +65,6 @@ func record_logs():
 
 func _on_timer_timeout():
 	seconds_counter += 1
-	record_logs()
+	
+	if Globals.is_recording:
+		record_logs()

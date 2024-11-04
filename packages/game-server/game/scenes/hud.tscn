@@ -23,3 +23,10 @@ offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "+"
+
+[node name="is_recording" type="Label" parent="."]
+offset_left = 983.0
+offset_top = 1.0
+offset_right = 1143.0
+offset_bottom = 24.0
+text = "Recording Logs: NaN"
