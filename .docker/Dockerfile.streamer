@@ -1,4 +1,4 @@
-FROM python:3.9.20 as download
+FROM python:3.9.20 AS download
 ARG url
 WORKDIR /app
 RUN pip install -U gdown
