@@ -17,7 +17,7 @@ services:
       - "$STREAMER_LOGGER_PORT:80"
     depends_on:
     - hmi-mongo-db
-    - hmi-video-streamer
+    - video-streamer
     networks:
       - hmi_network
     restart: always
