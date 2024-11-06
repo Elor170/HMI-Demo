@@ -16,11 +16,5 @@ export default function GameLogsTable({ data }: GameLogsTableProps) {
     { field: "date", headerName: "Date" },
   ];
 
-  return (
-    <DataGrid
-      rows={data}
-      columns={columns}
-      getRowId={(row) => row._id}
-    />
-  );
+  return <DataGrid rows={data} columns={columns} getRowId={(row) => row._id} />;
 }

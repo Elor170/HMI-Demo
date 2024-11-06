@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 dotenv.config();
@@ -57,6 +57,20 @@ app.delete("/logs", async (_, res) => {
   const client = await MongoClient.connect(MONGO_URI);
   const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
   const response = await collection.deleteMany({});
+
+  if (response.acknowledged) {
+    return res.sendStatus(200);
+  }
+
+  return res.sendStatus(500);
+});
+
+app.delete("/log/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const client = await MongoClient.connect(MONGO_URI);
+  const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
+  const response = await collection.deleteOne({ _id: new ObjectId(id) });
 
   if (response.acknowledged) {
     return res.sendStatus(200);

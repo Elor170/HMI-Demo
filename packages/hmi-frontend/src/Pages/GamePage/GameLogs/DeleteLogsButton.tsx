@@ -22,7 +22,7 @@ export default function DeleteLogsButton({ refetch }: DeleteLogsButtonProps) {
   };
 
   return (
-    <Button onClick={onButtonClick} variant="contained" color="warning">
+    <Button onClick={onButtonClick} variant="contained" color="primary">
       <DeleteIcon />
     </Button>
   );
