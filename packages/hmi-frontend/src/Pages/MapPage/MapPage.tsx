@@ -32,7 +32,7 @@ export default function MapPage() {
 
   useEffect(() => {
     if (mapDiv.current) {
-      const view = new MapView({
+      new MapView({
         spatialReference: {
           wkid: 102100,
         },
@@ -41,8 +41,6 @@ export default function MapPage() {
         center: [31, 42],
         scale: 100000000, // Represents the map scale at the center of the view.
       });
-
-      return () => view && view.destroy();
     }
   }, [showCitiesLayer, showSampleLayer]);
 
