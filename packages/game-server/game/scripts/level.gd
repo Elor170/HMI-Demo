@@ -8,7 +8,7 @@ func _ready():
 	Globals._on_rec_timestamp_change.connect(on_rec_buffer_change)
 	
 func on_rec_buffer_change():
-	timer.wait_time = Globals.rec_timestamp_arr[Globals.rec_timestamp_pos]
+	timer.wait_time = Globals.get_current_rec_timestamp()
 			 
 func spawn_new_cube():
 	var new_rb = preload("res://scenes/cube_rigidbody.tscn").instantiate()

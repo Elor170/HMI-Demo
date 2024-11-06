@@ -30,8 +30,8 @@ export default function GameLogsGraph({ data }: GameLogsGraphProps) {
           <Line
             type="monotone"
             stroke="#82ca9d"
-            dataKey="spheres"
-            label="Spheres"
+            dataKey="cubes"
+            label="Cubes"
             strokeDasharray="5 5"
           />
           <Line
