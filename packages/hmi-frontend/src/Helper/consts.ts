@@ -12,6 +12,8 @@ export const WATERFALL_STREAMER_URL = import.meta.env
 export const GAME_SERVER = import.meta.env.VITE_3D_GAME_SERVER;
 export const STREAMER_LOGGER = import.meta.env.VITE_STREAMER_LOGGER;
 
+export const MAP_SERVER = import.meta.env.VITE_MAPS_SERVER_URL;
+
 export const RESOLUTIONS = [
   "240p",
   "360p",

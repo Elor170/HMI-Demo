@@ -10,6 +10,7 @@ services:
       - VITE_WATERFALL_STREAMER_URL=http://$SERVER_IP:$WATERFALL_STREAMER_PORT
       - VITE_3D_GAME_SERVER=http://localhost:$GAME_PORT
       - PORT=$HMI_FRONTEND_PORT
+      - VITE_MAPS_SERVER_URL=$MAPS_SERVER_URL
     build:
       args:
         ServiceName: hmi-frontend
