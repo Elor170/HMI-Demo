@@ -84,7 +84,7 @@ export default function WaterfallPage() {
       },
       (isConnected) => {
         setIsConnected(isConnected);
-      }
+      },
     );
 
     return () => {
