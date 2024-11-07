@@ -1,4 +1,6 @@
+import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
 import { GAME_SERVER } from "@/Helper/consts";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {
   AppBar,
   Box,
@@ -12,11 +14,13 @@ import {
 import ky from "ky";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import GameLogsTable from "./GameLogsTable";
-import GameLogsGraph from "./GameLogsGraph";
 import DeleteLogsButton from "./DeleteLogsButton";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
-import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
+import GameLogsGraph from "./GameLogsGraph";
+import GameLogsTable from "./GameLogsTable";
+import UploadLogsButton from "./UploadLogsButton";
+import { useMemo } from "react";
+
+export const GAME_LOGS_EXTENSION = "game_logs";
 
 export interface FormattedGameLogs {
   _id: string;
@@ -30,6 +34,7 @@ export interface FormattedGameLogs {
 
 export default function GameLogs() {
   const [currentPage, setCurrentPage] = useState<"Table" | "Graph">("Table");
+  const [uploadedLogs, setUploadedLogs] = useState<GameLog[] | null>(null);
 
   const switchPage = () => {
     if (currentPage === "Graph") {
@@ -56,15 +61,31 @@ export default function GameLogs() {
     return <Typography>No logs found in database</Typography>;
   }
 
-  const formattedData = data.map<FormattedGameLogs>((log) => ({
-    _id: log._id!.toString(),
-    spheres: log.spheres,
-    cubes: log.cubes,
-    fps: log.fps,
-    date: log.date,
-    secondsPlayed: log.secondsPlayed + "s",
-    allObjects: log.spheres + log.cubes,
-  }));
+  // const formattedData = data.map<FormattedGameLogs>((log) => ({
+  //   _id: log._id!.toString(),
+  //   spheres: log.spheres,
+  //   cubes: log.cubes,
+  //   fps: log.fps,
+  //   date: log.date,
+  //   secondsPlayed: log.secondsPlayed + "s",
+  //   allObjects: log.spheres + log.cubes,
+  // }));
+
+  const formattedData = useMemo(() => {
+    let formattedLogs: FormattedGameLogs[];
+
+    if (uploadedLogs) {
+      formattedLogs = uploadedLogs as unknown as FormattedGameLogs[];
+    } else {
+      formattedLogs = data as unknown as FormattedGameLogs[];
+    }
+
+    return formattedLogs.map((log) => {
+      log.allObjects = log.cubes + log.spheres;
+      log._id = log._id.toString();
+      return log;
+    });
+  }, [data, uploadedLogs]);
 
   return (
     <Card
@@ -86,15 +107,6 @@ export default function GameLogs() {
         sx={{ height: "2rem", display: "grid", userSelect: "none" }}
       >
         <Box width="100%" display="flex" position="relative">
-          {/* <Typography
-            variant="h4"
-            fontSize="1.5rem"
-            textAlign="center"
-            position="absolute"
-          >
-            Game Logs
-          </Typography> */}
-
           <DeleteLogsButton refetch={refetch} />
           <Button onClick={() => refetch()}>
             <AutorenewIcon />
@@ -102,7 +114,7 @@ export default function GameLogs() {
           <LogsDownloadButton
             data={data}
             fileName="logs"
-            fileExtension="game_logs"
+            fileExtension={GAME_LOGS_EXTENSION}
             onlyShowIcon
           />
           <Grid
@@ -119,6 +131,12 @@ export default function GameLogs() {
             />
             <Typography>Graph</Typography>
           </Grid>
+
+          <UploadLogsButton
+            uploadedLogs={uploadedLogs}
+            setUploadedLogs={setUploadedLogs}
+            refetch={refetch}
+          />
         </Box>
       </AppBar>
 
