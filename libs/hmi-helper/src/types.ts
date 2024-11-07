@@ -37,6 +37,16 @@ declare global {
     };
   };
 
+  // Game
+  interface GameLog {
+    _id?: ObjectId;
+    spheres: number;
+    cubes: number;
+    fps: number;
+    date: Date;
+    secondsPlayed: number;
+  }
+
   namespace NodeJS {
     interface ProcessEnv {
       RABBITMQ_HOST: string;
@@ -45,6 +55,7 @@ declare global {
       HMI_FRONTEND_PORT: string;
       STREAMER_BACKEND_PORT: string;
       WATERFALL_BACKEND_PORT: string;
+      GAME_MONITOR_PORT: string;
       WATERFALL_QUEUE: string;
       WATERFALL_DB: string;
       MONGO_URI: string;

@@ -2,13 +2,32 @@ FROM barichello/godot-ci:latest AS build
 
 WORKDIR /app
 
-COPY . .
+COPY packages/game-server/game .
 
-RUN rm -rf dist
 RUN mkdir dist
 RUN godot --export-release --headless "Web" dist/index.html
 
-FROM nginx:1.27.2-alpine AS final
-COPY --from=build /app/dist /usr/share/nginx/html
-CMD [ "nginx", "-g", "daemon off;" ]
+FROM node:20-slim AS base
 
+WORKDIR /app/libs/hmi-helper
+COPY libs/hmi-helper .
+
+WORKDIR /app/packages/service
+COPY packages/game-server ./
+RUN rm -rf game
+
+WORKDIR /app
+RUN corepack enable
+RUN corepack use pnpm
+COPY pnpm-*.yaml .
+COPY tsconfig.*.json .
+RUN pnpm i
+
+WORKDIR /app/packages/service/public
+COPY --from=build /app/dist .
+
+WORKDIR /app/packages/service
+RUN pnpm i typescript
+RUN pnpm build
+
+CMD ["pnpm", "start"]

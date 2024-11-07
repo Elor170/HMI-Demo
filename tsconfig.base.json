@@ -10,7 +10,7 @@
     "noFallthroughCasesInSwitch": true,
     // Needed for CommonJS modules
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "declaration": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "skipLibCheck": true

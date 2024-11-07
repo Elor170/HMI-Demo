@@ -6,6 +6,7 @@ interface DownloadButtonProps {
   fileName: string;
   sx?: SxProps;
   fileExtension?: string;
+  onlyShowIcon?: boolean;
 }
 
 export default function LogsDownloadButton({
@@ -13,6 +14,7 @@ export default function LogsDownloadButton({
   fileName,
   sx,
   fileExtension,
+  onlyShowIcon,
 }: DownloadButtonProps) {
   function downloadLogs<T>(data: T, fileName: string) {
     const json = JSON.stringify(data, null, 2);
@@ -28,6 +30,19 @@ export default function LogsDownloadButton({
     // clean up "a" element & remove ObjectURL
     document.body.removeChild(link);
     URL.revokeObjectURL(href);
+  }
+
+  if (onlyShowIcon) {
+    return (
+      <Button
+        onClick={() => downloadLogs(data, fileName)}
+        color="error"
+        variant="contained"
+        sx={sx}
+      >
+        <DownloadIcon />
+      </Button>
+    );
   }
 
   return (
