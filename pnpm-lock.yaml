@@ -154,9 +154,6 @@ importers:
       axios:
         specifier: ^1.7.7
         version: 1.7.7
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.4.5
       hmi-helper:
         specifier: workspace:*
         version: link:../../libs/hmi-helper

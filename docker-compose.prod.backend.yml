@@ -3,24 +3,23 @@ services:
     image: ghcr.io/elor170/streamer-server:latest
     container_name: hmi-video-streamer
     ports:
-      - "$STREAMER_BACKEND_PORT:$STREAMER_BACKEND_PORT"
+      - "$STREAMER_BACKEND_PORT:80"
 
     networks:
       - hmi_network
     restart: always
 
-  
   streamer-logger:
-    image: ghcr.io/elor170/streamer-server:latest
+    image: ghcr.io/elor170/streamer-logger:latest
     container_name: hmi-streamer-logger
     environment:
       - PORT=$STREAMER_BACKEND_PORT
       - MONGO_URI=$MONGO_URI
     ports:
-      - "$STREAMER_LOGGER_PORT:$STREAMER_LOGGER_PORT"
+      - "$STREAMER_LOGGER_PORT:80"
     depends_on:
     - hmi-mongo-db
-    - hmi-video-streamer
+    - video-streamer
     networks:
       - hmi_network
     restart: always
@@ -32,26 +31,11 @@ services:
       RABBITMQ_HOST: $RABBITMQ_HOST
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      PORT: $WATERFALL_BACKEND_PORT
       WATERFALL_QUEUE: $WATERFALL_QUEUE
-    ports:
-      - "$WATERFALL_BACKEND_PORT:$WATERFALL_BACKEND_PORT"
-    depends_on:
-      - hmi-rabbitmq
-    networks:
-      - hmi_network
-    restart: always
-
-
-  game-server:
-    image: ghcr.io/elor170/game-server:latest
-    container_name: hmi-game-server
-    environment:
-      MONGO_URI: $MONGO_URI
     ports:
       - "$WATERFALL_BACKEND_PORT:80"
     depends_on:
-      - hmi-mongo=db
+      - hmi-rabbitmq
     networks:
       - hmi_network
     restart: always
@@ -63,12 +47,24 @@ services:
       RABBITMQ_HOST: $RABBITMQ_HOST
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
-      PORT: $WATERFALL_STREAMER_PORT
       WATERFALL_QUEUE: $WATERFALL_QUEUE
     ports:
-      - "$WATERFALL_STREAMER_PORT:$WATERFALL_STREAMER_PORT"
+      - "80:$WATERFALL_STREAMER_PORT"
     depends_on:
       - hmi-rabbitmq
+    networks:
+      - hmi_network
+    restart: always
+
+  game-server:
+    image: ghcr.io/elor170/game-server:latest
+    container_name: hmi-game-server
+    environment:
+      MONGO_URI: $MONGO_URI
+    ports:
+      - "$GAME_PORT:80"
+    depends_on:
+      - hmi-mongo-db
     networks:
       - hmi_network
     restart: always
