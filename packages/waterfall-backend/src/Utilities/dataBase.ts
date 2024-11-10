@@ -1,12 +1,12 @@
 import { MongoDB, waterfallFrameSize } from "hmi-helper";
 import { addGrayLines } from "./dataHandler";
 const envVars = process.env;
-const { MONGO_URI: uri, WATERFALL_DB: dbName } = envVars;
+const { MONGO_URI: uri } = envVars;
 
 let DB: MongoDB;
 
 const initDB = async (): Promise<void> => {
-  DB = new MongoDB(uri, dbName);
+  DB = new MongoDB(uri, "waterfall");
   await DB.connect();
   const data = await DB.aggregate("waterfall", [{ $limit: 1 }]);
   if (data.length > 0) addGrayLines();

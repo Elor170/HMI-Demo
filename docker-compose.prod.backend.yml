@@ -28,10 +28,11 @@ services:
     image: ghcr.io/elor170/waterfall-backend:latest
     container_name: hmi-waterfall-backend
     environment:
-      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_HOST: hmi-rabbitmq
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
       WATERFALL_QUEUE: $WATERFALL_QUEUE
+      MONGO_URI: $MONGO_URI
     ports:
       - "$WATERFALL_BACKEND_PORT:80"
     depends_on:
@@ -44,7 +45,7 @@ services:
     image: ghcr.io/elor170/waterfall-streamer:latest
     container_name: hmi-waterfall-streamer
     environment:
-      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_HOST: hmi-rabbitmq
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
       WATERFALL_QUEUE: $WATERFALL_QUEUE
