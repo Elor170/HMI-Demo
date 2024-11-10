@@ -13,4 +13,4 @@ services:
           target: /app/pnpm-workspace.yaml
     command: pnpm dev
     networks:
-      - hmi_network
+      - hmi_dev_network

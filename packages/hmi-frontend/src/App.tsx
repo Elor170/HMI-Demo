@@ -6,11 +6,14 @@ import router from "@/Helper/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { darkTheme } from "./Helper/consts";
+import { darkTheme, GAME_SERVER, MAP_SERVER, STREAMER_LOGGER, STREAMER_SERVER, WATERFALL_BACKEND_URL, WATERFALL_STREAMER_URL } from "./Helper/consts";
 
 const queryClient = new QueryClient();
 
 export default function App() {
+  console.table({STREAMER_SERVER, WATERFALL_BACKEND_URL, WATERFALL_STREAMER_URL, GAME_SERVER, STREAMER_LOGGER, MAP_SERVER})
+
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={darkTheme}>
