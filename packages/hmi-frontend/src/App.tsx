@@ -6,14 +6,11 @@ import router from "@/Helper/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import {
-  darkTheme,
-} from "./Helper/consts";
+import { darkTheme } from "./Helper/consts";
 
 const queryClient = new QueryClient();
 
 export default function App() {
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={darkTheme}>
