@@ -21,7 +21,7 @@ zsIt's also important to make sure that your machine has a way to run docker-com
 In root of the repo, run the following command:
 
 ```shell
-docker compose -f ./docker-compose.dev.yml up -d
+docker compose -f ./docker-compose.dev.yml watch
 ```
 
 This should start your entire dev environment. You can then access the frontend through the provided port you've wrote in the `.env` file.

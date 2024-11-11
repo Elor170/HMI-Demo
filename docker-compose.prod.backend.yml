@@ -32,7 +32,9 @@ services:
       RABBITMQ_USER: $RABBITMQ_USER
       RABBITMQ_PASS: $RABBITMQ_PASS
       WATERFALL_QUEUE: $WATERFALL_QUEUE
+      WATERFALL_DB: $WATERFALL_DB
       MONGO_URI: $MONGO_URI
+      FRONTEND_URL: http://$FRONTEND_IP:$HMI_FRONTEND_PORT
     ports:
       - "$WATERFALL_BACKEND_PORT:80"
     depends_on:
@@ -50,7 +52,7 @@ services:
       RABBITMQ_PASS: $RABBITMQ_PASS
       WATERFALL_QUEUE: $WATERFALL_QUEUE
     ports:
-      - "80:$WATERFALL_STREAMER_PORT"
+      - "$WATERFALL_STREAMER_PORT:80"
     depends_on:
       - hmi-rabbitmq
     networks:
