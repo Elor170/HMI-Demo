@@ -95,7 +95,7 @@ services:
       WATERFALL_QUEUE: $WATERFALL_QUEUE
       WATERFALL_DB: $WATERFALL_DB
       MONGO_URI: $MONGO_URI
-      FRONTEND_URL: http://$FRONTEND_IP:80
+      FRONTEND_URL: http://$FRONTEND_IP:$HMI_FRONTEND_PORT
     build:
       args:
         ServiceName: waterfall-backend
@@ -113,7 +113,7 @@ services:
     ports:
       - "$WATERFALL_BACKEND_PORT:80"
     depends_on:
-      - rabbitmq
+      - hmi-rabbitmq
 
   waterfall-streamer:
     environment:
@@ -141,7 +141,7 @@ services:
     ports:
       - "$WATERFALL_STREAMER_PORT:80"
     depends_on:
-      - rabbitmq
+      - hmi-rabbitmq
 
   hmi-mongo-db:
     image: mongo:latest
