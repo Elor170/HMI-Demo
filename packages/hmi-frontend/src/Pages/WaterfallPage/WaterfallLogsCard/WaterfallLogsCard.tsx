@@ -4,7 +4,6 @@ import {
   ButtonGroup,
   Card,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
 import ky from "ky";
@@ -14,7 +13,6 @@ import WaterfallLogsChart from "./WaterfallLogsChart";
 import { sendingIntervalValues } from "hmi-helper/src/vars";
 import { useState } from "react";
 import LogsDownloadButton from "@/Components/Logs/LogsDownloadButton";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
 import LogsUploadButton from "@/Components/Logs/LogsUploadButton";
 
 export const WATERFALL_LOGS_FILE_EXTENSION = "wfl";
@@ -68,34 +66,38 @@ export default function WaterfallLogsCard() {
         height: "90%",
       }}
     >
-      <Grid display="flex" justifyContent="center" position="relative">
-        <Box sx={{ display: "grid", placeItems: "center" }}>
-          <Typography component="h4">Buffer Interval</Typography>
+      <Box position="relative" display="grid" sx={{ placeItems: "center" }}>
+        <Typography variant="h4">Logs</Typography>
+
+        <Box display="flex">
+          <LogsUploadButton
+            logs={uploadedLogs}
+            onLogsUpload={setUploadedLogs}
+            onBackToLiveLogsClick={onBackToLiveLogs}
+            fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
+          />
+          <LogsDownloadButton
+            fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
+            data={data}
+            fileName="waterfall_logs"
+          />
         </Box>
-        <LogsUploadButton
-          logs={uploadedLogs}
-          onLogsUpload={setUploadedLogs}
-          onBackToLiveLogsClick={onBackToLiveLogs}
-          fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
-        />
 
-        <LogsDownloadButton
-          fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
-          data={data}
-          fileName="waterfall_logs"
-        />
-      </Grid>
+        <Box sx={{ display: "flex", placeItems: "center" }}>
+          <Typography marginRight='.5rem' variant="body1">Buffer Interval:</Typography>
+          <ButtonGroup variant="outlined">
+            {sendingIntervalValues.map((intervalValue) => (
+              <Button
+                key={intervalValue}
+                onClick={() => setSelectedLogPoint(intervalValue)}
+              >
+                {intervalValue}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </Box>
+      </Box>
 
-      <ButtonGroup variant="outlined">
-        {sendingIntervalValues.map((intervalValue) => (
-          <Button
-            key={intervalValue}
-            onClick={() => setSelectedLogPoint(intervalValue)}
-          >
-            {intervalValue}
-          </Button>
-        ))}
-      </ButtonGroup>
       <WaterfallLogsChart
         data={
           uploadedLogs ? uploadedLogs[selectedLogPoint] : data[selectedLogPoint]

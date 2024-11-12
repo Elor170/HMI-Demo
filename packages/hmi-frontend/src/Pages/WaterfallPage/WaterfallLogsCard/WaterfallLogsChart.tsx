@@ -1,13 +1,12 @@
 import { Typography } from "@mui/material";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   CartesianGrid,
   XAxis,
-  YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
+   YAxis,
 } from "recharts";
 
 interface LogsChartProps {
@@ -35,7 +34,7 @@ export default function WaterfallLogsChart({ data }: LogsChartProps) {
   if (currentDataArray.length === 0) {
     return (
       <div>
-        <Typography component="h2">
+        <Typography component="h2" style={{ color: "#ffffff" }}>
           No logs found for the selected log point
         </Typography>
       </div>
@@ -43,29 +42,58 @@ export default function WaterfallLogsChart({ data }: LogsChartProps) {
   }
 
   return (
-    // <ResponsiveContainer width="100%" height="90%">
-    //   <LineChart
-    //     width={1000}
-    //     height={600}
-    //     style={{ outerHeight: "100%", outerWidth: "100%" }}
-    //     data={currentDataArray}
-    //   >
-    //     <Line type="monotone" dataKey="value" stroke="#8884d8" />
-    //     <CartesianGrid stroke="#ccc" />
-    //     <XAxis dataKey="key" label="buffer time" />
-    //     <YAxis label="show time" />
-    //     <Tooltip />
-    //   </LineChart>
-    // </ResponsiveContainer>
-
     <ResponsiveContainer width="100%" height="80%">
-      <LineChart data={currentDataArray}>
-        <Line type="monotone" stroke="#8884d8" dataKey="value" />
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="key" label={{ value: "Buffer Time", dy: 20 }} />
-        <Tooltip />
-        <Legend />
-      </LineChart>
+      <AreaChart
+        data={currentDataArray}
+        margin={{ top: 20, right: 30, left: 50, bottom: 40 }}
+      >
+        <Area
+          type="monotone"
+          dataKey="value"
+          stroke="#1E90FF"
+          fill="#1E90FF"
+          strokeWidth={3}
+          fillOpacity={0.4}
+        />
+        
+        <CartesianGrid strokeDasharray="5 5" stroke="#444" />
+        
+        <XAxis
+          dataKey="key"
+          label={{ value: "Buffer Time", dy: 20, fill: '#ffffff' }}
+          axisLine={{ stroke: '#888' }}
+          tickLine={{ stroke: '#888' }}
+          tick={{ fill: '#ffffff' }}
+        />
+        <YAxis
+          label={{
+            value: "Show Time", 
+            angle: -90, 
+            dy: -10, 
+            dx: -20,  
+            fill: '#ffffff',
+          }}
+          axisLine={{ stroke: '#888' }}
+          tickLine={{ stroke: '#888' }}
+          tick={{ fill: '#ffffff' }}
+        />
+        
+        <Tooltip
+          contentStyle={{
+            backgroundColor: '#333',
+            border: '1px solid #888',
+            color: '#ffffff',
+          }}
+          labelStyle={{ color: '#1E90FF' }} // Matching blue color for the tooltip label
+          itemStyle={{ color: '#ffffff' }}
+          formatter={(value: number | string, _: string, props: any) => {
+            return [
+              `Show Time: ${value}`,
+              `Buffer Time: ${props.payload.key}`,
+            ];
+          }}
+        />
+      </AreaChart>
     </ResponsiveContainer>
   );
 }
