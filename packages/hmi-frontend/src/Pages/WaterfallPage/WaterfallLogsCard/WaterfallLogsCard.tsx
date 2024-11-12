@@ -84,7 +84,9 @@ export default function WaterfallLogsCard() {
         </Box>
 
         <Box sx={{ display: "flex", placeItems: "center" }}>
-          <Typography marginRight='.5rem' variant="body1">Buffer Interval:</Typography>
+          <Typography marginRight=".5rem" variant="body1">
+            Buffer Interval:
+          </Typography>
           <ButtonGroup variant="outlined">
             {sendingIntervalValues.map((intervalValue) => (
               <Button

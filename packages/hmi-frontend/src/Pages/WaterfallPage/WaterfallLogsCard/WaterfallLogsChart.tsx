@@ -6,7 +6,7 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
-   YAxis,
+  YAxis,
 } from "recharts";
 
 interface LogsChartProps {
@@ -19,7 +19,7 @@ const arrangeData = (data: {
   const entries = Object.entries(data);
   const sortedEntries = entries.sort(
     (entry1, entry2) =>
-      (entry1[0] as unknown as number) - (entry2[0] as unknown as number)
+      (entry1[0] as unknown as number) - (entry2[0] as unknown as number),
   );
 
   return sortedEntries.map(([key, value]) => ({
@@ -55,42 +55,39 @@ export default function WaterfallLogsChart({ data }: LogsChartProps) {
           strokeWidth={3}
           fillOpacity={0.4}
         />
-        
+
         <CartesianGrid strokeDasharray="5 5" stroke="#444" />
-        
+
         <XAxis
           dataKey="key"
-          label={{ value: "Buffer Time", dy: 20, fill: '#ffffff' }}
-          axisLine={{ stroke: '#888' }}
-          tickLine={{ stroke: '#888' }}
-          tick={{ fill: '#ffffff' }}
+          label={{ value: "Buffer Time", dy: 20, fill: "#ffffff" }}
+          axisLine={{ stroke: "#888" }}
+          tickLine={{ stroke: "#888" }}
+          tick={{ fill: "#ffffff" }}
         />
         <YAxis
           label={{
-            value: "Show Time", 
-            angle: -90, 
-            dy: -10, 
-            dx: -20,  
-            fill: '#ffffff',
+            value: "Show Time",
+            angle: -90,
+            dy: -10,
+            dx: -20,
+            fill: "#ffffff",
           }}
-          axisLine={{ stroke: '#888' }}
-          tickLine={{ stroke: '#888' }}
-          tick={{ fill: '#ffffff' }}
+          axisLine={{ stroke: "#888" }}
+          tickLine={{ stroke: "#888" }}
+          tick={{ fill: "#ffffff" }}
         />
-        
+
         <Tooltip
           contentStyle={{
-            backgroundColor: '#333',
-            border: '1px solid #888',
-            color: '#ffffff',
+            backgroundColor: "#333",
+            border: "1px solid #888",
+            color: "#ffffff",
           }}
-          labelStyle={{ color: '#1E90FF' }} // Matching blue color for the tooltip label
-          itemStyle={{ color: '#ffffff' }}
+          labelStyle={{ color: "#1E90FF" }} // Matching blue color for the tooltip label
+          itemStyle={{ color: "#ffffff" }}
           formatter={(value: number | string, _: string, props: any) => {
-            return [
-              `Show Time: ${value}`,
-              `Buffer Time: ${props.payload.key}`,
-            ];
+            return [`Show Time: ${value}`, `Buffer Time: ${props.payload.key}`];
           }}
         />
       </AreaChart>
