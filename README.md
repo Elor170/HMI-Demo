@@ -1,23 +1,17 @@
 # HMI-Demo
-
 A demo for HMI architecture
 
 ## Installation
-
 ### Dependencies
-
 - [Docker](https://www.docker.com/)
 - [Git](https://git-scm.com/) (Only for online installation)
 
 ## How To Run
-
 ### Before you begin
-
 Rename the `.env.example` file to `.env` and change the data there according to your installation-environment.
 zsIt's also important to make sure that your machine has a way to run docker-compose files.
 
 ### Dev Build
-
 In root of the repo, run the following command:
 
 ```shell
@@ -27,9 +21,7 @@ docker compose -f ./docker-compose.dev.yml watch
 This should start your entire dev environment. You can then access the frontend through the provided port you've wrote in the `.env` file.
 
 ### Production Build
-
 #### If you're running offline
-
 Make sure to install all of the docker images on your offline environment before proceeding.
 You can install a docker image offline by using the following command:
 
@@ -38,7 +30,6 @@ sudo docker load -i <Image file name>.docker
 ```
 
 #### Setup Frontend Server
-
 In your frontend environment, run the following command:
 
 ```bash
@@ -48,7 +39,6 @@ docker compose -f ./docker-compose.prod.frontend.yml up -d
 Now the frontend server should start automatically when the machine boots up.
 
 #### Setup Backend Server
-
 In your backend environment, run the following command:
 
 ```bash
@@ -57,10 +47,11 @@ docker compose -f ./docker-compose.prod.backend.yml up -d
 
 Now the backend server should start automatically when the machine boots up.
 
+### Run both production servers at the same time
+In order to run both of the production servers at once, you can use the `run-prod.sh` script. You can also use the `stop-compose.sh` script to stop both the production and development compose files.
+
 # Pull Request/Pushing To Main
-
 ## Pull Request
-
 When pushing a pull request/a branch to main, we highly recommend to you squish your branch into one pull request, with a general title, and the description as the changelog. Make sure to write your title in a way that would `correctly bump the version` as described in the section bellow.
 
 ## Bumping
@@ -115,5 +106,4 @@ The default graphite width of 10mm is always used for performance reasons.
 </table>
 
 ### In case of no commit message
-
 If no commit message contains any information, then the bump would be considered as major release by default.
