@@ -13,9 +13,9 @@ import { useQuery } from "react-query";
 import WaterfallLogsChart from "./WaterfallLogsChart";
 import { sendingIntervalValues } from "hmi-helper/src/vars";
 import { useState } from "react";
-import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
-import WaterfallLogsUploader from "./WaterfallLogsUploader";
+import LogsDownloadButton from "@/Components/Logs/LogsDownloadButton";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
+import LogsUploadButton from "@/Components/Logs/LogsUploadButton";
 
 export const WATERFALL_LOGS_FILE_EXTENSION = "wfl";
 
@@ -25,7 +25,7 @@ export default function WaterfallLogsCard() {
 
   const [uploadedLogs, setUploadedLogs] = useState<WaterfallLogs | null>(null);
 
-  const { data, isLoading, error } = useQuery<WaterfallLogs>({
+  const { data, isLoading, error, refetch } = useQuery<WaterfallLogs>({
     queryKey: ["waterfall-logs"],
     queryFn: () =>
       ky
@@ -36,6 +36,11 @@ export default function WaterfallLogsCard() {
     refetchOnWindowFocus: false,
     retry: false,
   });
+
+  const onBackToLiveLogs = () => {
+    setUploadedLogs(null);
+    refetch();
+  };
 
   if (isLoading) {
     return <CircularProgress />;
@@ -59,15 +64,25 @@ export default function WaterfallLogsCard() {
         border: "2px solid white",
         maxHeight: "100vh",
         overflow: "auto",
+        width: "80%",
+        height: "90%",
       }}
     >
       <Grid display="flex" justifyContent="center" position="relative">
         <Box sx={{ display: "grid", placeItems: "center" }}>
           <Typography component="h4">Buffer Interval</Typography>
         </Box>
-        <WaterfallLogsUploader
-          uploadedLogs={uploadedLogs}
-          setUploadedLogs={setUploadedLogs}
+        <LogsUploadButton
+          logs={uploadedLogs}
+          onLogsUpload={setUploadedLogs}
+          onBackToLiveLogsClick={onBackToLiveLogs}
+          fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
+        />
+
+        <LogsDownloadButton
+          fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
+          data={data}
+          fileName="waterfall_logs"
         />
       </Grid>
 
@@ -81,31 +96,11 @@ export default function WaterfallLogsCard() {
           </Button>
         ))}
       </ButtonGroup>
-      <Grid container alignItems="center" justifyContent="center">
-        <WaterfallLogsChart
-          data={
-            uploadedLogs
-              ? uploadedLogs[selectedLogPoint]
-              : data[selectedLogPoint]
-          }
-        />
-      </Grid>
-
-      <LogsDownloadButton
-        fileExtension={WATERFALL_LOGS_FILE_EXTENSION}
-        data={data}
-        fileName="waterfall_logs"
+      <WaterfallLogsChart
+        data={
+          uploadedLogs ? uploadedLogs[selectedLogPoint] : data[selectedLogPoint]
+        }
       />
-
-      {uploadedLogs && (
-        <Button
-          onClick={() => setUploadedLogs(null)}
-          variant="outlined"
-          startIcon={<LiveTvIcon />}
-        >
-          Back To Live Logs
-        </Button>
-      )}
     </Card>
   );
 }
