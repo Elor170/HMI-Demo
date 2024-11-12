@@ -11,9 +11,8 @@ COPY pnpm-*.yaml .
 COPY tsconfig.*.json .
 
 WORKDIR /app/packages/service
-COPY packages/$ServiceName/package*.json .
-RUN pnpm i
 COPY packages/$ServiceName ./
+RUN pnpm i
 RUN pnpm build
 
 CMD ["pnpm", "start"]
