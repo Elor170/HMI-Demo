@@ -16,12 +16,12 @@
     "@types/amqplib": "catalog:",
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
-    "@types/node": "^22.4.0",
+    "@types/node": "catalog:",
     "cors": "^2.8.5",
     "hmi-helper": "workspace:*",
     "tsc-alias": "^1.8.10",
-    "tsx": "^4.17.0",
-    "typescript": "^5.5.4"
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "amqplib": "catalog:",
