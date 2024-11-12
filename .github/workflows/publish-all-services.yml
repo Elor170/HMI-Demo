@@ -17,8 +17,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: major
-          default_prerelease_bump: minor
+          default_bump: minor
       - name: Create a GitHub release
         if: github.event_name != 'pull_request'
         uses: ncipollo/release-action@v1
@@ -29,7 +28,6 @@ jobs:
 
     outputs:
       version: ${{ steps.tag_version.outputs.new_version || '1.0.0'}}
-
 
   repo-owner-name:
     runs-on: ubuntu-latest
@@ -109,17 +107,32 @@ jobs:
           flavor: |
             latest=${{ github.event_name != 'pull_request' }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          push: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged) }} # Push only on direct push or merged PR
-          tags: |
-            ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }}
-            ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: ${{ matrix.build-args }}
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Get current image hash from registry
+        id: get_current_hash
+        run: |
+          # Get the hash of the last pushed image from the registry
+          docker pull ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }} || true
+          current_hash=$(docker images ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }} --format "{{.ID}}")
+          echo "Current image hash: $current_hash"
+          echo "current_hash=$current_hash" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        id: build_image
+        run: |
+          # Build the image with the specified Dockerfile
+          docker build -f ${{ matrix.dockerfile }} -t ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }} .
+          new_hash=$(docker images ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }} --format "{{.ID}}")
+          echo "New image hash: $new_hash"
+          echo "new_hash=$new_hash" >> $GITHUB_ENV
+
+      - name: Compare hashes and push if new
+        if: ${{ env.current_hash != env.new_hash }}
+        run: |
+          echo "Hashes are different. Pushing new image."
+          docker push ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:${{ needs.versioning.outputs.version }}
+          docker push ghcr.io/${{ needs.repo-owner-name.outputs.lowercase }}/${{ matrix.image }}:latest
+
+      - name: Skip pushing if no changes detected
+        if: ${{ env.current_hash == env.new_hash }}
+        run: |
+          echo "Hashes are the same. Skipping push."

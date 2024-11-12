@@ -4,18 +4,16 @@ ARG ServiceName
 WORKDIR /app/libs/hmi-helper
 COPY libs/hmi-helper .
 
-WORKDIR /app/packages/service
-COPY packages/$ServiceName ./
-
 WORKDIR /app
 RUN corepack enable
 RUN corepack use pnpm
 COPY pnpm-*.yaml .
 COPY tsconfig.*.json .
-RUN pnpm i
 
 WORKDIR /app/packages/service
-RUN pnpm i typescript
+COPY packages/$ServiceName/package*.json .
+RUN pnpm i
+COPY packages/$ServiceName ./
 RUN pnpm build
 
 CMD ["pnpm", "start"]
