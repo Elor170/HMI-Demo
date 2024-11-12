@@ -36,6 +36,7 @@ export default function StreamLogsPage() {
     return <div>No logs in database</div>;
   }
 
+
   return (
     <Card
       onClick={(e) => e.stopPropagation()}
@@ -72,7 +73,7 @@ export default function StreamLogsPage() {
             </TableHead>
 
             <TableBody>
-              {data
+              {[...data]
                 .sort(
                   (a, b) =>
                     Date.parse(b.bufferStartDate.toString()) -
