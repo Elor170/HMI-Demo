@@ -1,4 +1,4 @@
-import { Button, SxProps } from "@mui/material";
+import { Button, IconButton, SxProps } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
 interface DownloadButtonProps {
@@ -46,15 +46,23 @@ export default function LogsDownloadButton({
   }
 
   return (
-    <Button
-      onClick={() => downloadLogs(data, fileName)}
-      fullWidth
-      color="error"
-      variant="contained"
-      startIcon={<DownloadIcon />}
+    // <Button
+    //   onClick={() => downloadLogs(data, fileName)}
+    //   fullWidth
+    //   color="error"
+    //   variant="contained"
+    //   startIcon={<DownloadIcon />}
+    //   sx={sx}
+    // >
+    //   Download
+    // </Button>
+
+    <IconButton
       sx={sx}
+      color="error"
+      onClick={() => downloadLogs(data, fileName)}
     >
-      Download
-    </Button>
+      <DownloadIcon />
+    </IconButton>
   );
 }

@@ -1,4 +1,4 @@
-import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
+import LogsDownloadButton from "@/Components/Logs/LogsDownloadButton";
 import { GAME_SERVER } from "@/Helper/consts";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import {
@@ -17,8 +17,8 @@ import { useQuery } from "react-query";
 import DeleteLogsButton from "./DeleteLogsButton";
 import GameLogsGraph from "./GameLogsGraph";
 import GameLogsTable from "./GameLogsTable";
-import UploadLogsButton from "./UploadLogsButton";
 import { useMemo } from "react";
+import LogsUploadButton from "@/Components/Logs/LogsUploadButton";
 
 export const GAME_LOGS_EXTENSION = "game_logs";
 
@@ -61,16 +61,6 @@ export default function GameLogs() {
     return <Typography>No logs found in database</Typography>;
   }
 
-  // const formattedData = data.map<FormattedGameLogs>((log) => ({
-  //   _id: log._id!.toString(),
-  //   spheres: log.spheres,
-  //   cubes: log.cubes,
-  //   fps: log.fps,
-  //   date: log.date,
-  //   secondsPlayed: log.secondsPlayed + "s",
-  //   allObjects: log.spheres + log.cubes,
-  // }));
-
   const formattedData = useMemo(() => {
     let formattedLogs: FormattedGameLogs[];
 
@@ -86,6 +76,11 @@ export default function GameLogs() {
       return log;
     });
   }, [data, uploadedLogs]);
+
+  const onBackToLiveLogs = () => {
+    setUploadedLogs(null);
+    refetch();
+  };
 
   return (
     <Card
@@ -131,11 +126,10 @@ export default function GameLogs() {
             />
             <Typography>Graph</Typography>
           </Grid>
-
-          <UploadLogsButton
-            uploadedLogs={uploadedLogs}
-            setUploadedLogs={setUploadedLogs}
-            refetch={refetch}
+          <LogsUploadButton
+            logs={uploadedLogs}
+            onLogsUpload={setUploadedLogs}
+            onBackToLiveLogsClick={onBackToLiveLogs}
           />
         </Box>
       </AppBar>

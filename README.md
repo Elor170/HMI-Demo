@@ -57,6 +57,10 @@ docker compose -f ./docker-compose.prod.backend.yml up -d
 
 Now the backend server should start automatically when the machine boots up.
 
+### Run both production servers at the same time
+
+In order to run both of the production servers at once, you can use the `run-prod.sh` script. You can also use the `stop-compose.sh` script to stop both the production and development compose files.
+
 # Pull Request/Pushing To Main
 
 ## Pull Request

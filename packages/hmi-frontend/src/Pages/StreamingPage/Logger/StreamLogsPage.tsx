@@ -16,7 +16,7 @@ import ky from "ky";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import LogsTableCell from "./LogsTableCell";
-import LogsDownloadButton from "@/Components/LogsDownloadButton/LogsDownloadButton";
+import LogsDownloadButton from "@/Components/Logs/LogsDownloadButton";
 
 export default function StreamLogsPage() {
   const { isLoading, error, data, refetch } = useQuery<StreamLogData[], Error>(
