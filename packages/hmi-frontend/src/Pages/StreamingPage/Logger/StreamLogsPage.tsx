@@ -36,7 +36,6 @@ export default function StreamLogsPage() {
     return <div>No logs in database</div>;
   }
 
-
   return (
     <Card
       onClick={(e) => e.stopPropagation()}
