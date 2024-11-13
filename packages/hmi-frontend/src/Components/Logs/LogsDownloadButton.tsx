@@ -1,4 +1,4 @@
-import { Button, IconButton, SxProps } from "@mui/material";
+import { IconButton, SxProps } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
 interface DownloadButtonProps {
