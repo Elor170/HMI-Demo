@@ -1,31 +1,20 @@
-FROM node:22-alpine AS build
+FROM node:22-slim AS build
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
 WORKDIR /app
 RUN corepack enable
 RUN corepack use pnpm
 
-COPY pnpm-*.yaml .
-COPY tsconfig.*.json .
-
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
+COPY pnpm-*.yaml ./
+COPY tsconfig.*.json ./
+COPY libs ./libs
+COPY packages/hmi-frontend ./packages/hmi-frontend
 RUN pnpm i
-
-WORKDIR /app/packages/frontend
-COPY packages/hmi-frontend .
-RUN pnpm i
-RUN pnpm build
-
-# FROM nginx:1.27.2-alpine AS base
-# COPY --from=build /app/packages/frontend/dist /usr/share/nginx/html
-# # COPY nginx/frontend.conf /etc/nginx/conf.d/default.conf
-# COPY nginx/env.sh /docker-entry.sh
-# RUN chmod +x /docker-entry.sh
-# EXPOSE 80
-# ENTRYPOINT ["/docker-entry.sh"]
-# CMD [ "nginx", "-g", "daemon off;" ]
+RUN pnpm --filter hmi-frontend build
 
 FROM nginx:1.27.2-alpine AS base
-COPY --from=build /app/packages/frontend/dist /usr/share/nginx/html
+COPY --from=build /app/packages/hmi-frontend/dist /usr/share/nginx/html
 COPY nginx/frontend.conf /etc/nginx/conf.d/default.conf
 COPY nginx/env.sh /docker-entrypoint.d/env.sh
 RUN chmod +x /docker-entrypoint.d/env.sh
