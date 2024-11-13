@@ -9,7 +9,7 @@ interface LogsDeleteButtonProps extends IconButtonProps {
 }
 
 export default function LogsDeleteButton(props: LogsDeleteButtonProps) {
-  const { url, refetch } = props;
+  const { url, refetch, ...iconButtonProps } = props;
 
   const onButtonClick = async () => {
     const response = await ky.delete(url);
@@ -23,7 +23,7 @@ export default function LogsDeleteButton(props: LogsDeleteButtonProps) {
   };
 
   return (
-    <IconButton onClick={onButtonClick} {...props}>
+    <IconButton onClick={onButtonClick} {...iconButtonProps}>
       <DeleteIcon />
     </IconButton>
   );
