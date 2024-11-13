@@ -80,7 +80,12 @@ export default function GameLogs() {
     return <Typography>{error.message}</Typography>;
   }
 
-  if (!data || data.length === 0 || !formattedData || formattedData.length === 0) {
+  if (
+    !data ||
+    data.length === 0 ||
+    !formattedData ||
+    formattedData.length === 0
+  ) {
     return <Typography>No logs found in database</Typography>;
   }
 
