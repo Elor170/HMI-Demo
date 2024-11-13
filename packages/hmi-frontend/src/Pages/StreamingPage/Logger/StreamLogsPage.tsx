@@ -32,7 +32,7 @@ export default function StreamLogsPage() {
     return <CircularProgress />;
   }
 
-  if (!data) {
+  if (!data || data.length === 0) {
     return <div>No logs in database</div>;
   }
 
@@ -80,7 +80,7 @@ export default function StreamLogsPage() {
                 )
                 .map((log) => (
                   <LogsTableCell
-                    key={log._id?.toString()}
+                    key={log._id?.toString() ?? 0}
                     log={log}
                     refetch={refetch}
                   />

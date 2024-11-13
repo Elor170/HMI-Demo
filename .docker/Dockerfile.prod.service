@@ -1,19 +1,18 @@
-FROM node:22-alpine
+FROM node:22-alpine AS build
 ARG ServiceName
 
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
-
 WORKDIR /app
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-RUN corepack use pnpm
-COPY pnpm-*.yaml .
+RUN corepack use pnpm@9
+COPY pnpm-*.yaml ./
 COPY tsconfig.*.json .
 
-WORKDIR /app/packages/service
-COPY packages/$ServiceName/package*.json .
-RUN pnpm i
-COPY packages/$ServiceName ./
-RUN pnpm build
+COPY libs/hmi-helper ./libs/hmi-helper
+COPY /packages/$ServiceName ./packages/$ServiceName
+RUN pnpm install
+RUN pnpm --filter $ServiceName build
 
-CMD ["pnpm", "start"]
+WORKDIR /app/packages/$ServiceName
+CMD [ "pnpm", "start" ]
