@@ -7,18 +7,18 @@ import {
   Button,
   Card,
   CircularProgress,
-  Grid,
+  Grid2,
   Switch,
   Typography,
 } from "@mui/material";
 import ky from "ky";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import DeleteLogsButton from "./DeleteLogsButton";
 import GameLogsGraph from "./GameLogsGraph";
 import GameLogsTable from "./GameLogsTable";
 import { useMemo } from "react";
 import LogsUploadButton from "@/Components/Logs/LogsUploadButton";
+import LogsDeleteButton from "@/Components/Logs/LogsDeleteButton";
 
 export const GAME_LOGS_EXTENSION = "game_logs";
 
@@ -47,25 +47,15 @@ export default function GameLogs() {
   const { isLoading, error, isError, data, refetch } = useQuery<
     GameLog[],
     Error
-  >("logs", () => ky.get(GAME_SERVER + "/logs").json<GameLog[]>());
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
-  if (isError) {
-    return <Typography>{error.message}</Typography>;
-  }
-
-  if (!data || data.length === 0) {
-    return <Typography>No logs found in database</Typography>;
-  }
+  >("game_logs", () => ky.get(GAME_SERVER + "/logs").json<GameLog[]>());
 
   const formattedData = useMemo(() => {
     let formattedLogs: FormattedGameLogs[];
 
     if (uploadedLogs) {
       formattedLogs = uploadedLogs as unknown as FormattedGameLogs[];
+    } else if (!uploadedLogs && !data) {
+      return null;
     } else {
       formattedLogs = data as unknown as FormattedGameLogs[];
     }
@@ -81,6 +71,23 @@ export default function GameLogs() {
     setUploadedLogs(null);
     refetch();
   };
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (isError) {
+    return <Typography>{error.message}</Typography>;
+  }
+
+  if (
+    !data ||
+    data.length === 0 ||
+    !formattedData ||
+    formattedData.length === 0
+  ) {
+    return <Typography>No logs found in database</Typography>;
+  }
 
   return (
     <Card
@@ -102,7 +109,11 @@ export default function GameLogs() {
         sx={{ height: "2rem", display: "grid", userSelect: "none" }}
       >
         <Box width="100%" display="flex" position="relative">
-          <DeleteLogsButton refetch={refetch} />
+          <LogsDeleteButton
+            url={GAME_SERVER + "/logs"}
+            refetch={refetch}
+            color="warning"
+          />
           <Button onClick={() => refetch()}>
             <AutorenewIcon />
           </Button>
@@ -110,9 +121,8 @@ export default function GameLogs() {
             data={data}
             fileName="logs"
             fileExtension={GAME_LOGS_EXTENSION}
-            onlyShowIcon
           />
-          <Grid
+          <Grid2
             display="flex"
             justifyContent="center"
             position="absolute"
@@ -125,7 +135,7 @@ export default function GameLogs() {
               onClick={switchPage}
             />
             <Typography>Graph</Typography>
-          </Grid>
+          </Grid2>
           <LogsUploadButton
             logs={uploadedLogs}
             onLogsUpload={setUploadedLogs}

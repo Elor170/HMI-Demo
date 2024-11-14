@@ -7,27 +7,21 @@ COPY packages/game-server/game .
 RUN mkdir dist
 RUN godot --export-release --headless "Web" dist/index.html
 
-FROM node:20-slim AS base
-
-WORKDIR /app/libs/hmi-helper
-COPY libs/hmi-helper .
+FROM node:22-alpine AS base
+WORKDIR /app
+RUN corepack enable
+RUN corepack use pnpm
+COPY pnpm-*.yaml ./
+COPY tsconfig.*.json ./
+COPY libs ./libs
 
 WORKDIR /app/packages/service
 COPY packages/game-server ./
 RUN rm -rf game
-
-WORKDIR /app
-RUN corepack enable
-RUN corepack use pnpm
-COPY pnpm-*.yaml .
-COPY tsconfig.*.json .
-RUN pnpm i
-
-WORKDIR /app/packages/service/public
-COPY --from=build /app/dist .
+COPY --from=build /app/dist ./public
 
 WORKDIR /app/packages/service
-RUN pnpm i typescript
+RUN pnpm install
 RUN pnpm build
 
 CMD ["pnpm", "start"]
