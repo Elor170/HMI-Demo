@@ -25,7 +25,7 @@
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log
-# **/pnpm-lock.yaml
+**/pnpm-lock.yaml
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
