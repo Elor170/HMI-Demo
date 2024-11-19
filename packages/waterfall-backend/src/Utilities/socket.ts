@@ -2,15 +2,13 @@ import { Server, Socket } from "socket.io";
 import { httpServer } from "@/Utilities/server";
 import { updateMsg } from "./dataBase";
 
-const { FRONTEND_URL } = process.env;
 let socket: Socket | null = null;
 
 const initSocket = () => {
   const io = new Server(httpServer, {
     cors: {
-      origin: FRONTEND_URL,
+      origin: "*",
       methods: ["GET", "POST"],
-      credentials: true,
     },
   });
 

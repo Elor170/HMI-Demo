@@ -60,7 +60,7 @@ services:
     restart: always
 
   game-server:
-    image: ghcr.io/elor170/game-server:latest
+    image: game-server:latest
     container_name: hmi-game-server
     environment:
       MONGO_URI: $MONGO_URI
@@ -71,7 +71,7 @@ services:
     networks:
       - hmi_network
     restart: always
-
+    
   hmi-mongo-db:
     image: mongo:latest
     container_name: hmi-mongo-db

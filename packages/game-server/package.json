@@ -14,13 +14,15 @@
     "cors": "catalog:",
     "dotenv": "catalog:",
     "express": "catalog:",
-    "mongodb": "catalog:"
+    "mongodb": "catalog:",
+    "pem": "^1.14.8"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
     "@types/cors": "catalog:",
     "@types/express": "catalog:",
     "@types/node": "catalog:",
+    "@types/pem": "^1.14.4",
     "hmi-helper": "workspace:*",
     "tsc-alias": "^1.8.10",
     "tsx": "catalog:",
