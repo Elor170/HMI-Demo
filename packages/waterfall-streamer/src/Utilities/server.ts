@@ -8,7 +8,7 @@ app.use(
   cors({
     allowedHeaders: "*",
     origin: "*",
-  })
+  }),
 );
 app.use(express.json());
 
