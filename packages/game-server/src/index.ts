@@ -17,7 +17,7 @@ if (!MONGO_URI) {
 }
 
 pem.createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
-  if(err) {
+  if (err) {
     console.error(err);
   }
 
@@ -28,7 +28,7 @@ pem.createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
     cors({
       allowedHeaders: "*",
       origin: "*",
-    })
+    }),
   );
 
   app.use(function (_, res, next) {
@@ -104,7 +104,7 @@ pem.createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
         key: keys.clientKey,
         cert: keys.certificate,
       },
-      app
+      app,
     )
     .listen(80, () => {
       console.log("Server started on port 80");
