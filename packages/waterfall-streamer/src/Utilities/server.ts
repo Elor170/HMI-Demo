@@ -4,7 +4,12 @@ import { changeSendingInterval } from "./intervalManager";
 import validateChangeInterval from "./validateChangeInterval";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    allowedHeaders: "*",
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 app.patch("/ChangeSendingInterval", validateChangeInterval, (req, res) => {

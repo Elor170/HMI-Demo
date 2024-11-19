@@ -17,7 +17,12 @@ if (!MONGO_URI) {
 const app = express();
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(
+  cors({
+    allowedHeaders: "*",
+    origin: "*",
+  })
+);
 app.use(express.static("public"));
 
 app.get("/logs", async (_, res) => {

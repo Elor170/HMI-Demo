@@ -10,7 +10,12 @@ import generateLogs from "@/Utilities/logsGenerator";
 
 const app: Express = express();
 const httpServer: any = http.createServer(app);
-app.use(cors());
+app.use(
+  cors({
+    allowedHeaders: "*",
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 app.get("/", (_, res) => {
