@@ -60,7 +60,7 @@ services:
     restart: always
 
   game-server:
-    image: game-server:latest
+    image: ghcr.io/elor170/game-server:latest
     container_name: hmi-game-server
     environment:
       MONGO_URI: $MONGO_URI
