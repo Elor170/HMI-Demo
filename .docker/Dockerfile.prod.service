@@ -1,18 +1,18 @@
-FROM node:22-slim AS build
+FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN corepack use pnpm
-ARG ServiceName
-
+RUN corepack install -g pnpm
 WORKDIR /app
-COPY pnpm-*.yaml ./
-COPY tsconfig.*.json ./
 
-COPY libs/hmi-helper ./libs/hmi-helper
-COPY /packages/$ServiceName ./packages/$ServiceName
+FROM base AS build
+ARG ServiceName
+COPY . .
 RUN pnpm install
+RUN pnpm --filter ${ServiceName} build
+RUN pnpm deploy --filter ${ServiceName} /build
 
-WORKDIR /app/packages/$ServiceName
-RUN pnpm build
+FROM base AS prod
+WORKDIR /app
+COPY --from=build /build /app/
+
 CMD [ "pnpm", "start" ]
